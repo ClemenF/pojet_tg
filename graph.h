@@ -103,7 +103,7 @@ class VertexInterface
         grman::WidgetVSlider m_slider_value;
 
         // Un label de visualisation de la valeur du sommet
-        grman::WidgetText m_label_value;
+        grman::WidgetEditText m_label_value;
 
         // Une image de "remplissage"
         grman::WidgetImage m_img;
@@ -277,10 +277,12 @@ class GraphInterface
 
 class Graph
 {
-    private :
+    private:
 
         /// La "liste" des arêtes
         std::map<int, Edge> m_edges;
+
+
 
         /// La liste des sommets
         std::map<int, Vertex> m_vertices;
