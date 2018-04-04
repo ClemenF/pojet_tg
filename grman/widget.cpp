@@ -23,13 +23,13 @@ void Widget::update()
     update_draw();
 }
 
-/// Gestion des événements
+/// Gestion des ï¿½vï¿½nements
 void Widget::update_interact()
 {
     create_frame_context();
 
     /// Propagation de l'update aux elements enfants
-    /// On interagit en 1er avec les éléments ajoutés en dernier
+    /// On interagit en 1er avec les ï¿½lï¿½ments ajoutï¿½s en dernier
     for (auto it=m_children.rbegin(); it!=m_children.rend(); ++it)
         (*it)->update_interact();
 
@@ -51,8 +51,8 @@ void Widget::update_interact()
     destroy_frame_context();
 }
 
-/// Gestion des affichages, 1ère passe pour fixer les cadres
-/// (Nécessaire pour les liens : affichés au fond donc en 1er mais s'appuyant sur les positions des autres qui sont affichés après)
+/// Gestion des affichages, 1ï¿½re passe pour fixer les cadres
+/// (Nï¿½cessaire pour les liens : affichï¿½s au fond donc en 1er mais s'appuyant sur les positions des autres qui sont affichï¿½s aprï¿½s)
 void Widget::update_pre_draw()
 {
     create_frame_context();
@@ -76,7 +76,7 @@ void Widget::update_draw()
     draw();
 
     /// Propagation de l'update aux elements enfants
-    /// On affiche en dernier (devant les autres) les éléments ajoutés en dernier
+    /// On affiche en dernier (devant les autres) les ï¿½lï¿½ments ajoutï¿½s en dernier
     for (auto &e : m_children)
         e->update_draw();
 
@@ -89,7 +89,7 @@ void Widget::update_draw()
 
 void Widget::create_frame_context()
 {
-    /// Calculer absolute frame à partir de relative et absolute parent ( si parent, sinon page_frame )
+    /// Calculer absolute frame ï¿½ partir de relative et absolute parent ( si parent, sinon page_frame )
     const Frame &abspar = m_parent ? m_parent->m_abs_frame : page_frame;
 
     m_abs_frame.pos.x = abspar.pos.x + m_frame.pos.x;
@@ -97,7 +97,7 @@ void Widget::create_frame_context()
 
     m_abs_frame.dim = m_frame.dim;
 
-    // Petits soucis de plantages avec les sub_bitmaps hors écran...
+    // Petits soucis de plantages avec les sub_bitmaps hors ï¿½cran...
     int x = std::max(m_abs_frame.pos.x, 0.);
     int y = std::max(m_abs_frame.pos.y, 0.);
     int w = m_abs_frame.dim.x+std::min(m_abs_frame.pos.x, 0.);
@@ -107,7 +107,7 @@ void Widget::create_frame_context()
     int inside = m_border + m_padding;
     m_view = create_sub_bitmap(m_view_wb, inside, inside, w-2*inside, h-2*inside);
 
-    // Malheureusement ceci ne marche pas ... (à creuser)
+    // Malheureusement ceci ne marche pas ... (ï¿½ creuser)
     //set_clip_rect(m_view, std::max(-x, 0), std::max(-y, 0), w-1, h-1);
 }
 
@@ -158,7 +158,7 @@ void Widget::draw_border()
                         TEXT
 ****************************************************/
 
-/// Extrêmement rudimentaire : à compléter !
+/// Extrï¿½mement rudimentaire : ï¿½ complï¿½ter !
 void WidgetText::draw()
 {
     if (!m_vertical)
@@ -200,6 +200,8 @@ void WidgetTimer::draw()
         }
         m_temps=clock();
     }
+
+    std::cout << "changement " << std::endl;
 
     rect(page,page->w/2-25,5,page->w/2+25,25,makecol(200,0,0));
     textprintf_centre_ex(page,font,page->w/2,15,ROUGESOMBRE,-1,"%d : %d",m_minute,m_seconde);
@@ -378,26 +380,26 @@ void WidgetEdge::draw()
         m_attach[1]->get_center_abs_pos()
     };
 
-    // Vecteur de centre à centre
+    // Vecteur de centre ï¿½ centre
     Coords vec_dir = p[1] - p[0];
 
-    // Détermination des intersections avec les frames des 2 widgets liés
+    // Dï¿½termination des intersections avec les frames des 2 widgets liï¿½s
     p[0] = m_attach[0]->get_abs_frame().intersect(vec_dir);
     p[1] = m_attach[1]->get_abs_frame().intersect(-vec_dir);
 
-    // Dessin du lien cadre à cadre
+    // Dessin du lien cadre ï¿½ cadre
     thick_line(page, p[0].x, p[0].y, p[1].x, p[1].y, m_thickness, m_color);
 
-    // Calcul du nouveau vecteur cadre à cadre
+    // Calcul du nouveau vecteur cadre ï¿½ cadre
     vec_dir = p[1] - p[0];
 
-    // Point d'ancrage pour les éventuels enfants ( Widgets attachés à l'arête )
+    // Point d'ancrage pour les ï¿½ventuels enfants ( Widgets attachï¿½s ï¿½ l'arï¿½te )
     Coords anchor = p[0] + vec_dir * m_children_position - vec_dir.normalize().rotate_90()*m_children_lateral;
     set_pos( anchor - get_parent_abs_frame().pos );
 
 
-    /// La suite concerne les éléments de décorations, flèches/extrémités
-    /// Pour chaque élément de décoration du lien...
+    /// La suite concerne les ï¿½lï¿½ments de dï¿½corations, flï¿½ches/extrï¿½mitï¿½s
+    /// Pour chaque ï¿½lï¿½ment de dï¿½coration du lien...
     for (const auto& itm : m_items)
     {
         Coords head = p[0] + vec_dir * itm.m_position;
@@ -406,7 +408,7 @@ void WidgetEdge::draw()
         if (itm.m_type == ArrowItemType::Bullet)
             circlefill(page, head.x, head.y, itm.m_size/3, m_color);
 
-        /// Cas pointe de flèche ou triangle
+        /// Cas pointe de flï¿½che ou triangle
         else
         {
             Coords U = vec_dir.normalize()*itm.m_size;
@@ -416,7 +418,7 @@ void WidgetEdge::draw()
             Coords ap1 = arrow_p - V;
             Coords ap2 = arrow_p + V;
 
-            /// Pointe de flèche
+            /// Pointe de flï¿½che
             if (itm.m_type == ArrowItemType::Arrow)
             {
                 thick_line(page, head.x, head.y, ap1.x, ap1.y, m_thickness, m_color);
