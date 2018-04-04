@@ -12,8 +12,10 @@ int main()
     grman::set_pictures_path("pics");
 
     /// Un exemple de graphe
-    Graph g;
-    g.make_example();
+    Graph g(nullptr,0);
+    g.graphe_chargement();
+    //g.make_example();
+    g.matrice_adjacent();
 
 
     /// Vous gardez la main sur la "boucle de jeu"
