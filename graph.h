@@ -306,6 +306,9 @@ class Graph
         /// de chargement de fichiers par exemple.
         void make_example();
 
+        //algo composantes connexes
+        int uneComposanteFortementConnexe(int s);
+        void toutesLesComposantesFortementConnexes();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
