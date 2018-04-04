@@ -210,7 +210,97 @@ void WidgetTimer::draw()
     textprintf_centre_ex(page,font,page->w/2,15,ROUGESOMBRE,-1,"%d : %d",m_minute,m_seconde);
 }
 
+/***************************************************
+                        EDIT_TEXT
+****************************************************/
 
+void WidgetEditText::draw()
+{
+    if ( !m_vertical )
+        textprintf_ex( m_view, font, 0, 0, m_color, -1, m_message.c_str() );
+    else
+        for ( int i = 0, y = 0; i < ( int )m_message.length(); ++i, y += text_height( m_font ) )
+            textprintf_ex( m_view, font, 0, y, m_color, -1, "%c", m_message[i] );
+}
+
+void WidgetEditText::set_message( std::string message )
+{
+    m_message = message;
+    if ( !m_vertical )
+        set_dim( text_length( m_font, m_message.c_str() ), text_height( m_font ) );
+    else
+        set_dim( text_length( m_font, "M" ), text_height( m_font )*m_message.length() );
+    reframe();
+}
+
+void WidgetEditText::edit_message()
+{
+    int touche, touche1, touche2;
+//    int i = 0;
+    //const char* masaisie[SAISIE_MAX + 1]; // stockage de la totalité de la saisie
+    std::vector<char> masaisie;//(get_message().begin(), get_message().end());
+    for(int i=0; i< get_message().length();i++)
+    {
+        masaisie.push_back(get_message()[i]);
+    }
+    char lastsaisie[2];    // stockage la derniere touche saisie
+   // masaisie.resize(SAISIE_MAX);
+    lastsaisie[1] = 0;
+    clear_keybuf();
+    /* affichage curseur */
+//    textprintf(screen,font,X_SAISIE+8*(i),Y_SAISIE,makecol(237,235,229),"_");
+    //set_message( std::string message );
+   // while( !key[KEY_ENTER] && !key[KEY_ENTER_PAD] )
+    //{
+        touche = readkey();
+        touche1 = touche & 0xFF; // code ASCII
+        touche2 = touche >> 8; // scancode
+        //* affiche code numerique de la touche saisie...
+        if ( ( touche1 > 31 && touche1 < 58 ) || ( touche1 > 64 && touche1 < 123 ) )
+        {
+            if ( m_i >= SAISIE_MAX )
+                m_i = SAISIE_MAX;
+            else
+            {
+//                masaisie[m_i] = touche1;
+                masaisie.push_back(touche1);
+                lastsaisie[0] = touche1;
+                //masaisie[m_i + 1] = 0;
+                /*  on affiche la touche saisie */
+                std::string str(masaisie.begin(),masaisie.end());
+                set_message( str );
+               // draw();
+                //textprintf(screen,font,X_SAISIE+8*i,Y_SAISIE,makecol(237,235,229),"%s",lastsaisie);
+                m_i++;
+                // textprintf(screen,font,X_SAISIE+8*i,Y_SAISIE,makecol(237,235,229),"_");
+            }
+        }
+        //* si effacement
+        if ( touche2 == KEY_BACKSPACE )
+        {
+            m_i--;
+            if ( m_i < 0 )
+                m_i = 0;
+            std::string str(masaisie.begin(),masaisie.end());
+            set_message(  str );
+           // draw();
+            //textprintf(screen,font,X_SAISIE+8*i,Y_SAISIE,makecol(237,235,229),"_");
+            //textprintf(screen,font,X_SAISIE+8*(i+1),Y_SAISIE,makecol(237,235,229)," ");
+        }
+        //* si validation
+        if ( ( touche2 == KEY_ENTER_PAD ) || ( touche2 == KEY_ENTER ) )
+        {
+            //textprintf(screen,font,X_SAISIE+8*i,Y_SAISIE,makecol(237,235,229)," ");
+            if ( m_i == 0 )
+                masaisie[0] = 32; // space
+            //masaisie[m_i + 1] = 0;
+            clear_keybuf();
+            std::string str(masaisie.begin(),masaisie.end());
+            set_message(  str );
+            set_active( false );
+        }
+    //}
+}
 
 /***************************************************
                     CHECKBOX
