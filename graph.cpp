@@ -253,7 +253,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
 
 //algo composantes connexes
-int uneComposanteFortementConnexe(int s)
+void toutesLesComposanteFortementConnexe(int s)
 {
   std::vector<std::vector<int>> tabc; //tab des composantes fortements connexes
   std::vector<int> marques;//tab de marquages
@@ -284,7 +284,66 @@ int uneComposanteFortementConnexe(int s)
     }
   }
 }
-void toutesLesComposantesFortementConnexes()
+std::vector<int> uneComposantesFortementConnexes()
 {
+  std::vector<int> c1,c2,c,marques;
+  int x,y;
+  int ajoute = 1;
 
+
+  //allocation memoire
+  c1.resize(ordre);
+  c2.resize(ordre);
+  c.resize(ordre);
+  marques.resize(ordre);
+
+  //init valeur a 0
+  for ( int i = 0 ; i < ordre ; i++ ) {
+     c1.at( i ) = 0 ;
+     c2.at( i ) = 0 ;
+     c.at( i ) = 0 ;
+     marques.at(i) = 0 ;
+  }
+  //on rend le sommet s connexe
+   c1[s]=1;
+   c2[s]=1;
+   //recherche des composantes connexes partant de s a ajouter a c1
+   while (ajoute) {
+      ajoute = 0;
+      for (x = 0; x < ordre; x++) {
+         if (!marques[x] && c1[x]){
+            marques[x] =1;
+            for ( y = 0; y < ordre ; y++ ) {
+               if adjacence[x][y] && !marques[y]){
+                  c1[y] = 1 ;
+                  ajoute = 1 ;
+               }
+            }
+         }
+      }
+   }
+
+   for ( int i = 0 ; i < ordre ; i++ ) {
+      marques.at(i) = 0 ;
+   }
+   //recherche des composantes connexes arrivant a s a ajouter dans c2
+   while (ajoute) {
+      ajoute = 0;
+      for (x = 0 ; x < ordre ; x++ ) {
+         if ( !marques[x] && c2[x] ){
+            marques[x] = 1 ;
+            for ( y = 0 ; y < ordre ; y++ ) {
+               if ( adjacence[y][x] && !marques[y]){
+                  c2[y] = 1 ;
+                  ajoute = 1 ;
+               }
+            }
+         }
+      }
+   }
+   //composante fortement connexe c =intersection de c1 et c2
+   for (x=0 ; x < ordre ; x++){
+      c[x] = c1[x] & c2[x];
+   }
+   return c;
 }
