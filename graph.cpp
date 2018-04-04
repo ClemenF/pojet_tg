@@ -7,7 +7,7 @@
                     VERTEX
 ****************************************************/
 
-/// Le constructeur met en place les �l�ments de l'interface
+/// Le constructeur met en place les ï¿½lï¿½ments de l'interface
 VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, int pic_idx)
 {
     // La boite englobante
@@ -15,9 +15,9 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     m_top_box.set_dim(130, 100);
     m_top_box.set_moveable();
 
-    // Le slider de r�glage de valeur
+    // Le slider de rï¿½glage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0 , 100.0); // Valeurs arbitraires, � adapter...
+    m_slider_value.set_range(0.0 , 100.0); // Valeurs arbitraires, ï¿½ adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -45,27 +45,27 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 }
 
 
-/// Gestion du Vertex avant l'appel � l'interface
+/// Gestion du Vertex avant l'appel ï¿½ l'interface
 void Vertex::pre_update()
 {
     if (!m_interface)
         return;
 
-    /// Copier la valeur locale de la donn�e m_value vers le slider associ�
+    /// Copier la valeur locale de la donnï¿½e m_value vers le slider associï¿½
     m_interface->m_slider_value.set_value(m_value);
 
-    /// Copier la valeur locale de la donn�e m_value vers le label sous le slider
+    /// Copier la valeur locale de la donnï¿½e m_value vers le label sous le slider
     m_interface->m_label_value.set_message( std::to_string( (int)m_value) );
 }
 
 
-/// Gestion du Vertex apr�s l'appel � l'interface
+/// Gestion du Vertex aprï¿½s l'appel ï¿½ l'interface
 void Vertex::post_update()
 {
     if (!m_interface)
         return;
 
-    /// Reprendre la valeur du slider dans la donn�e m_value locale
+    /// Reprendre la valeur du slider dans la donnï¿½e m_value locale
     m_value = m_interface->m_slider_value.get_value();
 }
 
@@ -75,7 +75,7 @@ void Vertex::post_update()
                     EDGE
 ****************************************************/
 
-/// Le constructeur met en place les �l�ments de l'interface
+/// Le constructeur met en place les ï¿½lï¿½ments de l'interface
 EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 {
     // Le WidgetEdge de l'interface de l'arc
@@ -88,14 +88,14 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
     m_top_edge.attach_to(to.m_interface->m_top_box);
     m_top_edge.reset_arrow_with_bullet();
 
-    // Une boite pour englober les widgets de r�glage associ�s
+    // Une boite pour englober les widgets de rï¿½glage associï¿½s
     m_top_edge.add_child(m_box_edge);
     m_box_edge.set_dim(24,60);
     m_box_edge.set_bg_color(BLANCBLEU);
 
-    // Le slider de r�glage de valeur
+    // Le slider de rï¿½glage de valeur
     m_box_edge.add_child( m_slider_weight );
-    m_slider_weight.set_range(0.0 , 100.0); // Valeurs arbitraires, � adapter...
+    m_slider_weight.set_range(0.0 , 100.0); // Valeurs arbitraires, ï¿½ adapter...
     m_slider_weight.set_dim(16,40);
     m_slider_weight.set_gravity_y(grman::GravityY::Up);
 
@@ -106,26 +106,26 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 }
 
 
-/// Gestion du Edge avant l'appel � l'interface
+/// Gestion du Edge avant l'appel ï¿½ l'interface
 void Edge::pre_update()
 {
     if (!m_interface)
         return;
 
-    /// Copier la valeur locale de la donn�e m_weight vers le slider associ�
+    /// Copier la valeur locale de la donnï¿½e m_weight vers le slider associï¿½
     m_interface->m_slider_weight.set_value(m_weight);
 
-    /// Copier la valeur locale de la donn�e m_weight vers le label sous le slider
+    /// Copier la valeur locale de la donnï¿½e m_weight vers le label sous le slider
     m_interface->m_label_weight.set_message( std::to_string( (int)m_weight ) );
 }
 
-/// Gestion du Edge apr�s l'appel � l'interface
+/// Gestion du Edge aprï¿½s l'appel ï¿½ l'interface
 void Edge::post_update()
 {
     if (!m_interface)
         return;
 
-    /// Reprendre la valeur du slider dans la donn�e m_weight locale
+    /// Reprendre la valeur du slider dans la donnï¿½e m_weight locale
     m_weight = m_interface->m_slider_weight.get_value();
 }
 
@@ -135,8 +135,8 @@ void Edge::post_update()
                     GRAPH
 ****************************************************/
 
-/// Ici le constructeur se contente de pr�parer un cadre d'accueil des
-/// �l�ments qui seront ensuite ajout�s lors de la mise ne place du Graphe
+/// Ici le constructeur se contente de prï¿½parer un cadre d'accueil des
+/// ï¿½lï¿½ments qui seront ensuite ajoutï¿½s lors de la mise ne place du Graphe
 GraphInterface::GraphInterface(int x, int y, int w, int h)
 {
     m_top_box.set_dim(1000,740);
@@ -154,18 +154,18 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 }
 
 
-/// M�thode sp�ciale qui construit un graphe arbitraire (d�mo)
-/// Cette m�thode est � enlever et remplacer par un syst�me
+/// Mï¿½thode spï¿½ciale qui construit un graphe arbitraire (dï¿½mo)
+/// Cette mï¿½thode est ï¿½ enlever et remplacer par un systï¿½me
 /// de chargement de fichiers par exemple.
-/// Bien s�r on ne veut pas que vos graphes soient construits
-/// "� la main" dans le code comme �a.
+/// Bien sï¿½r on ne veut pas que vos graphes soient construits
+/// "ï¿½ la main" dans le code comme ï¿½a.
 void Graph::make_example()
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne pr�c�dente est en gros �quivalente � :
+    // La ligne prï¿½cï¿½dente est en gros ï¿½quivalente ï¿½ :
     // m_interface = new GraphInterface(50, 0, 750, 600);
 
-    /// Les sommets doivent �tre d�finis avant les arcs
+    /// Les sommets doivent ï¿½tre dï¿½finis avant les arcs
     // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
     add_interfaced_vertex(0, 30.0, 200, 100, "clown1.jpg");
     add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
@@ -176,7 +176,7 @@ void Graph::make_example()
     add_interfaced_vertex(6,  0.0, 300, 500, "bad_clowns_xx3xx.jpg", 1);
     add_interfaced_vertex(7,  0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2);
 
-    /// Les arcs doivent �tre d�finis entre des sommets qui existent !
+    /// Les arcs doivent ï¿½tre dï¿½finis entre des sommets qui existent !
     // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
     add_interfaced_edge(0, 1, 2, 50.0);
     add_interfaced_edge(1, 0, 1, 50.0);
@@ -190,14 +190,17 @@ void Graph::make_example()
     add_interfaced_edge(9, 3, 7, 80.0);
 }
 
-/// La m�thode sauvegarde le graphe dans un fichier num�rot�
+
+/// La mï¿½thode update ï¿½ appeler dans la boucle de jeu pour les graphes avec interface
+
+/// La méthode sauvegarde le graphe dans un fichier numéroté
 void Graph::graphe_sauvegarde()
 {
 
 
 }
 
-/// La m�thode charge un fichier pour remplir les donn�es d'un graphe
+/// La méthode charge un fichier pour remplir les données d'un graphe
 void Graph::graphe_chargement()
 {
     std::cout << " ------ debut chargement graphe "<< m_numero_graphe << " ------- " << std::endl;
@@ -241,7 +244,7 @@ void Graph::graphe_chargement()
     }
 }
 
-/// La m�thode pour compl�ter la matrice d'adjacence
+/// La méthode pour compléter la matrice d'adjacence
 void Graph::matrice_adjacent()
 {
     m_matrice.resize(m_vertices.size(),std::vector<int>(m_vertices.size(),0));
@@ -262,7 +265,8 @@ void Graph::matrice_adjacent()
     }
 }
 
-/// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
+/// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
+
 void Graph::update()
 {
     if (!m_interface)
@@ -288,7 +292,7 @@ void Graph::update()
 
 }
 
-/// Aide � l'ajout de sommets interfac�s
+/// Aide ï¿½ l'ajout de sommets interfacï¿½s
 void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
 {
     if ( m_vertices.find(idx)!=m_vertices.end() )
@@ -296,7 +300,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex";
     }
-    // Cr�ation d'une interface de sommet
+    // Crï¿½ation d'une interface de sommet
     VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
@@ -304,7 +308,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
     m_vertices[idx] = Vertex(value, vi);
 }
 
-/// Aide � l'ajout d'arcs interfac�s
+/// Aide ï¿½ l'ajout d'arcs interfacï¿½s
 void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weight)
 {
     if ( m_edges.find(idx)!=m_edges.end() )
@@ -329,3 +333,99 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_vertices[id_vert2].m_in.push_back(idx);
 }
 
+
+//algo composantes connexes
+void toutesLesComposanteFortementConnexe(int s)
+{
+  std::vector<std::vector<int>> tabc; //tab des composantes fortements connexes
+  std::vector<int> marques;//tab de marquages
+  int x,y;//sommets intermediaires
+
+  /**allocation memoire de tabc et marques**/
+  tabc.resize(ordre);
+  for (int i = 0; i < ordre; i++) {
+    tabc.at(i).resize(ordre);
+  }
+  marques.resize(ordre);
+
+//init a 0 des deux tabs
+  for (int i = 0; i < ordre; i++) {
+    marques.at(i)=0;
+    for (int j = 0; j < ordre; j++) {
+      tabc.at(i).at(j)=0;
+    }
+  }
+  for ( x = 0; x < ordre; x++) {
+    if (!marques[x]){
+      tabc[x]=uneComposanteFortementConnexe(x);
+      marques[x]=1;
+      for (y = 0; y < ordre; y++) {
+        if (tabc[x][y] && !marques[y])
+          marques[y]=1;
+      }
+    }
+  }
+}
+std::vector<int> uneComposantesFortementConnexes()
+{
+  std::vector<int> c1,c2,c,marques;
+  int x,y;
+  int ajoute = 1;
+
+
+  //allocation memoire
+  c1.resize(ordre);
+  c2.resize(ordre);
+  c.resize(ordre);
+  marques.resize(ordre);
+
+  //init valeur a 0
+  for ( int i = 0 ; i < ordre ; i++ ) {
+     c1.at( i ) = 0 ;
+     c2.at( i ) = 0 ;
+     c.at( i ) = 0 ;
+     marques.at(i) = 0 ;
+  }
+  //on rend le sommet s connexe
+   c1[s]=1;
+   c2[s]=1;
+   //recherche des composantes connexes partant de s a ajouter a c1
+   while (ajoute) {
+      ajoute = 0;
+      for (x = 0; x < ordre; x++) {
+         if (!marques[x] && c1[x]){
+            marques[x] =1;
+            for ( y = 0; y < ordre ; y++ ) {
+               if adjacence[x][y] && !marques[y]){
+                  c1[y] = 1 ;
+                  ajoute = 1 ;
+               }
+            }
+         }
+      }
+   }
+
+   for ( int i = 0 ; i < ordre ; i++ ) {
+      marques.at(i) = 0 ;
+   }
+   //recherche des composantes connexes arrivant a s a ajouter dans c2
+   while (ajoute) {
+      ajoute = 0;
+      for (x = 0 ; x < ordre ; x++ ) {
+         if ( !marques[x] && c2[x] ){
+            marques[x] = 1 ;
+            for ( y = 0 ; y < ordre ; y++ ) {
+               if ( adjacence[y][x] && !marques[y]){
+                  c2[y] = 1 ;
+                  ajoute = 1 ;
+               }
+            }
+         }
+      }
+   }
+   //composante fortement connexe c =intersection de c1 et c2
+   for (x=0 ; x < ordre ; x++){
+      c[x] = c1[x] & c2[x];
+   }
+   return c;
+}
