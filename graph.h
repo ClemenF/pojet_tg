@@ -290,9 +290,9 @@ class Graph
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
         grman::WidgetTimer m_Timer;
-        int m_numero_graphe;
+        int m_numero_graphe;//Num graph (0,1,2)
+        std::vector<std::vector<int>> adjacence;//matrice d'adjacence
 
-        std::vector<std::vector<int>> m_matrice;
 
     public:
 
@@ -304,6 +304,7 @@ class Graph
         Graph (GraphInterface *interface, int num) :
             m_interface(interface),m_numero_graphe(num)  {  }
 
+         std::vector<std::vector<int>> transpose();
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
@@ -315,8 +316,8 @@ class Graph
 
 
         //algo composantes connexes
-        int uneComposanteFortementConnexe(int s);
-        void toutesLesComposantesFortementConnexes();
+        void toutesLesComposanteFortementConnexe();
+        std::vector<int> uneComposantesFortementConnexes(int s);
 
         /// Méthode matrice d'adjacence
         void matrice_adjacent();
