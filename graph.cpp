@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <sstream>
+#include <string>
 
 
 /***************************************************
@@ -189,6 +190,78 @@ void Graph::make_example()
     add_interfaced_edge(9, 3, 7, 80.0);
 }
 
+/// La méthode sauvegarde le graphe dans un fichier numéroté
+void Graph::graphe_sauvegarde()
+{
+
+
+}
+
+/// La méthode charge un fichier pour remplir les données d'un graphe
+void Graph::graphe_chargement()
+{
+    std::cout << " ------ debut chargement graphe "<< m_numero_graphe << " ------- " << std::endl;
+    std::string fichier = "_sauvegarde.txt";
+    fichier = std::to_string(m_numero_graphe) + fichier;
+    std::cout << fichier << std::endl;
+
+    m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
+
+    std::ifstream ifs(fichier.c_str());
+    if(ifs)
+    {
+        int ordre = 0, num_arete = 0;
+        std::string line;
+        for(int i=0;i<2;i++){
+                std::getline(ifs,line);
+                std::cout << line << " ignore " << std::endl;
+        }
+        ifs >> ordre;
+        std::cout << ordre << std::endl;
+        for(int i=0;i<ordre;i++)
+        {
+            std::cout << "numero " << i << std::endl;
+            int indice,posx,posy,idx=99;
+            double valeur;
+            std::string image;
+            ifs >> indice >> valeur >> posx >> posy >> image >> idx;
+            if(idx==99)add_interfaced_vertex(indice,valeur,posx,posy,image.c_str());
+            else add_interfaced_vertex(indice,valeur,posx,posy,image.c_str(),idx);
+            std::cout << " sommet numero " << indice << " : ok!" << std::endl;
+        }
+        ifs >> num_arete;
+        for(int i=0;i<num_arete;i++)
+        {
+            int indice,som1,som2;
+            double poids;
+            ifs >> indice >> som1 >> som2 >> poids;
+            add_interfaced_edge(indice,som1,som2,poids);
+            std::cout << " arete numero " << indice << " : ok!" << std::endl;
+        }
+    }
+}
+
+/// La méthode pour compléter la matrice d'adjacence
+void Graph::matrice_adjacent()
+{
+    m_matrice.resize(m_vertices.size(),std::vector<int>(m_vertices.size(),0));
+
+    for(auto &elem : m_edges)
+    {
+        m_matrice[elem.second.m_from][elem.second.m_to] = 1;
+    }
+
+    for(unsigned int i=0;i<m_vertices.size();i++)
+    {
+        for(unsigned int j=0;j<m_vertices.size();j++)
+        {
+            std::cout << m_matrice[i][j] << " " ;
+                //std::cout << j;
+        }
+        std::cout<<std::endl;
+    }
+}
+
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
 void Graph::update()
 {
@@ -249,5 +322,10 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]);
     m_interface->m_main_box.add_child(ei->m_top_edge);
     m_edges[idx] = Edge(weight, ei);
+
+    m_edges[idx].m_from = id_vert1;
+    m_edges[idx].m_to = id_vert2;
+    m_vertices[id_vert1].m_out.push_back(idx);
+    m_vertices[id_vert2].m_in.push_back(idx);
 }
 

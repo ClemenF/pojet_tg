@@ -75,6 +75,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <fstream>
 
 #include "grman/grman.h"
 
@@ -289,6 +290,9 @@ class Graph
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
         grman::WidgetTimer m_Timer;
+        int m_numero_graphe;
+
+        std::vector<std::vector<int>> m_matrice;
 
     public:
 
@@ -296,6 +300,9 @@ class Graph
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Graph (GraphInterface *interface=nullptr) :
             m_interface(interface)  {  }
+
+        Graph (GraphInterface *interface, int num) :
+            m_interface(interface),m_numero_graphe(num)  {  }
 
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
@@ -305,6 +312,15 @@ class Graph
         /// Cette méthode est à enlever et remplacer par un système
         /// de chargement de fichiers par exemple.
         void make_example();
+
+        /// Méthode matrice d'adjacence
+        void matrice_adjacent();
+
+        /// Méthode de sauvegarde de graph dans un fichier texte
+        void graphe_sauvegarde();
+
+        /// Méthode de chargement de graph d'un fichier texte
+        void graphe_chargement();
 
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
