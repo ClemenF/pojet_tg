@@ -1,0 +1,32 @@
+----- Fichier de sauvegarde du graphe 2 -----
+"indice","nom du sommet","valeure du sommet","posx","posy","image"
+13
+0 0 111 29 homme.jpg
+1 42.8571 323 148 lion.png
+2 20 175 223 éléphant.png
+3 10 144 426 feuillage.jpg
+4 60 328 480 fruits.png
+5 50 530 44 leopard.png
+6 60 398 298 singe.jpg
+7 60 526 198 antilope.png
+8 55 742 12 aigle.jpg
+9 55 728 184 mante.png
+10 80 608 350 criquet.png
+11 70 775 327 papillon.png
+12 90 582 506 plantes.jpg
+15
+1 0 1 10
+2 1 0 20
+3 0 2 30
+4 3 2 30
+5 4 1 10
+6 4 6 10
+7 7 1 10
+8 12 7 20
+9 12 10 20
+10 12 11 30
+11 11 9 30
+12 10 9 30
+13 9 8 40
+14 7 5 40
+15 6 5 40

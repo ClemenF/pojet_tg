@@ -18,8 +18,8 @@ namespace grman
 {
 
 // Permet de compiler en mode plein écran (décommenter)
-#define MODE_GRAPHIQUE GFX_AUTODETECT_WINDOWED
-//#define MODE_GRAPHIQUE GFX_AUTODETECT_FULLSCREEN
+//#define MODE_GRAPHIQUE GFX_AUTODETECT_WINDOWED
+#define MODE_GRAPHIQUE GFX_AUTODETECT_FULLSCREEN
 
 // Nombre de pixels horizontalement et verticalement
 #define LARGEURECRAN 1024

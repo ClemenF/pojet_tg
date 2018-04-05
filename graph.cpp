@@ -151,6 +151,73 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_main_box.set_dim(908,720);
     m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
     m_main_box.set_bg_color(BLANCJAUNE);
+
+
+    int y_bt = 10;
+    /// ajout des boutons de gestion du graph.
+    /// pour les sommets :
+    m_tool_box.add_child(m_text_bt_ajouter_vertex);
+    m_text_bt_ajouter_vertex.set_dim(75,10);
+    m_text_bt_ajouter_vertex.set_gravity_x(grman::GravityX::Left);
+    m_text_bt_ajouter_vertex.set_posy(y_bt);
+    m_text_bt_ajouter_vertex.set_bg_color(BLANC);
+    m_text_bt_ajouter_vertex.set_message("Add vertex!");
+    y_bt = y_bt+m_text_bt_ajouter_vertex.get_dimy();
+
+    m_tool_box.add_child(m_bt_ajouter_vertex);
+    m_bt_ajouter_vertex.set_dim(70,15);
+    m_bt_ajouter_vertex.set_gravity_x(grman::GravityX::Left);
+    m_bt_ajouter_vertex.set_posy(y_bt);
+    m_bt_ajouter_vertex.set_bg_color(ROUGECLAIR);
+    y_bt = y_bt + m_bt_ajouter_vertex.get_dimy();
+
+    m_tool_box.add_child(m_text_bt_supprimer_vertex);
+    m_text_bt_supprimer_vertex.set_dim(75,10);
+    m_text_bt_supprimer_vertex.set_gravity_x(grman::GravityX::Left);
+    m_text_bt_supprimer_vertex.set_posy(y_bt);
+    m_text_bt_supprimer_vertex.set_bg_color(BLANC);
+    m_text_bt_supprimer_vertex.set_message("sup vertex!");
+    y_bt = y_bt+m_text_bt_supprimer_vertex.get_dimy();
+
+    m_tool_box.add_child(m_bt_supprimer_vertex);
+    m_bt_supprimer_vertex.set_dim(70,15);
+    m_bt_supprimer_vertex.set_gravity_x(grman::GravityX::Left);
+    m_bt_supprimer_vertex.set_posy(y_bt);
+    m_bt_supprimer_vertex.set_bg_color(ROUGECLAIR);
+    y_bt = y_bt + m_bt_supprimer_vertex.get_dimy();
+
+    y += 20;
+    /// pour les arcs :
+    m_tool_box.add_child(m_text_bt_ajouter_edge);
+    m_text_bt_ajouter_edge.set_dim(75,10);
+    m_text_bt_ajouter_edge.set_gravity_x(grman::GravityX::Left);
+    m_text_bt_ajouter_edge.set_posy(y_bt);
+    m_text_bt_ajouter_edge.set_bg_color(BLANC);
+    m_text_bt_ajouter_edge.set_message("add edge !");
+    y_bt = y_bt+m_text_bt_ajouter_edge.get_dimy();
+
+    m_tool_box.add_child(m_bt_ajouter_edge);
+    m_bt_ajouter_edge.set_dim(70,15);
+    m_bt_ajouter_edge.set_gravity_x(grman::GravityX::Left);
+    m_bt_ajouter_edge.set_posy(y_bt);
+    m_bt_ajouter_edge.set_bg_color(ROUGECLAIR);
+    y_bt = y_bt + m_bt_ajouter_edge.get_dimy();
+
+    m_tool_box.add_child(m_text_bt_supprimer_edge);
+    m_text_bt_supprimer_edge.set_dim(75,10);
+    m_text_bt_supprimer_edge.set_gravity_x(grman::GravityX::Left);
+    m_text_bt_supprimer_edge.set_posy(y_bt);
+    m_text_bt_supprimer_edge.set_bg_color(BLANC);
+    m_text_bt_supprimer_edge.set_message("sup edge !");
+    y_bt = y_bt+m_text_bt_supprimer_edge.get_dimy();
+
+    m_tool_box.add_child(m_bt_supprimer_edge);
+    m_bt_supprimer_edge.set_dim(70,15);
+    m_bt_supprimer_edge.set_gravity_x(grman::GravityX::Left);
+    m_bt_supprimer_edge.set_posy(y_bt);
+    m_bt_supprimer_edge.set_bg_color(ROUGECLAIR);
+    y_bt = y_bt + m_bt_supprimer_edge.get_dimy();
+
 }
 
 
@@ -193,7 +260,31 @@ void Graph::make_example()
 /// La méthode sauvegarde le graphe dans un fichier numéroté
 void Graph::graphe_sauvegarde()
 {
+    std::string fichier ="sauvegarde.txt";
+    fichier = std::to_string(m_numero_graphe) + fichier;
 
+    std::ofstream ofs(fichier.c_str(),std::ios::out);
+    if(ofs)
+    {
+        ofs << "----- Fichier de sauvegarde du graphe " << m_numero_graphe<<" -----" << std::endl;
+        ofs << "\"indice\",\"nom du sommet\",\"valeure du sommet\",\"posx\",\"posy\",\"image\""<< std::endl;
+        ofs << m_ordre << std::endl;
+        for(auto &elem : m_vertices)
+        {
+            ofs << elem.second.m_interface->m_label_idx.get_message() <<" "<< elem.second.m_value <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.x <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.y <<" "<< elem.second.m_interface->m_img.get_pic_name() << std::endl;
+        }
+        ofs << m_nb_arete<< std::endl;
+        int i=0;
+        for(auto &elem : m_edges)
+        {
+            i++;
+            ofs <<i<<" " << elem.second.m_from <<" "<< elem.second.m_to <<" "<< elem.second.m_weight<<std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "probleme lors de l'ouverture du fichier de sauvegarde " << m_numero_graphe << std::endl;
+    }
 
 }
 
@@ -203,13 +294,13 @@ void Graph::graphe_chargement()
     std::cout << " ------ debut chargement graphe "<< m_numero_graphe << " ------- " << std::endl;
     std::string fichier = "_sauvegarde.txt";
     fichier = std::to_string(m_numero_graphe) + fichier;
-    std::cout << fichier << std::endl;
 
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
 
     std::ifstream ifs(fichier.c_str());
     if(ifs)
     {
+        m_ordre = m_nb_arete = 0;
         int ordre = 0, num_arete = 0;
         std::string line;
         for(int i=0;i<2;i++){
@@ -238,6 +329,10 @@ void Graph::graphe_chargement()
             add_interfaced_edge(indice,som1,som2,poids);
             std::cout << " arete numero " << indice << " : ok!" << std::endl;
         }
+    }
+    else
+    {
+        std::cout << "probleme lors de l'ouverture du fichier de chargement " << m_numero_graphe << std::endl;
     }
 }
 
@@ -275,10 +370,13 @@ void Graph::update()
         elt.second.pre_update();
 
     m_interface->m_top_box.update();
+
+    bouton_ajouter_vertex();
+    bouton_supprimer_vertex();
+    bouton_ajouter_edge();
+    bouton_supprimer_edge();
+
     m_Timer.draw();
-    if(keypressed())std::cout << readkey() <<std::endl;
-    if(grman::key_press[KEY_RIGHT])std::cout << " touche appuye " << std::endl;
-    if(grman::key_unpress[KEY_RIGHT])std::cout << " touche relache " << std::endl;
 
     for (auto &elt : m_vertices)
         elt.second.post_update();
@@ -291,6 +389,7 @@ void Graph::update()
 /// Aide à l'ajout de sommets interfacés
 void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
 {
+    m_ordre++;
     if ( m_vertices.find(idx)!=m_vertices.end() )
     {
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
@@ -307,6 +406,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
 /// Aide à l'ajout d'arcs interfacés
 void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weight)
 {
+    m_nb_arete++;
     if ( m_edges.find(idx)!=m_edges.end() )
     {
         std::cerr << "Error adding edge at idx=" << idx << " already used..." << std::endl;
@@ -325,7 +425,127 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
     m_edges[idx].m_from = id_vert1;
     m_edges[idx].m_to = id_vert2;
-    m_vertices[id_vert1].m_out.push_back(idx);
-    m_vertices[id_vert2].m_in.push_back(idx);
+    m_vertices[id_vert1].m_out.push_back(id_vert2);
+    m_vertices[id_vert2].m_in.push_back(id_vert1);
 }
 
+/// Méthode pour effacer un sommet
+void Graph::remove_vertex(int index)
+{
+    Vertex &remve=m_vertices.at(index);
+    std::cout << "Removing vertex " << index << std::endl;
+
+    ///suppression des arcs arrivant dans le sommet index
+    for(auto &elem : remve.m_in)
+    {
+        std::cout << "arc arrivant dans "<< index << " " << elem << std::endl;
+        for(auto &elemedge : m_edges)
+        {
+            ///test pour trouver l'index de l'arc qui va du sommet elem vers notre sommet index
+            if(elemedge.second.m_from == elem && elemedge.second.m_to == index)
+            {
+                remove_edge(elemedge.first);
+            }
+        }
+    }
+
+    ///suppression des arcs partant du sommet index
+    for(auto &elem : remve.m_out)
+    {
+        std::cout << "arc partant de "<< index << " " << elem << std::endl;
+        for(auto &elemedge : m_edges)
+        {
+            ///test pour trouver l'index de l'arc qui va de notre sommet index vers le sommet elem
+            if(elemedge.second.m_from == index && elemedge.second.m_to == elem)
+            {
+                remove_edge(elemedge.first);
+            }
+        }
+    }
+
+    ///maintenant qu'il n'y a plus d'arc connecté à notre sommet on peut le supprimer
+    /// test : on a bien des éléments interfacés
+    if(m_interface && remve.m_interface)
+    {
+        m_interface->m_main_box.remove_child( remve.m_interface->m_top_box );
+    }
+
+    /// aucune information à supprimer dans les autres sommets vu qu'ils n'ont pas l'indice de notre sommet index
+    /// suppression du sommet du vecteur vertice
+    m_vertices.erase(index);
+    m_ordre--;
+}
+
+/// effacer un arc
+/// eidx index of edge to remove
+void Graph::remove_edge(int eidx)
+{
+    /// référence vers le Edge à enlever
+    Edge &remed=m_edges.at(eidx);
+    std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
+    /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
+    //std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    //std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+    //std::cout << m_edges.size() << std::endl;
+    /// test : on a bien des éléments interfacés
+    if (m_interface && remed.m_interface)
+    {
+        /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
+        /* EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]); */
+        /* m_interface->m_main_box.add_child(ei->m_top_edge); */
+        /* m_edges[idx] = Edge(weight, ei); */
+        /// Le new EdgeInterface ne nécessite pas de delete car on a un shared_ptr
+        /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
+        /// mais il faut bien enlever le conteneur d'interface m_top_edge de l'arc de la main_box du graphe
+        m_interface->m_main_box.remove_child( remed.m_interface->m_top_edge );
+    }
+    /// Il reste encore à virer l'arc supprimé de la liste des entrants et sortants des 2 sommets to et from !
+    /// References sur les listes de edges des sommets from et to
+    std::vector<int> &vefrom = m_vertices[remed.m_from].m_out;
+    std::vector<int> &veto = m_vertices[remed.m_to].m_in;
+    vefrom.erase( std::remove( vefrom.begin(), vefrom.end(), eidx ), vefrom.end() );
+    veto.erase( std::remove( veto.begin(), veto.end(), eidx ), veto.end() );
+    /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
+    /// Il suffit donc de supprimer l'entrée de la map pour supprimer à la fois l'Edge et le EdgeInterface
+    /// mais malheureusement ceci n'enlevait pas automatiquement l'interface top_edge en tant que child de main_box !
+    m_edges.erase( eidx );
+    m_nb_arete--;
+    /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
+    //std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    //std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+    //std::cout << m_edges.size() << std::endl;
+}
+
+
+///Les méthodes pour la gestion du Graph
+void Graph::bouton_ajouter_vertex()
+{
+    if(m_interface->m_bt_ajouter_vertex.clicked())
+    {
+
+    }
+}
+
+void Graph::bouton_supprimer_vertex()
+{
+    if(m_interface->m_bt_supprimer_vertex.clicked())
+    {
+
+    }
+}
+
+void Graph::bouton_ajouter_edge()
+{
+    if(m_interface->m_bt_ajouter_edge.clicked())
+    {
+
+    }
+}
+
+void Graph::bouton_supprimer_edge()
+{
+    if(m_interface->m_bt_supprimer_edge.clicked())
+    {
+
+    }
+}

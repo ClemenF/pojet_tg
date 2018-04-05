@@ -264,6 +264,19 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
+        /// Les boutons de manipulation du graphe
+        /// pour les sommets
+        grman::WidgetText m_text_bt_ajouter_vertex;
+        grman::WidgetButton m_bt_ajouter_vertex;
+        grman::WidgetText m_text_bt_supprimer_vertex;
+        grman::WidgetButton m_bt_supprimer_vertex;
+
+        ///pour les arcs
+        grman::WidgetText m_text_bt_ajouter_edge;
+        grman::WidgetButton m_bt_ajouter_edge;
+        grman::WidgetText m_text_bt_supprimer_edge;
+        grman::WidgetButton m_bt_supprimer_edge;
+
 
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)
@@ -291,6 +304,9 @@ class Graph
 
         grman::WidgetTimer m_Timer;
         int m_numero_graphe;
+
+        int m_ordre;
+        int m_nb_arete;
 
         std::vector<std::vector<int>> m_matrice;
 
@@ -322,6 +338,17 @@ class Graph
         /// Méthode de chargement de graph d'un fichier texte
         void graphe_chargement();
 
+        /// Méthode pour effacer un sommet
+        void remove_vertex(int index);
+
+        /// Méthode pour effacer un arc (index de l'arc à supprimer)
+        void remove_edge(int eidx);
+
+        ///les méthodes des boutons de gestion du graph :
+        void bouton_ajouter_vertex();
+        void bouton_supprimer_vertex();
+        void bouton_ajouter_edge();
+        void bouton_supprimer_edge();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

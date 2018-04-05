@@ -6,7 +6,6 @@
 /// Call grman::init(); once at startup
 
 #include <allegro.h>
-
 #include <string>
 
 

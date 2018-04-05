@@ -1,16 +1,18 @@
 # depslib dependency file v1.0
-1522834415 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.cpp
+1522942989 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.cpp
 	"graph.h"
 	<sstream>
+	<string>
 
-1522776545 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.h
+1522947341 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.h
 	<vector>
 	<map>
 	<string>
 	<memory>
+	<fstream>
 	"grman/grman.h"
 
-1522792430 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.h
+1522855773 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.h
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
@@ -22,7 +24,7 @@
 1522699350 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.h
 	<cmath>
 
-1522776157 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.h
+1522854269 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -33,7 +35,7 @@
 1522699350 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.cpp
 	"coords.h"
 
-1522786576 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.cpp
+1522939177 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -47,10 +49,10 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522777561 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.cpp
+1522945150 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.cpp
 	"widget.h"
 
-1522700402 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\main.cpp
+1522938607 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"

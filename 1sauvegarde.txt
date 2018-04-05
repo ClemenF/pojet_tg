@@ -1,0 +1,17 @@
+----- Fichier de sauvegarde du graphe 1 -----
+"indice","nom du sommet","valeure du sommet","posx","posy","image"
+6
+0 30 652 392 brochet.jpg
+1 60 638 90 carpe.jpg
+2 50 346 66 daphnie.jpg
+3 0 310 416 Gardon.jpg
+4 100 456 240 héron.jpg
+5 0 128 68 phytoplancton.jpg
+7
+1 5 2 50
+2 2 3 50
+3 2 1 75
+4 1 4 25
+5 3 4 25
+6 1 0 25
+7 3 0 0

@@ -12,10 +12,12 @@ int main()
     grman::set_pictures_path("pics");
 
     /// Un exemple de graphe
-    Graph g(nullptr,0);
+    Graph g(nullptr,2);
     g.graphe_chargement();
     //g.make_example();
-    g.matrice_adjacent();
+    //g.matrice_adjacent();
+    //g.test_remove_edge(2);
+    //g.remove_vertex(2);
 
 
     /// Vous gardez la main sur la "boucle de jeu"
@@ -28,6 +30,9 @@ int main()
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
     }
+
+
+    g.graphe_sauvegarde();
 
     grman::fermer_allegro();
 
