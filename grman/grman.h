@@ -93,7 +93,7 @@ void mettre_a_jour();
 void init();
 
 //lance un popup avec buffer fixe
-void  init_popup();
+void  init_popup(BITMAP* bmp_popup);
 void buf_afficher_popup();
 void fermer_popup();
 // Pour lib�rer le buffer et fermer tous les services

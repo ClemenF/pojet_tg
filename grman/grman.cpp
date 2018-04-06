@@ -177,7 +177,7 @@ void init()
     page_frame.dim.y = SCREEN_H;
 }
 
-void init_popup()//popup qui reçoit en param une bitmap a afficher
+void init_popup(BITMAP* bmp_popup)//popup qui reçoit en param une bitmap a afficher
 {
     DIALOG the_dialog[] =
     {
@@ -185,14 +185,15 @@ void init_popup()//popup qui reçoit en param une bitmap a afficher
         { d_clear_proc,      0,    0,    0,    0,    255,  0,    0,    0,       0,   0,    NULL,          NULL, NULL  },
 
         // { d_check_proc,      12,   12,   161,  49,   255,  0,    't',  0,       0,   0,   (void*)  "&Toggle Me",  NULL, NULL  },
-        { d_bitmap_proc,     480,  40,   200,   200,   0,  0,    0,      0,       0,   0,    NULL,                   NULL, NULL  },
+        { d_bitmap_proc,     0,  0,   1024,   700,   0,  0,    0,      0,       0,   0,    NULL,                   NULL, NULL  },
 
 
-        { d_button_proc,     162,  142,  141,  49,   255,  0,    0,    D_EXIT,  0,   0,  ( void* )  "Exit",        NULL, NULL  },
+        { d_button_proc,     462,  700,  100,  40,   255,  0,    0,    D_EXIT,  0,   0,  ( void* )  "Exit",        NULL, NULL  },
         { NULL,              0,    0,    0,    0,    0,    0,    0,    0,       0,   0,    NULL,          NULL, NULL  }
     };
 //dialog avec bouton exit et image
-    the_dialog[1].dp = load_bitmap( "clown1.jpg", NULL );
+   // the_dialog[1].dp = load_bitmap( "clown1.jpg", NULL );
+   the_dialog[1].dp = bmp_popup;
     do_dialog( the_dialog, -1 );
 }
 

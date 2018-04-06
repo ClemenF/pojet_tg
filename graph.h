@@ -328,7 +328,7 @@ class Graph
 
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
-        void spring_model();
+        void spring_model(std::vector<std::vector<int>> tabadjacence); //recup un tab d'adjacence
 
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
