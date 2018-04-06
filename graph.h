@@ -295,7 +295,7 @@ class GraphInterface
         /// Les boutons de manipulation du graphe
         /// pour les sommets
         grman::WidgetText m_text_bt_ajouter_vertex;
-        grman::WidgetButton m_bt_ajouter_vertex();
+        grman::WidgetButton m_bt_ajouter_vertex;
         grman::WidgetText m_text_bt_supprimer_vertex;
         grman::WidgetButton m_bt_supprimer_vertex;
 
