@@ -450,7 +450,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
 /// M�thode pour effacer un sommet
 void Graph::remove_vertex(int index)
-
+{
     Vertex &remve=m_vertices.at(index);
     std::cout << "Removing vertex " << index << std::endl;
 
