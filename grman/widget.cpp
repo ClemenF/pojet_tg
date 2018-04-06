@@ -202,6 +202,7 @@ void WidgetTimer::draw()
     }
 
 
+
     rect(page,page->w/2-25,5,page->w/2+25,25,makecol(200,0,0));
     textprintf_centre_ex(page,font,page->w/2,15,ROUGESOMBRE,-1,"%d : %d",m_minute,m_seconde);
 }
@@ -244,6 +245,7 @@ void WidgetButton::interact_focus()
 {
     if ( mouse_click )
         m_value = true;
+
 }
 
 

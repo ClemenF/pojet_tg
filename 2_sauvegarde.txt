@@ -1,18 +1,32 @@
------ Fichier de sauvegarde du graphe 0 -----
+----- Fichier de sauvegarde du graphe 2 -----
 "indice","nom du sommet","valeure du sommet","posx","posy","image"
-6
-0 30 200 100 clown1.jpg 99
-1 60 400 100 clown2.jpg 99
-2 50 200 300 clown3.jpg 99
-3 0 400 300 clown4.jpg 99
-4 100 600 300 clown5.jpg 99
-5 0 100 500 bad_clowns_xx3xx.jpg 0
-8
-0 0 1 50
-1 1 2 50
-2 1 4 75
-3 2 3 25
-4 2 5 25
-5 4 3 25
-6 4 5 0
-7 4 0 0
+13
+0 30 130 3 homme.jpg 99
+1 25 294 186 lion.png 99
+2 20 134 234 �l�phant.png 99
+3 10 144 426 feuillage.jpg 99
+4 60 328 480 fruits.png 99
+5 50 530 44 leopard.png 99
+6 60 398 298 singe.jpg 99
+7 60 526 198 antilope.png 99
+8 55 742 12 aigle.jpg 99
+9 55 728 184 mante.png 99
+10 80 608 350 criquet.png 99
+11 70 775 327 papillon.png 99
+12 90 582 506 plantes.jpg 99
+15
+0 0 1 10
+1 1 0 20
+2 0 2 30
+3 3 2 30
+4 4 1 10
+5 4 6 10
+6 7 1 10
+7 12 7 20
+8 12 10 20
+9 12 11 30
+10 11 9 30
+11 10 9 30
+12 9 8 40
+13 7 5 40
+14 6 5 40
