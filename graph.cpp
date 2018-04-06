@@ -624,14 +624,15 @@ void Graph::draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vect
               // line( bmp_graphe, pos[i][X], pos[i][Y], pos[j][X], pos[j][Y],
               //       makecol( 0, 200, 0 ) ); // on trace l'arete
               grman::thick_line(bmp_graphe,pos[i][X], pos[i][Y], pos[j][X], pos[j][Y], 2,  makecol( 0, 200, 0 ));
-               /*float H = (( pos[j][X] - pos[i][X] ) ^2+( pos[j][Y] - pos[i][Y] ) ^2)^(1/2);
-               H=abs((int)H);
-               float O =  abs(pos[j][Y] - pos[i][Y]) ;
-               float teta = asin(O/H) * 180.0 / M_PI;
+               float H = sqrt(( pos[j][X] - pos[i][X] )*( pos[j][X] - pos[i][X] )+( pos[i][Y]-pos[j][Y]  ) *(pos[i][Y]- pos[j][Y]));
+
+               float O = pos[i][Y] - pos[j][Y]    ;
+               float teta = asin(O/H);
                std::cout << " teta: "<<teta;
 
-               circlefill( bmp_graphe, pos[j][X]-RADIUS_NODE*cos(teta), pos[j][Y]-RADIUS_NODE*sin(teta), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
-*/
+               circlefill( bmp_graphe, pos[j][X]+(RADIUS_FLECHE+RADIUS_NODE)*cos(teta), pos[j][Y]+(RADIUS_FLECHE+RADIUS_NODE)*sin(teta), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
+
+
            }
       }
    }
