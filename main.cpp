@@ -12,7 +12,7 @@ int main()
     grman::set_pictures_path("pics");
 
     /// Un exemple de graphe
-    Graph g(nullptr,2);
+    Graph g(nullptr,1);
     g.graphe_chargement();
     //g.make_example();
     //g.matrice_adjacent();

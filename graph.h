@@ -277,6 +277,8 @@ class GraphInterface
         grman::WidgetText m_text_bt_supprimer_edge;
         grman::WidgetButton m_bt_supprimer_edge;
 
+        std::vector<grman::Widget> m_vec_bt_ajouter_vertex;
+
 
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)

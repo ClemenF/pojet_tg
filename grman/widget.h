@@ -189,7 +189,7 @@ class Widget
         void set_bg_color(int bgc) { m_bg_color = bgc; }
         int get_border_color() { return is_gui_focus() ? m_border_color_focus : is_gui_over() ? m_border_color_over : m_border_color; }
 
-        Widget(const Widget&) = delete;
+        //Widget(const Widget&) = delete;
         Widget & operator=(const Widget&) = delete;
 
 
@@ -276,6 +276,7 @@ class WidgetButton : public Widget
 {
     protected :
         bool m_value = false;
+        bool m_clicked = false;
 
     public :
 
@@ -285,6 +286,8 @@ class WidgetButton : public Widget
         bool clicked() { bool clk = m_value; m_value=false; return clk; }
         bool get_value() { return m_value; }
         void set_value(bool value) { m_value = value; }
+        bool get_clicked() { return m_clicked; }
+        void set_clicked() { m_clicked = !m_clicked; }
 };
 
 

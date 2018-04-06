@@ -218,6 +218,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_bt_supprimer_edge.set_bg_color(ROUGECLAIR);
     y_bt = y_bt + m_bt_supprimer_edge.get_dimy();
 
+
 }
 
 
@@ -395,6 +396,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex";
     }
+
     // Création d'une interface de sommet
     VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
     // Ajout de la top box de l'interface de sommet
@@ -522,13 +524,24 @@ void Graph::bouton_ajouter_vertex()
 {
     if(m_interface->m_bt_ajouter_vertex.clicked())
     {
-
+        grman::WidgetButton butt_test;
+        m_interface->m_tool_box.add_child(butt_test);
+        butt_test.set_dim(75,10);
+        butt_test.set_gravity_xy(grman::GravityX::Left,grman::GravityY::Center);
+        butt_test.set_bg_color(NOIR);
+        //m_interface->m_vec_bt_ajouter_vertex.resize(1);
+        //m_interface->m_vec_bt_ajouter_vertex[0]=  butt_test;
+        //m_interface->m_vec_bt_ajouter_vertex.push_back(butt_test);
     }
 }
 
 void Graph::bouton_supprimer_vertex()
 {
     if(m_interface->m_bt_supprimer_vertex.clicked())
+    {
+        m_interface->m_bt_supprimer_vertex.set_clicked();
+    }
+    if(m_interface->m_bt_supprimer_vertex.get_clicked())
     {
 
     }
