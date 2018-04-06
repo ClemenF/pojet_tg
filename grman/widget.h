@@ -189,7 +189,7 @@ class Widget
         void set_bg_color(int bgc) { m_bg_color = bgc; }
         int get_border_color() { return is_gui_focus() ? m_border_color_focus : is_gui_over() ? m_border_color_over : m_border_color; }
 
-        //Widget(const Widget&) = delete;
+        Widget(const Widget&) = delete;
         Widget & operator=(const Widget&) = delete;
 
 
@@ -280,6 +280,9 @@ class WidgetButton : public Widget
 
     public :
 
+        /*WidgetButton(double x1, double y1, double w1, double h1) :
+            Widget(x1, y1, w1, h1) {}
+        WidgetButton();*/
         virtual void interact_focus();
         virtual bool captures_focus() { return true; }
 

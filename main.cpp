@@ -14,6 +14,7 @@ int main()
     /// Un exemple de graphe
     Graph g(nullptr,1);
     g.graphe_chargement();
+    //g.dynamique_population();
     //g.make_example();
     //g.matrice_adjacent();
     //g.test_remove_edge(2);

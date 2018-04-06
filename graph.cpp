@@ -55,7 +55,7 @@ void Vertex::pre_update()
     m_interface->m_slider_value.set_value(m_value);
 
     /// Copier la valeur locale de la donnée m_value vers le label sous le slider
-    m_interface->m_label_value.set_message( std::to_string( (int)m_value) );
+    m_interface->m_label_value.set_message( std::to_string( (int)m_N_t) );
 }
 
 
@@ -164,13 +164,13 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_text_bt_ajouter_vertex.set_message("Add vertex!");
     y_bt = y_bt+m_text_bt_ajouter_vertex.get_dimy();
 
-    m_tool_box.add_child(m_bt_ajouter_vertex);
+/*    m_tool_box.add_child(m_bt_ajouter_vertex);
     m_bt_ajouter_vertex.set_dim(70,15);
     m_bt_ajouter_vertex.set_gravity_x(grman::GravityX::Left);
     m_bt_ajouter_vertex.set_posy(y_bt);
     m_bt_ajouter_vertex.set_bg_color(ROUGECLAIR);
     y_bt = y_bt + m_bt_ajouter_vertex.get_dimy();
-
+*/
     m_tool_box.add_child(m_text_bt_supprimer_vertex);
     m_text_bt_supprimer_vertex.set_dim(75,10);
     m_text_bt_supprimer_vertex.set_gravity_x(grman::GravityX::Left);
@@ -227,7 +227,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 /// de chargement de fichiers par exemple.
 /// Bien sûr on ne veut pas que vos graphes soient construits
 /// "à la main" dans le code comme ça.
-void Graph::make_example()
+/*void Graph::make_example()
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
     // La ligne précédente est en gros équivalente à :
@@ -256,7 +256,7 @@ void Graph::make_example()
     add_interfaced_edge(7, 2, 0, 100.0);
     add_interfaced_edge(8, 5, 2, 20.0);
     add_interfaced_edge(9, 3, 7, 80.0);
-}
+}*/
 
 /// La méthode sauvegarde le graphe dans un fichier numéroté
 void Graph::graphe_sauvegarde()
@@ -313,12 +313,13 @@ void Graph::graphe_chargement()
         for(int i=0;i<ordre;i++)
         {
             std::cout << "numero " << i << std::endl;
-            int indice,posx,posy,idx=99;
+            std::string name;
+            int indice,posx,posy,Nt;
+            float r;
             double valeur;
             std::string image;
-            ifs >> indice >> valeur >> posx >> posy >> image >> idx;
-            if(idx==99)add_interfaced_vertex(indice,valeur,posx,posy,image.c_str());
-            else add_interfaced_vertex(indice,valeur,posx,posy,image.c_str(),idx);
+            ifs >> indice >> name >> valeur >> posx >> posy >> image >> r >> Nt;
+            add_interfaced_vertex(indice,valeur,posx,posy,image.c_str(),r,Nt,name.c_str());
             std::cout << " sommet numero " << indice << " : ok!" << std::endl;
         }
         ifs >> num_arete;
@@ -372,6 +373,8 @@ void Graph::update()
 
     m_interface->m_top_box.update();
 
+
+
     bouton_ajouter_vertex();
     bouton_supprimer_vertex();
     bouton_ajouter_edge();
@@ -388,7 +391,7 @@ void Graph::update()
 }
 
 /// Aide à l'ajout de sommets interfacés
-void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
+void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name , float r , int Nt ,std::string name, int pic_idx)
 {
     m_ordre++;
     if ( m_vertices.find(idx)!=m_vertices.end() )
@@ -402,7 +405,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
     // On peut ajouter directement des vertices dans la map avec la notation crochet :
-    m_vertices[idx] = Vertex(value, vi);
+    m_vertices[idx] = Vertex(value, r, Nt, vi,name);
 }
 
 /// Aide à l'ajout d'arcs interfacés
@@ -522,17 +525,17 @@ void Graph::remove_edge(int eidx)
 ///Les méthodes pour la gestion du Graph
 void Graph::bouton_ajouter_vertex()
 {
-    if(m_interface->m_bt_ajouter_vertex.clicked())
+    /*if(m_interface->m_bt_ajouter_vertex.clicked())
     {
-        grman::WidgetButton butt_test;
-        m_interface->m_tool_box.add_child(butt_test);
-        butt_test.set_dim(75,10);
-        butt_test.set_gravity_xy(grman::GravityX::Left,grman::GravityY::Center);
-        butt_test.set_bg_color(NOIR);
+        grman::WidgetButton* butt_test = new grman::WidgetButton(10,100,75,10);
+        m_interface->m_tool_box.add_child(*butt_test);
+        butt_test->set_dim(75,10);
+        butt_test->set_gravity_xy(grman::GravityX::Left,grman::GravityY::Center);
+        butt_test->set_bg_color(NOIR);
         //m_interface->m_vec_bt_ajouter_vertex.resize(1);
         //m_interface->m_vec_bt_ajouter_vertex[0]=  butt_test;
-        //m_interface->m_vec_bt_ajouter_vertex.push_back(butt_test);
-    }
+        m_interface->m_vec_bt_ajouter_vertex.push_back(butt_test);
+    }*/
 }
 
 void Graph::bouton_supprimer_vertex()
@@ -559,6 +562,146 @@ void Graph::bouton_supprimer_edge()
 {
     if(m_interface->m_bt_supprimer_edge.clicked())
     {
-
+        dynamique_population();
     }
 }
+
+
+/// méthode de la dynamique de population
+void Graph::dynamique_population()
+{
+    // ajouter un bouton pour passer au tour de jeu suivant
+    int k=0;
+    int preda=0;
+    for( auto &elem: m_vertices)
+    {
+        k = calcul_K(elem.first);
+        elem.second.m_K = k;
+        if(k<1)
+        {
+            k =1;
+        }
+        preda = predation(elem.first);
+        //std::cout << " population avant : " << elem.second.m_N_t << std::endl;
+
+        int w= (1 - (elem.second.m_N_t/k));
+        if (w<0)
+        {
+            w=1;
+        }
+        if(preda>500)
+        {
+            preda= preda/2;
+        }
+        int at = elem.second.m_N_t + elem.second.m_r*elem.second.m_N_t*w + preda;
+        if(at - elem.second.m_N_t <elem.second.m_N_t/2)
+        {
+            at = elem.second.m_N_t/1.2;
+        }
+        elem.second.m_N_t = at;
+
+        if(elem.second.m_N_t < 0)
+        {
+            elem.second.m_N_t = 0;
+        }
+        fctreproduction(elem.first);
+
+        //std::cout << " Num de sommet : " << elem.first << std::endl;
+        //std::cout << " population apres : " << elem.second.m_N_t << std::endl;
+    }
+    //std::cout << "----- FIN ----" << std::endl;
+}
+
+int Graph::calcul_K(int num_vertex_donne){
+
+    int a;
+    int b;
+    std::vector<int> somme;
+
+    for (auto &elem : m_edges)
+    {
+        a=0;
+        b=0;
+
+        if (elem.second.m_to == num_vertex_donne)
+        {
+            std::map<int,Vertex>::iterator it;
+            it = m_vertices.find(elem.second.m_from);
+            a = it->second.m_N_t; // On prend la value du sommet en question
+            b = elem.second.m_weight;
+            //std::cout << " a = " << a << "b = " << b << std::endl;
+            somme.push_back(a*b);
+        }
+    }
+    int results=0;
+
+    //std::cout << "On print la K : " << std::endl;
+    for (unsigned int i=0;i<somme.size();i++)
+    {
+        //std::cout << somme[i] <<" + ";
+        results =somme[i] + results;
+    }
+    //std::cout << std::endl;
+
+    return results;
+
+}
+
+int Graph::predation(int num_vertex_donne)
+{
+    int a;
+    int b;
+    std::vector<int> somme;
+
+    for (auto &elem : m_edges)
+    {
+        a=0;
+        b=0;
+        if (elem.second.m_from == num_vertex_donne)
+        {
+            std::map<int,Vertex>::iterator it;
+            it = m_vertices.find(elem.second.m_to);
+            a = it->second.m_N_t; // On prend la value du sommet en question
+            b = elem.second.m_weight;
+           // std::cout << " a = " << a << "b = " << b << std::endl;
+            somme.push_back(a*b);
+        }
+    }
+    int results=0;
+   // std::cout << "On print la sommme : " << std::endl;
+    for (unsigned int i=0;i<somme.size();i++)
+    {
+        //std::cout << somme[i] <<" + ";
+        results =somme[i] + results;
+
+    }
+   // std::cout << std::endl;
+
+    results = -results;
+    return results;
+
+}
+
+void Graph::fctreproduction(int num_vertex_donne)
+{
+    std::map<int,Vertex>::iterator it;
+    it = m_vertices.find(num_vertex_donne);
+    //int pop_avant = it->second.m_value;
+    it->second.m_value = ceil(it->second.m_value + (it->second.m_value)) ;
+
+    //std::cout << "on reprodui le sommet " << num_vertex_donne <<std::endl;
+    //std::cout << "Pop_avant : " << pop_avant << " Pop_apres " <<it->second.m_value <<std::endl;
+}
+/*
+void Graph::miseajoutarete()
+{
+    for (auto &elem : m_edges)
+    {
+        std::map<int,Vertex>::iterator it;
+        it = m_vertices.find(elem.second.m_from);
+        int a = it->second.m_N_t; // On prend la value du sommet en question
+
+        b = elem.second.m_weight;
+    }
+}
+*/

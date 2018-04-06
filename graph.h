@@ -141,9 +141,16 @@ class Vertex
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
         double m_value;
+        std::string m_name;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
+
+
+        /// variable pour algo dynamique de population :
+        int m_N_t; // population à l'instant actuel
+        float m_r; // rythme de croissance (valeur fixe)
+        int m_K; // capacité de portage ( = population maximum )
 
         // Docu shared_ptr : https://msdn.microsoft.com/fr-fr/library/hh279669.aspx
         // La ligne précédente est en gros équivalent à la ligne suivante :
@@ -154,8 +161,8 @@ class Vertex
 
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Vertex (double value=0, VertexInterface *interface=nullptr) :
-            m_value(value), m_interface(interface)  {  }
+        Vertex (double value=0, float r=0, int Nt=0, VertexInterface *interface=nullptr, std::string name="") :
+            m_value(value), m_interface(interface), m_r(r), m_N_t(Nt), m_name(name) {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)
@@ -223,6 +230,9 @@ class Edge
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
 
+        /// variable pour algo dynamique de population
+        int m_coef; // valeur fixe du coefficient de contribution de la population du sommet de départ à la valeur K du sommet d'arrivé.
+
 
     public:
 
@@ -267,7 +277,7 @@ class GraphInterface
         /// Les boutons de manipulation du graphe
         /// pour les sommets
         grman::WidgetText m_text_bt_ajouter_vertex;
-        grman::WidgetButton m_bt_ajouter_vertex;
+        grman::WidgetButton m_bt_ajouter_vertex();
         grman::WidgetText m_text_bt_supprimer_vertex;
         grman::WidgetButton m_bt_supprimer_vertex;
 
@@ -277,7 +287,8 @@ class GraphInterface
         grman::WidgetText m_text_bt_supprimer_edge;
         grman::WidgetButton m_bt_supprimer_edge;
 
-        std::vector<grman::Widget> m_vec_bt_ajouter_vertex;
+        //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
+
 
 
         // A compléter éventuellement par des widgets de décoration ou
@@ -322,7 +333,7 @@ class Graph
         Graph (GraphInterface *interface, int num) :
             m_interface(interface),m_numero_graphe(num)  {  }
 
-        void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
+        void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="",float r=0,int Nt=0, std::string name="",int pic_idx=0);
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
@@ -351,6 +362,13 @@ class Graph
         void bouton_supprimer_vertex();
         void bouton_ajouter_edge();
         void bouton_supprimer_edge();
+
+        /// méthode de la dynamique de population
+        void dynamique_population();
+        int calcul_K(int);
+        int predation(int);
+        void fctreproduction(int num_vertex_donne);
+        void miseajoutarete()
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
