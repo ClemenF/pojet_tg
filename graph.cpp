@@ -275,11 +275,20 @@ void Graph::graphe_sauvegarde()
     if(ofs)
     {
         ofs << "----- Fichier de sauvegarde du graphe " << m_numero_graphe<<" -----" << std::endl;
-        ofs << "\"indice\",\"nom du sommet\",\"valeure du sommet\",\"posx\",\"posy\",\"image\""<< std::endl;
+        ofs << "\"indice\",\"nom du sommet\",\"valeure du sommet\",\"posx\",\"posy\",\"image\",\"rythme de croissance\",\"population\""<< std::endl;
         ofs << m_ordre << std::endl;
         for(auto &elem : m_vertices)
         {
-            ofs << elem.second.m_interface->m_label_idx.get_message() <<" "<< elem.second.m_value <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.x <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.y <<" "<< elem.second.m_interface->m_img.get_pic_name() << std::endl;
+            //ofs << elem.second.m_interface->m_label_idx.get_message() <<" "<< elem.second.m_value <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.x <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.y <<" "<< elem.second.m_interface->m_img.get_pic_name();
+            ofs << elem.second.m_interface->m_label_idx.get_message() <<" ";
+            ofs << elem.second.m_name << " " ;
+            ofs << elem.second.m_value <<" " ;
+            ofs << elem.second.m_interface->m_top_box.get_frame().pos.x <<" ";
+            ofs << elem.second.m_interface->m_top_box.get_frame().pos.y <<" ";
+            ofs << elem.second.m_interface->m_img.get_pic_name() << " " ;
+            ofs << elem.second.m_r << " " ;
+            ofs << elem.second.m_N_t << " " ;
+            ofs << std::endl ;
         }
         ofs << m_nb_arete<< std::endl;
         int i=0;
@@ -539,28 +548,21 @@ void Graph::remove_edge(int eidx)
 ///Les m�thodes pour la gestion du Graph
 void Graph::bouton_ajouter_vertex()
 {
-    /*if(m_interface->m_bt_ajouter_vertex.clicked())
+    if(m_interface->m_bt_ajouter_vertex.clicked())
     {
-        grman::WidgetButton* butt_test = new grman::WidgetButton(10,100,75,10);
-        m_interface->m_tool_box.add_child(*butt_test);
-        butt_test->set_dim(75,10);
-        butt_test->set_gravity_xy(grman::GravityX::Left,grman::GravityY::Center);
-        butt_test->set_bg_color(NOIR);
-        //m_interface->m_vec_bt_ajouter_vertex.resize(1);
-        //m_interface->m_vec_bt_ajouter_vertex[0]=  butt_test;
-        m_interface->m_vec_bt_ajouter_vertex.push_back(butt_test);
-    }*/
+        int i = m_vertices.size();
+
+        // appel de la fonction add_interface_vertex pour ajouter un sommet au graph
+        add_interfaced_vertex(i,10,30,30,"lion.png",0.01,20,"lion");
+    }
 }
 
 void Graph::bouton_supprimer_vertex()
 {
     if(m_interface->m_bt_supprimer_vertex.clicked())
     {
-        m_interface->m_bt_supprimer_vertex.set_clicked();
-    }
-    if(m_interface->m_bt_supprimer_vertex.get_clicked())
-    {
-
+        // appel de la fonction remove avec en paramètre l'indice du sommet à supprimer
+        remove_vertex(0);
     }
 }
 
@@ -568,7 +570,10 @@ void Graph::bouton_ajouter_edge()
 {
     if(m_interface->m_bt_ajouter_edge.clicked())
     {
+        int i = m_edges.size()+1;
 
+        // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
+        add_interfaced_edge(i,3,5,10);
     }
 }
 
@@ -576,7 +581,10 @@ void Graph::bouton_supprimer_edge()
 {
     if(m_interface->m_bt_supprimer_edge.clicked())
     {
-        dynamique_population();
+        int i = rand()%m_edges.size();
+
+        // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
+        remove_edge(i);
     }
 }
 
