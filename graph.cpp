@@ -2,6 +2,14 @@
 #include <sstream>
 #include <string>
 
+#define MIN_X 412 // pour viser un carre au centre de..
+#define MAX_X 612 // l'ecran donc des intervalles pour x et y
+#define MIN_Y 260
+#define MAX_Y 460
+
+#define X 0 // utile pour spring model
+#define Y 1 // ce sont les pos dans le vector
+
 /***************************************************
                     VERTEX
 ****************************************************/
@@ -112,13 +120,13 @@ void Edge::post_update() {
 /// Ici le constructeur se contente de pr�parer un cadre d'accueil des
 /// �l�ments qui seront ensuite ajout�s lors de la mise ne place du Graphe
 GraphInterface::GraphInterface(int x, int y, int w, int h) {
-  m_top_box.set_dim(1000, 740);
-  m_top_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
-  m_top_box.add_child(m_tool_box);
-  m_tool_box.set_dim(80, 720);
+  m_top_box.set_dim(1000, 740);//grand cadre 1024:720
+  m_top_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);//set gravity box
+  m_top_box.add_child(m_tool_box);//ajout d'une view
+  m_tool_box.set_dim(80, 720);//dim
   m_tool_box.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
   m_tool_box.set_bg_color(BLANCBLEU);
-  m_top_box.add_child(m_main_box);
+  m_top_box.add_child(m_main_box);//ajout graph
   m_main_box.set_dim(908, 720);
   m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
   m_main_box.set_bg_color(BLANCJAUNE);
@@ -336,7 +344,7 @@ std::vector<std::vector<int>> Graph::toutesLesComposanteFortementConnexe() {
   } else
     std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
 
-   return tabc;
+  return tabc;
 }
 
 std::vector<int> Graph::uneComposantesFortementConnexes(int s) {
@@ -405,55 +413,137 @@ std::vector<int> Graph::uneComposantesFortementConnexes(int s) {
   //    std::cout << std::endl;
   return c;
 }
-std::vector<std::vector<int>> Graph::transpose() { //Get transpose of matrice and return it
+std::vector<std::vector<int>>
+Graph::transpose() { // Get transpose of matrice and return it
   std::vector<std::vector<int>> T;
   T.resize(m_vertices.size(),
            std::vector<int>(m_vertices.size(), 0)); // resize double vector
   for (int i = 0; i < m_vertices.size(); i++) {
     for (int j = 0; j < m_vertices.size(); j++) {
-      T[i][j] = adjacence[j][i]; //on inverse
-      //std::cout << T[i][j] << " ";
+      T[i][j] = adjacence[j][i]; // on inverse
+      // std::cout << T[i][j] << " ";
     }
-    //std::cout << std::endl;
+    // std::cout << std::endl;
   }
   return T;
 }
 
- void Graph::graphe_reduit()
- {
-    std::vector<std::vector<int>> tabc(toutesLesComposanteFortementConnexe()); // tab des composantes fortements connexes
-   // grman::init_popup();
-     int ordre =m_vertices.size();
-    std::vector<bool> marques(ordre,false);//tab de marquages
-    std::vector<std::vector<int>> groupes_fortements_connexes;
-    int lig=0;
-    for (int i = 0; i < ordre; i++) {
-      if (!marques.at(i)){
-         marques.at(i)=true;
-         lig++;
-         groupes_fortements_connexes.resize(lig);
-       for (int j = 0; j < ordre; j++) {
-          if (tabc[i][j]){
-          groupes_fortements_connexes[lig-1].push_back(j);
-          marques.at(j)=true;
-          }
-       }
-      }
-   }
-    //tst dans un fichier tst2
-    std::ofstream fichier(
-        "test2.txt", std::ios::out | std::ios::trunc); // ouverture en �criture
-                                                      // avec effacement du
-                                                      // fichier ouvert
-    if (fichier) {
-      for (int i = 0; i < groupes_fortements_connexes.size(); i++) {
-        for (int j = 0; j < groupes_fortements_connexes[i].size(); j++) {
-          fichier << groupes_fortements_connexes[i][j] << " ";
+void Graph::graphe_reduit() {
+  std::vector<std::vector<int>> tabc(
+      toutesLesComposanteFortementConnexe()); // tab des composantes fortements
+                                              // connexes
+                                              // grman::init_popup();
+  int ordre = m_vertices.size();
+  std::vector<bool> marques(ordre, false); // tab de marquages
+  std::vector<std::vector<int>> groupes_fortements_connexes;
+  int lig = 0;
+  for (int i = 0; i < ordre; i++) {
+    if (!marques.at(i)) {
+      marques.at(i) = true;
+      lig++;
+      groupes_fortements_connexes.resize(lig);
+      for (int j = 0; j < ordre; j++) {
+        if (tabc[i][j]) {
+          groupes_fortements_connexes[lig - 1].push_back(j);
+          marques.at(j) = true;
         }
-        fichier << std::endl;
       }
-      fichier.close();
-    } else
-      std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
+    }
+  }
+  // tst dans un fichier tst2
+  std::ofstream fichier(
+      "test2.txt", std::ios::out | std::ios::trunc); // ouverture en �criture
+                                                     // avec effacement du
+                                                     // fichier ouvert
+  if (fichier) {
+    for (int i = 0; i < groupes_fortements_connexes.size(); i++) {
+      for (int j = 0; j < groupes_fortements_connexes[i].size(); j++) {
+        fichier << groupes_fortements_connexes[i][j] << " ";
+      }
+      fichier << std::endl;
+    }
+    fichier.close();
+  } else
+    std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
+}
 
+void spring_model(std::vector<std::vector<int>>
+                      tabadjacence) { // matrice d'adjacence pour les aretes
+
+  int ordre = tabadjacence.size();
+  /// FORCE D4ATTRACTION ET REPULSION///
+  std::vector<std::vector<int>> netforce; // vector de force pour chaque sommet
+  netforce.resize(ordre,
+                  std::vector<int>(2, 0)); // resize avec 2 cases pour x et y
+
+  /// POS X ET Y DE CHAQUE SOMMETS///
+  std::vector<std::vector<int>> pos; // vector de positions pour chaque sommet
+  pos.resize(ordre, std::vector<int>(2, 0)); // resize avec 2 cases pour x et y
+                                             /// VELOCITE///
+  std::vector<std::vector<int>>
+      velocity; // vector de positions pour chaque sommet
+  velocity.resize(ordre,
+                  std::vector<int>(2, 0)); // resize avec 2 cases pour x et y
+
+  /// tableau de position en rand() pour chaque sommet (vertices)
+  /// A FAIRE!!!!
+  for (int i = 0; i < pos.size(); i++) {
+    for (int j = 0; j < pos[i].size(); j++) {
+      if (j == X)
+        pos[i][j] = rand() % (MAX_X - MIN_X) + MIN_X;
+      else
+        pos[i][j] = rand() % (MAX_Y - MIN_Y) + MIN_Y;
+    }
+  }
+
+  for (int iteration = 0; iteration < 5; iteration++) {
+
+    for (int i = 0; i < ordre; i++) { // loop dans les sommets
+      int v = i;                      //= au sommet en cours
+      int u;                          // un autre sommet
+      netforce[v][0] = 0;             // mise a 0 de x
+      netforce[v][1] = 0;             // mise a 0 de y
+      for (int j = 0; j < ordre; j++) // loop dans les autres sommets
+      {
+        if (i != j) {
+          u = j;
+          // squared distance entre "u" & "v"
+          // ((v.x-u.x)*(v.x-u.x)+(v.y-u.y)*(v.y-u.y))
+          int rsq = ((pos[v][X] - pos[u][X]) * (pos[v][X] - pos[u][X]) +
+                     (pos[v][Y] - pos[u][Y]) * (pos[v][Y] - pos[u][Y]));
+
+          // counting the repulsion between two vertices
+          net_force[v][X] += 200 * (pos[v][X] - pos[u][X]) /
+                             rsq; // 200 est une constante a changer si pas OK
+          net_force[v][Y] += 200 * (pos[v][Y] - pos[u][Y]) / rsq;
+        }
+      }
+
+      for (int j = 0; j < ordre; j++) // loop dans les arcs
+      {
+        if (tabadjacence[i][j]) {
+          u = j;
+          /// calcul de l'attraction
+          net_force[v][X] +=
+              0.06 * (pos[u][X] -
+                      pos[v][X]); // 0.06 est une constante a changer si pas OK
+          net_force[v][Y] += 0.06 * (pos[u][Y] - pos[v][Y]);
+        }
+      }
+      // calcul de velocite (avec amortissement de 0.85)
+      velocity[v][X] = (velocity[v][X] + net_force[v][X]) * 0.85;
+      velocity[v][Y] = (velocity[v][Y] + net_force[v][Y]) * 0.85;
+    }
+    for (int i = 0; i < ordre; i++) // actualisation des pos avec les nouvelles
+    {
+      v = i;
+      // if(v.isDragged){ v.x = mouseX; v.y = mouseY; }
+      // else { v.x += v.velocity.x; v.y += v.velocity.y; }
+      pos[v][X] += velocity[v][X];
+      pos[v][Y] += velocity[v][Y];
+    }
+  }
+  // drawing edges
+  // graphics.clear();
+  // graphics.lineStyle(3, 0x333333);
 }

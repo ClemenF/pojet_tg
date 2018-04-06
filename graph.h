@@ -328,6 +328,7 @@ class Graph
 
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
+        void spring_model();
 
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
