@@ -1,7 +1,7 @@
 #include "graph.h"
 #include <sstream>
 #include <string>
-
+#include <cmath>
 /***************************************************
             DEFINE FOR SPRING MODEL
 ****************************************************/
@@ -13,14 +13,15 @@
 #define X 0 // utile pour spring model
 #define Y 1 // ce sont les pos dans le vector
 
-#define MAX_X_POPUP 1000 //max x et y du popup
+#define MAX_X_POPUP 1000 // max x et y du popup
 #define MAX_Y_POPUP 700
-#define AMORTISSEMENT 0.75 //de base 0.85
-#define ATTRACTION 0.02 //de base 0.06
-#define REPULSION 300 //de base 200
+#define AMORTISSEMENT 0.75 // de base 0.85
+#define ATTRACTION 0.02    // de base 0.06
+#define REPULSION 300      // de base 200
 #define ITERATION 50
+#define RADIUS_FLECHE 6
 
-#define RADIUS_NODE 25 //rayon de sommets pour spring model
+#define RADIUS_NODE 25 // rayon de sommets pour spring model
 
 /***************************************************
                     VERTEX
@@ -132,13 +133,14 @@ void Edge::post_update() {
 /// Ici le constructeur se contente de pr�parer un cadre d'accueil des
 /// �l�ments qui seront ensuite ajout�s lors de la mise ne place du Graphe
 GraphInterface::GraphInterface( int x, int y, int w, int h ) {
-    m_top_box.set_dim( 1000, 740 ); //grand cadre 1024:720
-    m_top_box.set_gravity_xy( grman::GravityX::Right, grman::GravityY::Up ); //set gravity box
-    m_top_box.add_child( m_tool_box ); //ajout d'une view
-    m_tool_box.set_dim( 80, 720 ); //dim
+    m_top_box.set_dim( 1000, 740 ); // grand cadre 1024:720
+    m_top_box.set_gravity_xy( grman::GravityX::Right,
+                              grman::GravityY::Up ); // set gravity box
+    m_top_box.add_child( m_tool_box );             // ajout d'une view
+    m_tool_box.set_dim( 80, 720 );                 // dim
     m_tool_box.set_gravity_xy( grman::GravityX::Left, grman::GravityY::Up );
     m_tool_box.set_bg_color( BLANCBLEU );
-    m_top_box.add_child( m_main_box ); //ajout graph
+    m_top_box.add_child( m_main_box ); // ajout graph
     m_main_box.set_dim( 908, 720 );
     m_main_box.set_gravity_xy( grman::GravityX::Right, grman::GravityY::Up );
     m_main_box.set_bg_color( BLANCJAUNE );
@@ -311,6 +313,7 @@ void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2,
 
 // algo composantes connexes
 std::vector<std::vector<int>> Graph::toutesLesComposanteFortementConnexe() {
+    matrice_adjacent();//reactualise la matrice d'adjacence
     std::vector<std::vector<int>> tabc; // tab des composantes fortements connexes
     std::vector<int> marques;           // tab de marquages
     int x, y;                           // sommets intermediaires
@@ -474,11 +477,66 @@ void Graph::graphe_reduit() {
         fichier.close();
     } else
         std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-   spring_model( adjacence );
+    std::vector<std::vector<int>> adjacence_graphe_reduit = groupes_fortements_connexes_to_matrice( groupes_fortements_connexes ) ;
+    spring_model( adjacence_graphe_reduit );
 }
 
-void Graph::spring_model( std::vector<std::vector<int>>
-                   tabadjacence ) { // matrice d'adjacence pour les aretes
+std::vector<std::vector<int>> Graph::groupes_fortements_connexes_to_matrice(
+std::vector<std::vector<int>> groupes_fortements_connexes ) {
+    std::vector<std::vector<int>> IM;//matrice d'adjacence intermediaire
+    std::vector<std::vector<int>> M;//matrice d'adjacence
+    IM.resize( groupes_fortements_connexes.size(), std::vector<int>( adjacence.size(), 0 ) ); //lig: sommet graphe reduit, col:matrice d'adjacence de base
+    M.resize( groupes_fortements_connexes.size(), std::vector<int>( groupes_fortements_connexes.size(), 0 ) );
+    for ( int i = 0; i < groupes_fortements_connexes.size(); i++ ) {
+        for ( int j = 0; j < groupes_fortements_connexes[i].size(); j++ ) {
+            for ( int k = 0; k < adjacence.size(); k++ ) {
+                IM[i][k] = IM[i][k] | adjacence[groupes_fortements_connexes[i][j]][k];
+            }
+        }
+    }
+    for ( int i = 0; i < groupes_fortements_connexes.size(); i++ ) { //on cast la matrice intermediare de ses colonnes
+        for ( int j = 0; j < groupes_fortements_connexes[i].size(); j++ ) {
+            for ( int k = 0; k < IM.size(); k++ ) {
+                M[k][i] = M[k][i] | IM[k][groupes_fortements_connexes[i][j]];
+            }
+        }
+    }
+    for ( int i = 0; i < M.size(); i++ ) { //on enleve les aretes qui pointes sur le même sommet
+        for ( int j = 0; j < M.size(); j++ ) {
+            if ( i == j )
+                M[i][j] = 0;
+        }
+    }
+    // tst dans un fichier tst3
+    std::ofstream fichier(
+        "test3.txt", std::ios::out | std::ios::trunc ); // ouverture en �criture
+    // avec effacement du
+    // fichier ouvert
+    if ( fichier ) {
+        for ( int i = 0; i < IM.size(); i++ ) {
+            for ( int j = 0; j < IM[i].size(); j++ ) {
+                fichier << IM[i][j] << " ";
+            }
+            fichier << std::endl;
+        }
+        fichier << std::endl;
+        fichier << std::endl;
+        fichier << std::endl;
+        for ( int i = 0; i < M.size(); i++ ) {
+            for ( int j = 0; j < M[i].size(); j++ ) {
+                fichier << M[i][j] << " ";
+            }
+            fichier << std::endl;
+        }
+        fichier.close();
+    } else
+        std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
+    return M;
+}
+
+void Graph::spring_model(
+    std::vector<std::vector<int>>
+    tabadjacence ) { // matrice d'adjacence pour les aretes
     int ordre = tabadjacence.size();
     /// FORCE D4ATTRACTION ET REPULSION///
     std::vector<std::vector<int>> netforce; // vector de force pour chaque sommet
@@ -497,20 +555,20 @@ void Graph::spring_model( std::vector<std::vector<int>>
     for ( int i = 0; i < pos.size(); i++ ) {
         for ( int j = 0; j < pos[i].size(); j++ ) {
             if ( j == X )
-                //pos[i][j] = rand() % (MAX_X - MIN_X) + MIN_X;
+                // pos[i][j] = rand() % (MAX_X - MIN_X) + MIN_X;
                 pos[i][j] = rand() % ( MAX_X - MIN_X ) + MIN_X;
             else
-                //pos[i][j] = rand() % (MAX_Y - MIN_Y) + MIN_Y;
+                // pos[i][j] = rand() % (MAX_Y - MIN_Y) + MIN_Y;
                 pos[i][j] = rand() % ( MAX_Y - MIN_Y ) + MIN_Y;
         }
     }
     for ( int iteration = 0; iteration < ITERATION; iteration++ ) {
         int v;
         for ( int i = 0; i < ordre; i++ ) { // loop dans les sommets
-            v = i;                     //= au sommet en cours
-            int u;                          // un autre sommet
-            netforce[v][0] = 0;             // mise a 0 de x
-            netforce[v][1] = 0;             // mise a 0 de y
+            v = i;                            //= au sommet en cours
+            int u;                            // un autre sommet
+            netforce[v][0] = 0;               // mise a 0 de x
+            netforce[v][1] = 0;               // mise a 0 de y
             for ( int j = 0; j < ordre; j++ ) { // loop dans les autres sommets
                 if ( i != j ) {
                     u = j;
@@ -529,8 +587,9 @@ void Graph::spring_model( std::vector<std::vector<int>>
                     u = j;
                     /// calcul de l'attraction
                     netforce[v][X] +=
-                        ATTRACTION * ( pos[u][X] -
-                                 pos[v][X] ); // 0.06 est une constante a changer si pas OK
+                        ATTRACTION *
+                        ( pos[u][X] -
+                          pos[v][X] ); // 0.06 est une constante a changer si pas OK
                     netforce[v][Y] += ATTRACTION * ( pos[u][Y] - pos[v][Y] );
                 }
             }
@@ -538,31 +597,49 @@ void Graph::spring_model( std::vector<std::vector<int>>
             velocity[v][X] = ( velocity[v][X] + netforce[v][X] ) * AMORTISSEMENT;
             velocity[v][Y] = ( velocity[v][Y] + netforce[v][Y] ) * AMORTISSEMENT;
         }
-        for ( int i = 0; i < ordre; i++ ) { // actualisation des pos avec les nouvelles
+        for ( int i = 0; i < ordre;
+                i++ ) { // actualisation des pos avec les nouvelles
             v = i;
             // if(v.isDragged){ v.x = mouseX; v.y = mouseY; }
             // else { v.x += v.velocity.x; v.y += v.velocity.y; }
-            if(pos[v][X] < MAX_X_POPUP-RADIUS_NODE && pos[v][X] > 0+RADIUS_NODE)
-            pos[v][X] += velocity[v][X];
-            if(pos[v][Y] < MAX_Y_POPUP-RADIUS_NODE && pos[v][Y] > 0+RADIUS_NODE)
-            pos[v][Y] += velocity[v][Y];
+            if ( pos[v][X] < MAX_X_POPUP - RADIUS_NODE && pos[v][X] > 0 + RADIUS_NODE )
+                pos[v][X] += velocity[v][X];
+            if ( pos[v][Y] < MAX_Y_POPUP - RADIUS_NODE && pos[v][Y] > 0 + RADIUS_NODE )
+                pos[v][Y] += velocity[v][Y];
         }
     }
-    ///DRAWING GRAPH ON BITMAP
-    BITMAP* bmp_graphe = create_bitmap(1024, 700);
-    clear_to_color( bmp_graphe, makecol( 100, 100, 100 ) );
-    // drawing edges
-    for ( int i = 0; i < ordre; i++ ) {
-        for ( int j = 0; j < ordre; j++ ) {
-            if( tabadjacence[i][j] ) { //si il y a une arete alors..
-                line( bmp_graphe, pos[i][X], pos[i][Y], pos[j][X], pos[j][Y], makecol( 0, 200, 0 ) ); //on trace l'arete
-            }
-        }
-    }
-    //drawing nodes
-    for ( int i = 0; i < ordre; i++ ) {
-        circlefill( bmp_graphe, pos[i][X], pos[i][Y], RADIUS_NODE, makecol( 0, 0, 0 ) );
-        textprintf_centre_ex( bmp_graphe, font, pos[i][X], pos[i][Y], makecol( 255, 255, 255 ), 0, "%d", i );
-    }
-    grman::init_popup(bmp_graphe);
+    draw_graph_reduit_on_bmp(pos,tabadjacence);
+
+}
+void Graph::draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence)
+{
+   int ordre =pos.size();
+   /// DRAWING GRAPH ON BITMAP
+   BITMAP *bmp_graphe = create_bitmap( 1024, 700 );
+   clear_to_color( bmp_graphe, makecol( 100, 100, 100 ) );
+   // drawing edges
+   for ( int i = 0; i < ordre; i++ ) {
+      for ( int j = 0; j < ordre; j++ ) {
+           if ( tabadjacence[i][j] ) { // si il y a une arete alors..
+              // line( bmp_graphe, pos[i][X], pos[i][Y], pos[j][X], pos[j][Y],
+              //       makecol( 0, 200, 0 ) ); // on trace l'arete
+              grman::thick_line(bmp_graphe,pos[i][X], pos[i][Y], pos[j][X], pos[j][Y], 2,  makecol( 0, 200, 0 ));
+               /*float H = (( pos[j][X] - pos[i][X] ) ^2+( pos[j][Y] - pos[i][Y] ) ^2)^(1/2);
+               H=abs((int)H);
+               float O =  abs(pos[j][Y] - pos[i][Y]) ;
+               float teta = asin(O/H) * 180.0 / M_PI;
+               std::cout << " teta: "<<teta;
+
+               circlefill( bmp_graphe, pos[j][X]-RADIUS_NODE*cos(teta), pos[j][Y]-RADIUS_NODE*sin(teta), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
+*/
+           }
+      }
+   }
+   // drawing nodes
+   for ( int i = 0; i < ordre; i++ ) {
+      circlefill( bmp_graphe, pos[i][X], pos[i][Y], RADIUS_NODE, makecol( 0, 0, 0 ) );
+      textprintf_centre_ex( bmp_graphe, font, pos[i][X], pos[i][Y],
+                             makecol( 255, 255, 255 ), 0, "%d", i );
+   }
+   grman::init_popup( bmp_graphe );
 }

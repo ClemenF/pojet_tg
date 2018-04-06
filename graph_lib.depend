@@ -100,7 +100,7 @@
 	<iostream>
 	"graph.h"
 
-1523014317 c:\users\guill\documents\github\pojet_tg\graph.h
+1523028930 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
 	<memory>
@@ -108,8 +108,9 @@
 	<vector>
 	"grman/grman.h"
 
-1523014484 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523028219 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>
+	<cmath>
 

@@ -1,6 +1,7 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 
+
 /**************************************************************
     Ici sont proposées 3 classes fondamentales
             Vertex (=Sommet)
@@ -329,7 +330,8 @@ class Graph
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
         void spring_model(std::vector<std::vector<int>> tabadjacence); //recup un tab d'adjacence
-
+        std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice(std::vector<std::vector<int>> groupes_fortements_connexes );
+      void draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence);
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
 
