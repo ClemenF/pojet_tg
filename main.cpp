@@ -66,12 +66,11 @@ int menu ()
 int main()
 {
     /// A appeler en 1er avant d'instancier des objets graphiques etc...
-    grman::init();
-    //grman::init_popup();
 
+    //grman::init_popup();
+ grman::init();
     /// Le nom du r�pertoire o� se trouvent les images � charger
     grman::set_pictures_path("pics");
-
 
     int num_graphe = menu();
 

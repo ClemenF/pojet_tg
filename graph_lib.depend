@@ -55,12 +55,84 @@
 	<iostream>
 	"graph.h"
 
-1522836822 source:c:\users\guill\documents\github\pojet_tg\grman\coords.cpp
-	"coords.h"
+1523038904 D
 
-1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
+1523119398 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+	"graph.h"
+	<sstream>
+	<string>
 	<cmath>
 
+<<<<<<< HEAD
+1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
+=======
+1523119398 c:\users\guill\documents\github\pojet_tg\graph.h
+	<fstream>
+	<map>
+	<memory>
+	<string>
+	<vector>
+	"grman/grman.h"
+
+1523119398 c:\users\guill\documents\github\pojet_tg\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522836822 c:\users\guill\documents\github\pojet_tg\grman\grman_couleurs.h
+
+1522836822 source:c:\users\guill\documents\github\pojet_tg\grman\coords.cpp
+	"coords.h"
+	"coords.h"
+
+1523102805 a2edd16de5fcb4dac89c7aeb5902f903476e8
+>>>>>>> master
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+<<<<<<< HEAD
+1523119398 c:\users\guill\documents\github\pojet_tg\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522836822 c:\users\guill\documents\github\pojet_tg\grman\grman_couleurs.h
+=======
+1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
+	<cmath>
+>>>>>>> master
+
+1523119398 c:\users\guill\documents\github\pojet_tg\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+<<<<<<< HEAD
+1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
+	"widget.h"
+
+1523120258 source:c:\users\guill\documents\github\pojet_tg\main.cpp
+=======
 1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
 	<cmath>
 	<unordered_map>
@@ -75,31 +147,16 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1523119398 c:\users\guill\documents\github\pojet_tg\grman\grman.h
-	<allegro.h>
-	<string>
-	"grman_couleurs.h"
-	"coords.h"
-	"widget.h"
-
-1522836822 c:\users\guill\documents\github\pojet_tg\grman\grman_couleurs.h
-
-1523119398 c:\users\guill\documents\github\pojet_tg\grman\widget.h
-	"grman.h"
-	<iostream>
-	<string>
-	<vector>
-	<algorithm>
-	<allegro.h>
-
 1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
 	"widget.h"
 
-1523120258 source:c:\users\guill\documents\github\pojet_tg\main.cpp
+1523119593 source:c:\users\guill\documents\github\pojet_tg\main.cpp
+>>>>>>> master
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 
+<<<<<<< HEAD
 1523121010 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
@@ -114,3 +171,5 @@
 	<string>
 	<cmath>
 
+=======
+>>>>>>> master
