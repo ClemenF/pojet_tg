@@ -1,18 +1,17 @@
 ----- Fichier de sauvegarde du graphe 1 -----
 "indice","nom du sommet","valeure du sommet","posx","posy","image","rythme de croissance","population"
 6
-0 brochet 30 652 392 brochet.jpg 0.01 400
-1 carpe 60 638 90 carpe.jpg 0.01 300
-2 daphnie 50 346 66 daphnie.jpg 0.01 8000
-3 gardon 0 310 416 Gardon.jpg 0.01 250
+0 brochet 30 652 392 brochet.jpg 0.01 40
+1 carpe 60 638 90 carpe.jpg 0.01 70
+2 daphnie 50 346 66 daphnie.jpg 0.01 25
+3 gardon 0 310 416 Gardon.jpg 0.01 25
 4 heron 100 456 240 heron.jpg 0.01 230
-5 phytoplancton 0 128 68 phytoplancton.jpg 0.01 10000
-8
-0 5 2 10
-1 2 3 7
-2 2 1 5
-3 1 4 9
-4 3 4 4
-5 1 0 3
-6 3 0 2
-7 3 5 2
+5 phytoplancton 0 128 68 phytoplancton.jpg 0.01 5700
+7
+1 5 2 2
+2 2 3 7
+3 2 1 3
+4 1 4 9
+5 3 4 4
+6 1 0 3
+7 3 0 2
