@@ -331,7 +331,11 @@ void WidgetImage::draw()
 /***************************************************
                     BOX
 ****************************************************/
-
+//void WidgetBox::set_pos(int posx, int posy)
+//{
+//   m_frame.pos.x=posx;
+//    m_frame.pos.y=posy;
+//}
 void WidgetBox::interact_focus()
 {
     if (mouse_click)
