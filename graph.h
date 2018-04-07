@@ -339,6 +339,8 @@ class Graph
         int m_numero_graphe;                     // Num graph (0,1,2)
         std::vector<std::vector<int>> adjacence; // matrice d'adjacence
 
+        std::vector<std::vector<int>> groupes_fortements_connexes; //grp fortement connexe donc vect de vect, utile pour graphe reduit
+
 
     public:
         /// Les constructeurs sont à compléter selon vos besoin...

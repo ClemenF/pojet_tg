@@ -866,7 +866,8 @@ void Graph::graphe_reduit() {
     // grman::init_popup();
     int ordre = m_vertices.size();
     std::vector<bool> marques( ordre, false ); // tab de marquages
-    std::vector<std::vector<int>> groupes_fortements_connexes;
+    groupes_fortements_connexes.clear(); //reinit le vect
+
     int lig = 0;
     for ( int i = 0; i < ordre; i++ ) {
         if ( !marques.at( i ) ) {
@@ -1047,7 +1048,7 @@ void Graph::draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vect
 
                float O = pos[i][Y] - pos[j][Y]    ;
                float teta = asin(O/H);
-               std::cout << " teta: "<<teta;
+//               std::cout << " teta: "<<teta;
 
                circlefill( bmp_graphe, pos[j][X]+(RADIUS_FLECHE+RADIUS_NODE)*cos(teta), pos[j][Y]+(RADIUS_FLECHE+RADIUS_NODE)*sin(teta), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
 
@@ -1056,10 +1057,21 @@ void Graph::draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vect
       }
    }
    // drawing nodes
+   std::string str;//nom du sommet
+   str.clear();
    for ( int i = 0; i < ordre; i++ ) {
-      circlefill( bmp_graphe, pos[i][X], pos[i][Y], RADIUS_NODE, makecol( 0, 0, 0 ) );
+      str.clear();
+      for (int j = 0; j < groupes_fortements_connexes[i].size(); j++) {
+         str+= std::to_string(groupes_fortements_connexes[i][j]);
+         if(j< groupes_fortements_connexes[i].size()-1)
+         str+=",";
+
+      }
+std::cout << " str: "<<str;
+
+      circlefill( bmp_graphe, pos[i][X], pos[i][Y], RADIUS_NODE+2*str.size()-4, makecol( 0, 0, 0 ) );
       textprintf_centre_ex( bmp_graphe, font, pos[i][X], pos[i][Y],
-                             makecol( 255, 255, 255 ), 0, "%d", i );
+                             makecol( 255, 255, 255 ), 0, "%s", str.c_str() );
    }
    grman::init_popup( bmp_graphe );
 }
