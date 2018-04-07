@@ -295,7 +295,7 @@ class GraphInterface
         /// Les boutons de manipulation du graphe
         /// pour les sommets
         grman::WidgetText m_text_bt_ajouter_vertex;
-        grman::WidgetButton m_bt_ajouter_vertex();
+        grman::WidgetButton m_bt_ajouter_vertex;
         grman::WidgetText m_text_bt_supprimer_vertex;
         grman::WidgetButton m_bt_supprimer_vertex;
 
@@ -305,6 +305,13 @@ class GraphInterface
         grman::WidgetText m_text_bt_supprimer_edge;
         grman::WidgetButton m_bt_supprimer_edge;
 
+
+      ///POUR le rearragement des sommets
+       grman::WidgetText m_text_bt_reorganisation;
+        grman::WidgetButton m_bt_reorganisation;
+       ///algo forte connexité
+       grman::WidgetText m_text_bt_connexe;
+        grman::WidgetButton m_bt_connexe;
         //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
 
 
@@ -339,6 +346,8 @@ class Graph
         int m_numero_graphe;                     // Num graph (0,1,2)
         std::vector<std::vector<int>> adjacence; // matrice d'adjacence
 
+        std::vector<std::vector<int>> groupes_fortements_connexes; //grp fortement connexe donc vect de vect, utile pour graphe reduit
+
 
     public:
         /// Les constructeurs sont à compléter selon vos besoin...
@@ -367,9 +376,10 @@ class Graph
 
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
-        void spring_model(std::vector<std::vector<int>> tabadjacence); //recup un tab d'adjacence
+        void spring_model(std::vector<std::vector<int>> tabadjacence, bool draw= true); //recup un tab d'adjacence
         std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice(std::vector<std::vector<int>> groupes_fortements_connexes );
       void draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence);
+void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
 
@@ -392,12 +402,16 @@ class Graph
         void bouton_ajouter_edge();
         void bouton_supprimer_edge();
 
+        void bouton_reorganisation();
+
+       void bouton_forte_connexite();
+
         /// m�thode de la dynamique de population
         void dynamique_population();
         int calcul_K(int);
         int predation(int);
         void fctreproduction(int num_vertex_donne);
-        void miseajoutarete()
+        void miseajoutarete();
 
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
 

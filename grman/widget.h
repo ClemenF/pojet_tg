@@ -276,15 +276,21 @@ class WidgetButton : public Widget
 {
     protected :
         bool m_value = false;
+        bool m_clicked = false;
 
     public :
 
+        /*WidgetButton(double x1, double y1, double w1, double h1) :
+            Widget(x1, y1, w1, h1) {}
+        WidgetButton();*/
         virtual void interact_focus();
         virtual bool captures_focus() { return true; }
 
         bool clicked() { bool clk = m_value; m_value=false; return clk; }
         bool get_value() { return m_value; }
         void set_value(bool value) { m_value = value; }
+        bool get_clicked() { return m_clicked; }
+        void set_clicked() { m_clicked = !m_clicked; }
 };
 
 
@@ -356,6 +362,8 @@ class WidgetImage : public Widget
         void set_animate_tempo(int tempo) { m_animate_tempo = tempo; }
 
         void set_pic_idx(int pic_idx) { m_pic_idx=pic_idx; }
+
+        std::string get_pic_name() {return m_pic_name;}
 };
 
 
