@@ -911,7 +911,7 @@ void Graph::spring_model(
     std::vector<std::vector<int>>
     tabadjacence, bool draw ) {  // matrice d'adjacence pour les aretes
     int ordre = tabadjacence.size();
-    /// FORCE D4ATTRACTION ET REPULSION///
+    /// FORCE D'ATTRACTION ET REPULSION///
     std::vector<std::vector<int>> netforce; // vector de force pour chaque sommet
     netforce.resize( ordre,
                      std::vector<int>( 2, 0 ) ); // resize avec 2 cases pour x et y
@@ -1031,11 +1031,21 @@ void Graph::draw_graph_reduit_on_bmp( std::vector<std::vector<int>> pos, std::ve
                 // line( bmp_graphe, pos[i][X], pos[i][Y], pos[j][X], pos[j][Y],
                 //       makecol( 0, 200, 0 ) ); // on trace l'arete
                 grman::thick_line( bmp_graphe, pos[i][X], pos[i][Y], pos[j][X], pos[j][Y], 2,  makecol( 0, 200, 0 ) );
-                float H = sqrt( ( pos[j][X] - pos[i][X] ) * ( pos[j][X] - pos[i][X] ) + ( pos[i][Y] - pos[j][Y]  ) * ( pos[i][Y] - pos[j][Y] ) );
-                float O = pos[i][Y] - pos[j][Y]    ;
+                float H = sqrt( ( pos[j][X] - pos[i][X] ) * ( pos[j][X] - pos[i][X] ) + ( pos[j][Y] - pos[i][Y]  ) * ( pos[j][Y] - pos[i][Y] ) );
+                float O = pos[j][Y] - pos[i][Y]    ;
                 float teta = asin( O / H );
+               if (pos[i][X] < pos[j][X])
+                teta+=M_PI;
+                else
+               teta=-teta;
 //               std::cout << " teta: "<<teta;
-                circlefill( bmp_graphe, pos[j][X] + ( RADIUS_FLECHE + RADIUS_NODE )*cos( teta ), pos[j][Y] + ( RADIUS_FLECHE + RADIUS_NODE )*sin( teta ), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
+                circlefill( bmp_graphe, pos[j][X] + (RADIUS_NODE )*cos( teta ), pos[j][Y] + (RADIUS_NODE)*sin( teta ), RADIUS_FLECHE, makecol( 0, 200, 0 ) );
+               //float PHI=(teta+M_PI/4)*RADIUS_FLECHE;
+               //int x,y;
+               //x=pos[j][X] + (RADIUS_NODE)*cos( teta );
+               //y=pos[j][Y] + (RADIUS_NODE)*sin( teta );
+               //grman::thick_line( bmp_graphe, x , y ,pos[j][X] + (RADIUS_NODE+10 )*cos( teta ),pos[j][X] + (RADIUS_NODE )*cos( teta ), 2,  makecol( 0, 200, 0 ) );
+               //grman::thick_line( bmp_graphe, x, y, x+RADIUS_FLECHE*cos(teta-M_PI/2), y+RADIUS_FLECHE*sin(teta-M_PI/2), 2,  makecol( 0, 200, 0 ) );
             }
         }
     }
