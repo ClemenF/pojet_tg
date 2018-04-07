@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classgrman_1_1_widget.html" title="grman::Widget" alt="" coords="5,183,112,209"/>
+<area shape="rect" id="node2" href="$classgrman_1_1_widget_box.html" title="grman::WidgetBox" alt="" coords="178,5,309,32"/>
+<area shape="rect" id="node3" href="$classgrman_1_1_widget_button.html" title="grman::WidgetButton" alt="" coords="171,56,316,83"/>
+<area shape="rect" id="node4" href="$classgrman_1_1_widget_check_box.html" title="grman::WidgetCheckBox" alt="" coords="160,107,327,133"/>
+<area shape="rect" id="node5" href="$classgrman_1_1_widget_edge.html" title="grman::WidgetEdge" alt="" coords="175,157,312,184"/>
+<area shape="rect" id="node6" href="$classgrman_1_1_widget_image.html" title="grman::WidgetImage" alt="" coords="172,208,315,235"/>
+<area shape="rect" id="node7" href="$classgrman_1_1_widget_text.html" title="Extr�mement rudimentaire : � compl�ter ! " alt="" coords="177,259,309,285"/>
+<area shape="rect" id="node8" href="$classgrman_1_1_widget_timer.html" title="grman::WidgetTimer" alt="" coords="174,309,313,336"/>
+<area shape="rect" id="node9" href="$classgrman_1_1_widget_v_slider.html" title="grman::WidgetVSlider" alt="" coords="169,360,318,387"/>
+</map>
