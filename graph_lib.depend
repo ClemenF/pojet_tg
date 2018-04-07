@@ -61,7 +61,7 @@
 1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
 	<cmath>
 
-1523038904 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
+1523117675 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -92,7 +92,7 @@
 	<algorithm>
 	<allegro.h>
 
-1523100935 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
+1523102805 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
 	"widget.h"
 
 1523038904 source:c:\users\guill\documents\github\pojet_tg\main.cpp
@@ -100,7 +100,7 @@
 	<iostream>
 	"graph.h"
 
-1523102382 c:\users\guill\documents\github\pojet_tg\graph.h
+1523102805 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
 	<memory>
@@ -108,7 +108,7 @@
 	<vector>
 	"grman/grman.h"
 
-1523102504 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523102805 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>

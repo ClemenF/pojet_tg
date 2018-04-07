@@ -120,7 +120,7 @@ class VertexInterface
 
     private:
         /// Les widgets de l'interface. N'oubliez pas qu'il ne suffit pas de déclarer
-        /// ici un widget pour qu'il apparaisse, il faut aussi le mettre en place et
+        /// ici un widget pour qu'il apparaeisse, il faut aussi le mettre en place et
         /// le paramétrer ( voir l'implémentation du constructeur dans le .cpp )
 
         // La boite qui contient toute l'interface d'un sommet
@@ -145,7 +145,7 @@ class VertexInterface
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         VertexInterface( int idx, int x, int y, std::string pic_name = "",
-                         int pic_idx = 0 );
+                         int pic_idx = 0);
 };
 
 class Vertex
@@ -174,6 +174,8 @@ class Vertex
 
         /// variable pour algo dynamique de population :
         int m_N_t; // population � l'instant actuel
+        int m_N_t_1; // population � l'instant actuel
+
         float m_r; // rythme de croissance (valeur fixe)
         int m_K; // capacit� de portage ( = population maximum )
 
@@ -185,8 +187,8 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
 
-        Vertex (double value=0, float r=0, int Nt=0, VertexInterface *interface=nullptr, std::string name="") :
-            m_value(value), m_interface(interface), m_r(r), m_N_t(Nt), m_name(name) {  }
+        Vertex (double value=0, float r=0.01, int Nt=1,int Nt1=1, VertexInterface *interface=nullptr, std::string name="") :
+            m_value(value), m_interface(interface), m_r(r), m_N_t(Nt),m_N_t_1(Nt1), m_name(name) {  }
 
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui
@@ -299,19 +301,15 @@ class GraphInterface
         grman::WidgetText m_text_bt_supprimer_vertex;
         grman::WidgetButton m_bt_supprimer_vertex;
 
+        grman::WidgetButton m_bt_dynamique;
+        grman::WidgetText m_text_m_bt_dynamique;
+
         ///pour les arcs
         grman::WidgetText m_text_bt_ajouter_edge;
         grman::WidgetButton m_bt_ajouter_edge;
         grman::WidgetText m_text_bt_supprimer_edge;
         grman::WidgetButton m_bt_supprimer_edge;
 
-
-      ///POUR le rearragement des sommets
-       grman::WidgetText m_text_bt_reorganisation;
-        grman::WidgetButton m_bt_reorganisation;
-       ///algo forte connexité
-       grman::WidgetText m_text_bt_connexe;
-        grman::WidgetButton m_bt_connexe;
         //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
 
 
@@ -346,8 +344,6 @@ class Graph
         int m_numero_graphe;                     // Num graph (0,1,2)
         std::vector<std::vector<int>> adjacence; // matrice d'adjacence
 
-        std::vector<std::vector<int>> groupes_fortements_connexes; //grp fortement connexe donc vect de vect, utile pour graphe reduit
-
 
     public:
         /// Les constructeurs sont à compléter selon vos besoin...
@@ -376,10 +372,9 @@ class Graph
 
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
-        void spring_model(std::vector<std::vector<int>> tabadjacence, bool draw= true); //recup un tab d'adjacence
+        void spring_model(std::vector<std::vector<int>> tabadjacence); //recup un tab d'adjacence
         std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice(std::vector<std::vector<int>> groupes_fortements_connexes );
       void draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence);
-void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
 
@@ -401,10 +396,7 @@ void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
         void bouton_supprimer_vertex();
         void bouton_ajouter_edge();
         void bouton_supprimer_edge();
-
-        void bouton_reorganisation();
-
-       void bouton_forte_connexite();
+        void boutondynamiquedechainealimentaire();
 
         /// m�thode de la dynamique de population
         void dynamique_population();
