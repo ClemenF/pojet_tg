@@ -397,7 +397,7 @@ class Graph
         int calcul_K(int);
         int predation(int);
         void fctreproduction(int num_vertex_donne);
-        void miseajoutarete()
+        void miseajoutarete();
 
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
 
