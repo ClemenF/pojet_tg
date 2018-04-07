@@ -121,6 +121,7 @@ class VertexInterface
     private:
         /// Les widgets de l'interface. N'oubliez pas qu'il ne suffit pas de déclarer
         /// ici un widget pour qu'il apparaisse, il faut aussi le mettre en place et
+        /// ici un widget pour qu'il apparaeisse, il faut aussi le mettre en place et
         /// le paramétrer ( voir l'implémentation du constructeur dans le .cpp )
 
         // La boite qui contient toute l'interface d'un sommet
@@ -145,7 +146,6 @@ class VertexInterface
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         VertexInterface( int idx, int x, int y, std::string pic_name = "",
-                         int pic_idx = 0 );
 };
 
 class Vertex
@@ -174,6 +174,7 @@ class Vertex
 
         /// variable pour algo dynamique de population :
         int m_N_t; // population � l'instant actuel
+        int m_N_t_1; // population � l'instant actuel
         float m_r; // rythme de croissance (valeur fixe)
         int m_K; // capacit� de portage ( = population maximum )
 
@@ -185,8 +186,6 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
 
-        Vertex (double value=0, float r=0, int Nt=0, VertexInterface *interface=nullptr, std::string name="") :
-            m_value(value), m_interface(interface), m_r(r), m_N_t(Nt), m_name(name) {  }
 
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui
@@ -377,6 +376,7 @@ class Graph
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
         void spring_model(std::vector<std::vector<int>> tabadjacence, bool draw= true); //recup un tab d'adjacence
+        void spring_model(std::vector<std::vector<int>> tabadjacence); //recup un tab d'adjacence
         std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice(std::vector<std::vector<int>> groupes_fortements_connexes );
       void draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence);
 void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
