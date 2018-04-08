@@ -499,18 +499,21 @@ void Graph::remove_vertex( int index ) {
     Vertex &remve = m_vertices.at( index );
     std::cout << "Removing vertex " << index << std::endl;
     ///suppression des arcs arrivant dans le sommet index
-    for( auto &elem : remve.m_in ) {
-        std::cout << "arc arrivant dans " << index << " " << elem << std::endl;
+   for( auto &elem : remve.m_in ) {
+        std::cout << "arc arrivant dans " << index << " d'origine " << elem << std::endl;
         for( auto &elemedge : m_edges ) {
+           std::cout <<elemedge.first;
             ///test pour trouver l'index de l'arc qui va du sommet elem vers notre sommet index
             if( elemedge.second.m_from == elem && elemedge.second.m_to == index ) {
                 remove_edge( elemedge.first );
+                std::cout <<" OK1 ";
             }
         }
     }
+    std::cout <<" OK2 ";
     ///suppression des arcs partant du sommet index
     for( auto &elem : remve.m_out ) {
-        std::cout << "arc partant de " << index << " " << elem << std::endl;
+        std::cout << "arc partant de " << index << " vers " << elem << std::endl;
         for( auto &elemedge : m_edges ) {
             ///test pour trouver l'index de l'arc qui va de notre sommet index vers le sommet elem
             if( elemedge.second.m_from == index && elemedge.second.m_to == elem ) {
