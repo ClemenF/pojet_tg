@@ -322,7 +322,7 @@ void Graph::make_example() {
 
 /// La m�thode sauvegarde le graphe dans un fichier num�rot�
 void Graph::graphe_sauvegarde() {
-    std::string fichier = "sauvegarde.txt";
+    std::string fichier = "_sauvegarde.txt";
     fichier = std::to_string( m_numero_graphe ) + fichier;
     std::ofstream ofs( fichier.c_str(), std::ios::out );
     if( ofs ) {
@@ -488,7 +488,7 @@ void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, double wei
     m_edges[idx] = Edge( weight, ei );
     m_edges[idx].m_from = id_vert1;
     m_edges[idx].m_to = id_vert2;
-    m_vertices[id_vert1].m_out.push_back( id_vert2 );
+     m_vertices[id_vert1].m_out.push_back( id_vert2 );
     m_vertices[id_vert2].m_in.push_back( id_vert1 );
 }
 
@@ -497,12 +497,16 @@ void Graph::remove_vertex( int index ) {
     Vertex &remve = m_vertices.at( index );
     std::cout << "Removing vertex " << index << std::endl;
     ///suppression des arcs arrivant dans le sommet index
-    for( auto &elem : remve.m_in ) {
+
+    for( const auto &elem : remve.m_in ) {
         std::cout << "arc arrivant dans " << index << " " << elem << std::endl;
-        for( auto &elemedge : m_edges ) {
+        for(const auto &elemedge : m_edges ) {
             ///test pour trouver l'index de l'arc qui va du sommet elem vers notre sommet index
+             std::cout << elemedge.second.m_from << " = " << elem << " && "<<elemedge.second.m_to<<" = "<< index << std::endl;
             if( elemedge.second.m_from == elem && elemedge.second.m_to == index ) {
                 remove_edge( elemedge.first );
+                std::cout << "OK " <<elemedge.first<<std::endl;
+//                break;
             }
         }
     }
@@ -510,9 +514,12 @@ void Graph::remove_vertex( int index ) {
     for( auto &elem : remve.m_out ) {
         std::cout << "arc partant de " << index << " " << elem << std::endl;
         for( auto &elemedge : m_edges ) {
+            std::cout << elemedge.second.m_from << " = " << elem << " && "<<elemedge.second.m_to<<" = "<< index << std::endl;
             ///test pour trouver l'index de l'arc qui va de notre sommet index vers le sommet elem
             if( elemedge.second.m_from == index && elemedge.second.m_to == elem ) {
                 remove_edge( elemedge.first );
+//                break;
+        std::cout << "OK" <<std::endl;
             }
         }
     }
@@ -525,44 +532,51 @@ void Graph::remove_vertex( int index ) {
     /// suppression du sommet du vecteur vertice
     m_vertices.erase( index );
     m_ordre--;
+
 }
 
 /// effacer un arc
 /// eidx index of edge to remove
 void Graph::remove_edge( int eidx ) {
-    /// r�f�rence vers le Edge � enlever
-    Edge &remed = m_edges.at( eidx );
+   /// référence vers le Edge à enlever
+    Edge &remed=m_edges.at(eidx);
+
     std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
-    /// Tester la coh�rence : nombre d'arc entrants et sortants des sommets 1 et 2
-    //std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
-    //std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
-    //std::cout << m_edges.size() << std::endl;
-    /// test : on a bien des �l�ments interfac�s
-    if ( m_interface && remed.m_interface ) {
-        /// Ne pas oublier qu'on a fait �a � l'ajout de l'arc :
+
+    /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
+    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+    std::cout << m_edges.size() << std::endl;
+
+    /// test : on a bien des éléments interfacés
+    if (m_interface && remed.m_interface)
+    {
+        /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
         /* EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]); */
-        /* m_interface->m_main_box.add_child(ei->m_top_edge); */
+        /* m_interface->m_main_box.add_child(ei->m_top_edge);  */
         /* m_edges[idx] = Edge(weight, ei); */
-        /// Le new EdgeInterface ne n�cessite pas de delete car on a un shared_ptr
-        /// Le Edge ne n�cessite pas non plus de delete car on n'a pas fait de new (s�mantique par valeur)
+        /// Le new EdgeInterface ne nécessite pas de delete car on a un shared_ptr
+        /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
         /// mais il faut bien enlever le conteneur d'interface m_top_edge de l'arc de la main_box du graphe
         m_interface->m_main_box.remove_child( remed.m_interface->m_top_edge );
     }
-    /// Il reste encore � virer l'arc supprim� de la liste des entrants et sortants des 2 sommets to et from !
+
+        /// Il reste encore à virer l'arc supprimé de la liste des entrants et sortants des 2 sommets to et from !
     /// References sur les listes de edges des sommets from et to
     std::vector<int> &vefrom = m_vertices[remed.m_from].m_out;
     std::vector<int> &veto = m_vertices[remed.m_to].m_in;
-    vefrom.erase( std::remove( vefrom.begin(), vefrom.end(), eidx ), vefrom.end() );
-    veto.erase( std::remove( veto.begin(), veto.end(), eidx ), veto.end() );
-    /// Le Edge ne n�cessite pas non plus de delete car on n'a pas fait de new (s�mantique par valeur)
-    /// Il suffit donc de supprimer l'entr�e de la map pour supprimer � la fois l'Edge et le EdgeInterface
+
+    /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
+    /// Il suffit donc de supprimer l'entrée de la map pour supprimer à la fois l'Edge et le EdgeInterface
     /// mais malheureusement ceci n'enlevait pas automatiquement l'interface top_edge en tant que child de main_box !
     m_edges.erase( eidx );
+
     m_nb_arete--;
+    matrice_adjacent();
     /// Tester la coh�rence : nombre d'arc entrants et sortants des sommets 1 et 2
-    //std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
-    //std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
-    //std::cout << m_edges.size() << std::endl;
+//    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+//    std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+//    std::cout << m_edges.size() << std::endl;
 }
 
 void Graph::bouton_reorganisation() {
@@ -678,7 +692,7 @@ void Graph::bouton_supprimer_vertex() {
         int k = -2;
         bool toto = true;
         for( auto &elem : m_vertices ) {
-            std::cout << "Cles : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
+            std::cout << "N : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
         }
         while ( toto == true ) {
             std::cout << " Quelle sommet voulez-vous enlever " << std::endl;
