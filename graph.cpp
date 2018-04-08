@@ -664,6 +664,7 @@ void Graph::bouton_ajouter_vertex() {
             }
         }
         matrice_adjacent();
+        set_ordre(m_vertices.size());
     }
 }
 
@@ -713,6 +714,7 @@ void Graph::bouton_supprimer_vertex() {
             remove_vertex( num_sommet_a_enlever );
         }
         matrice_adjacent();
+        set_ordre(m_vertices.size());
     }
 }
 void Graph::bouton_ajouter_edge() {
