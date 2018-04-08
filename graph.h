@@ -316,8 +316,8 @@ class GraphInterface {
 
         grman::WidgetText m_text_k_connexe;
         grman::WidgetButton m_k_connexe;
-    
-    
+
+
         ///bouton onglet des graphs
         grman::WidgetText m_text_bt_onglet_graphe0;
         grman::WidgetButton m_bt_onglet_graphe0;
@@ -367,7 +367,7 @@ class Graph {
 
 
         void add_interfaced_vertex( int idx, double value, int x, int y, std::string pic_name = "", float r = 0, int Nt = 0, std::string name = "", int pic_idx = 0 );
-        void add_interfaced_edge( int idx, int vert1, int vert2, double weight = 0 );
+        void add_interfaced_edge( int idx, int id_vert1, int id_vert2, float weight );
 
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
@@ -395,7 +395,7 @@ class Graph {
         void graphe_sauvegarde();
 
         /// Méthode de chargement de graph d'un fichier texte
-        void graphe_chargement();
+       void  graphe_chargement(int type);
 
 
         /// M�thode pour effacer un sommet
@@ -421,7 +421,7 @@ class Graph {
         int predation( int );
         void fctreproduction( int num_vertex_donne );
         void miseajoutarete();
-    
+
         ///boutons changement onglet
         void bouton_onglet();
 
@@ -434,6 +434,8 @@ class Graph {
         void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
 
+
+        void set_ordre(int other){m_ordre=other;}
         void update();
 };
 

@@ -285,14 +285,14 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     y_bt = y_bt + m_k_connexe.get_dimy() + 10;
 
 //EditText
-    m_tool_box.add_child( m_edtx );
-    m_edtx.set_dim( 110, 22 );
-    m_edtx.set_gravity_xy( grman::GravityX::Left,grman::GravityY::Down );
-    m_edtx.set_posy( y_bt );
-    m_edtx.set_bg_color( NOIR );
-    m_edtx.set_message( "" );
-    y_bt = y_bt + m_edtx.get_dimy();
-           
+//    m_tool_box.add_child( m_edtx );
+//    m_edtx.set_dim( 110, 22 );
+//    m_edtx.set_gravity_xy( grman::GravityX::Left,grman::GravityY::Down );
+//    m_edtx.set_posy( y_bt );
+//    m_edtx.set_bg_color( NOIR );
+//    m_edtx.set_message( "" );
+//    y_bt = y_bt + m_edtx.get_dimy();
+
     ///BOUTON POUR ONGLET
     y_bt = 500;
     //txt
@@ -1644,7 +1644,7 @@ void Graph::bouton_onglet()
         m_ordre = 0;
         m_nb_arete = 0;
         m_Timer.set_jour(0);
-        graphe_chargement();
+        graphe_chargement(0);
         std::cout << " ok " << std::endl;
     }
 }

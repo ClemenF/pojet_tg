@@ -57,7 +57,7 @@
 
 1523119593 D
 
-1523211038 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523218523 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>
@@ -79,7 +79,7 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1523210714 c:\users\guill\documents\github\pojet_tg\graph.h
+1523218469 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
 	<memory>
@@ -125,7 +125,7 @@
 1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
 	<cmath>
 
-1523210715 c:\users\guill\documents\github\pojet_tg\grman\widget.h
+1523218160 c:\users\guill\documents\github\pojet_tg\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
