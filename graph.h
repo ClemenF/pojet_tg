@@ -317,6 +317,7 @@ class GraphInterface {
         grman::WidgetText m_text_k_connexe;
         grman::WidgetButton m_k_connexe;
         //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
+       grman::WidgetEditText m_edtx;
 
 
 

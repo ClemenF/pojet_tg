@@ -42,7 +42,7 @@ enum class GravityY {
 /// Par exemple une classe de base Widget pour l'aspect composite et une classe d�riv�e WidgetDecorated pour les styles
 class Widget
 {
-    protected :
+    protected:
         Widget *m_parent = nullptr;
         /// Naked pointers : Dangerous...
         std::vector<Widget *> m_children; // weak_ptr ?
@@ -212,13 +212,13 @@ class Widget
 /// Extr�mement rudimentaire : � compl�ter !
 class WidgetText : public Widget
 {
-    protected :
+    protected:
         std::string m_message;
         int m_color = NOIR;
         FONT *m_font = font;
         bool m_vertical = false;
 
-    public :
+    public:
         WidgetText(std::string message="") { m_border=m_padding=0; set_message(message); }
         virtual void draw();
 
@@ -227,6 +227,49 @@ class WidgetText : public Widget
         void set_vertical(bool vertical=true) { m_vertical=vertical; set_message(m_message); } /// BRICOLAGE ...
 };
 
+
+/***************************************************
+                    EDIT TEXT
+****************************************************/
+class WidgetEditText : public Widget
+{
+    protected:
+        std::string m_message;
+        int m_color = NOIR;
+        FONT *m_font = font;
+        bool m_vertical = false;
+        bool m_active = false;
+
+    public:
+        
+        WidgetEditText( std::string message = "" )
+        {
+            m_border = m_padding = 0;
+            set_message( message );
+        }
+        virtual void draw();
+
+        void set_message( std::string message = "" );
+        void edit_message();
+
+        std::string get_message()
+        {
+            return m_message;
+        }
+        void set_vertical( bool vertical = true )
+        {
+            m_vertical = vertical;    /// BRICOLAGE ...
+            set_message( m_message );
+        }
+        void set_active(bool active = true)
+        {
+            m_active=active;
+        }
+        bool get_active()
+        {
+            return m_active;
+        }
+};
 /***************************************************
                     TIMER
 ****************************************************/
@@ -255,10 +298,10 @@ class WidgetTimer : public Widget
 
 class WidgetCheckBox : public Widget
 {
-    protected :
+    protected:
         bool m_value = false;
 
-    public :
+    public:
 
         virtual void draw();
         virtual void interact_focus();
@@ -276,11 +319,11 @@ class WidgetCheckBox : public Widget
 
 class WidgetButton : public Widget
 {
-    protected :
+    protected:
         bool m_value = false;
         bool m_clicked = false;
 
-    public :
+    public:
 
         /*WidgetButton(double x1, double y1, double w1, double h1) :
             Widget(x1, y1, w1, h1) {}
@@ -303,7 +346,7 @@ class WidgetButton : public Widget
 
 class WidgetVSlider : public Widget
 {
-    protected :
+    protected:
         double m_value = 0;
         double m_min;
         double m_max;
@@ -319,7 +362,7 @@ class WidgetVSlider : public Widget
 
         int get_hhandle() { return std::max(1., m_handle_ratio * m_view->w/2); }
 
-    public :
+    public:
 
         WidgetVSlider(double min=0, double max=1, bool integer=false) :
             m_min(min), m_max(max), m_integer(integer)
@@ -346,14 +389,14 @@ class WidgetVSlider : public Widget
 
 class WidgetImage : public Widget
 {
-    protected :
+    protected:
         std::string m_pic_name;
         int m_pic_idx = 0;
         bool m_animate = false;
         int m_animate_cpt_tempo = 0;
         int m_animate_tempo = 10;
 
-    public :
+    public:
         WidgetImage(std::string pic_name="") : m_pic_name(pic_name) { m_margin=m_border=m_padding=0; reframe(); }
         virtual void draw();
 
@@ -376,7 +419,7 @@ class WidgetImage : public Widget
 
 class WidgetBox : public Widget
 {
-    protected :
+    protected:
         // La WidgetBox a une position modifiable par drag & drop
         bool m_moveable = false;
 
@@ -387,7 +430,7 @@ class WidgetBox : public Widget
         Coords m_pos_start_move;
 
 
-    public :
+    public:
 
         virtual void interact_focus();
         virtual bool captures_focus() { return true; }
