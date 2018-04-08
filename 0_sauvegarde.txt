@@ -1,30 +1,21 @@
 ----- Fichier de sauvegarde du graphe 0 -----
-"indice","nom du sommet","valeure du sommet","posx","posy","image"
-10
-0 30 200 100 clown1.jpg 99
-1 60 400 100 clown2.jpg 99
-2 50 200 300 clown3.jpg 99
-3 0 400 300 clown4.jpg 99
-4 100 600 300 clown5.jpg 99
-5 0 100 500 bad_clowns_xx3xx.jpg 0
-6 30 200 100 clown1.jpg 99
-7 60 400 100 clown2.jpg 99
-8 50 200 300 clown3.jpg 99
-9 0 400 300 clown4.jpg 99
-16
-0 0 1 50
-1 1 2 50
-2 3 1 75
-3 2 3 25
-4 2 7 25
-5 2 8 25
-6 4 5 0
-7 0 4 0
-8 0 3 50
-9 5 4 50
-10 5 7 75
-11 6 7 25
-12 7 9 25
-13 6 9 25
-14 9 8 0
-15 8 6 0
+"indice","nom du sommet","valeure du sommet","posx","posy","image","rythme de croissance","population"
+8
+0 hibou 30 192 50 hibou.png 0.01 3
+1 serpent 60 449 122 serpent.png 0.01 3
+2 lapin 50 22 310 lapin.jpg 0.01 3
+3 souris 0 187 309 souris.png 0.01 3
+4 grenouille 100 572 307 grenouille.png 0.01 3
+5 sauterelle 0 386 308 sauterelle.png 0.01 3
+6 carottes 30 86 521 carottes.jpg 0.01 3
+7 plantes 60 398 481 plantes.jpg 0.01 3 
+9
+0 1 0 50
+1 2 0 50
+2 3 0 75
+3 4 1 25
+4 5 4 25
+5 7 5 25
+6 7 3 0
+7 6 2 0
+8 6 3 50
