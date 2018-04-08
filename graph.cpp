@@ -3,6 +3,8 @@
 #include <string>
 #include <cmath>
 #include <math.h>
+#include <iomanip>
+
 
 /* maximum number of bytes a single (Unicode) character can have */
 #define MAX_BYTES_PER_CHAR 4
@@ -302,13 +304,13 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
     // La ligne pr�c�dente est en gros �quivalente � :
-=======
+
 /// Bien s�r on ne veut pas que vos graphes soient construits
 /// "� la main" dans le code comme �a.
 void Graph::make_example() {
     m_interface = std::make_shared<GraphInterface>( 50, 0, 750, 600 );
     // La ligne pr�c�dente est en gros �quivalente � :
->>>>>>> develop
+
     // m_interface = new GraphInterface(50, 0, 750, 600);
     /// Les sommets doivent �tre d�finis avant les arcs
     // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image
@@ -323,7 +325,7 @@ void Graph::make_example() {
     add_interfaced_vertex( 7, 0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2 );
     /// Les arcs doivent �tre d�finis entre des sommets qui existent !
     // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-<<<<<<< HEAD
+
     add_interfaced_edge(0, 1, 2, 50.0);
     add_interfaced_edge(1, 0, 1, 50.0);
     add_interfaced_edge(2, 1, 3, 75.0);
@@ -408,7 +410,7 @@ void Graph::graphe_chargement() {
         ifs >> num_arete;
         for ( int i = 0; i < num_arete; i++ ) {
             int indice, som1, som2;
-            double poids;
+            float poids;
             ifs >> indice >> som1 >> som2 >> poids;
             add_interfaced_edge( indice, som1, som2, poids );
             // std::cout << " arete numero " << indice << " : ok!" << std::endl;
@@ -454,14 +456,8 @@ void Graph::update() {
     bouton_forte_connexite();
     bouton_k_connexite_k_plet();
     m_Timer.draw();
-    /*if ( keypressed() ) {
-        std::cout << readkey() << std::endl;
-       // graphe_reduit();
-    }
-    if ( grman::key_press[KEY_RIGHT] )
-        std::cout << " touche appuye " << std::endl;
-    if ( grman::key_unpress[KEY_RIGHT] )
-        std::cout << " touche relache " << std::endl;*/
+
+
     for ( auto &elt : m_vertices )
         elt.second.post_update();
     for ( auto &elt : m_edges )
@@ -485,7 +481,7 @@ void Graph::add_interfaced_vertex( int idx, double value, int x, int y, std::str
 }
 
 /// Aide � l'ajout d'arcs interfac�s
-void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, double weight ) {
+void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, float weight ) {
     m_nb_arete++;
     if ( m_edges.find( idx ) != m_edges.end() ) {
         std::cerr << "Error adding edge at idx=" << idx << " already used..." << std::endl;
@@ -527,6 +523,7 @@ void Graph::remove_vertex( int index ) {
         }
     }
     ///suppression des arcs partant du sommet index
+
     for( auto &elem : remve.m_out ) {
         std::cout << "arc partant de " << index << " " << elem << std::endl;
         for( auto &elemedge : m_edges ) {
@@ -536,6 +533,7 @@ void Graph::remove_vertex( int index ) {
                 remove_edge( elemedge.first );
 //                break;
         std::cout << "OK" <<std::endl;
+
             }
         }
     }
@@ -640,7 +638,6 @@ void Graph::bouton_ajouter_vertex() {
     if( m_interface->m_bt_ajouter_vertex.clicked() ) {
         char fichier[100];
         char nomdusommet[100];
-       // std::string str;
         bool onpasse = false;
         int k = -1;
         BITMAP *iceberg;
@@ -664,6 +661,7 @@ void Graph::bouton_ajouter_vertex() {
         } while( it != m_vertices.end() );
         if ( it == m_vertices.end() ) {
             std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
+
             //std::cin >> nomdusommet;
             BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
              blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
@@ -677,6 +675,7 @@ void Graph::bouton_ajouter_vertex() {
             //nomdusommet = m_interface->m_edtx.get_message().c_str();
             strcpy ( nomdusommet, the_string ); //on donne le nom du sommet
             strcpy ( fichier, the_string ); //on donne le nom du sommet
+
             strcat( fichier, ".jpg" ); //on ajoute l'extension jpg
             image = grman::get_picture( fichier );
             if ( !image ) {
@@ -740,27 +739,12 @@ void Graph::bouton_supprimer_vertex() {
                 std::cout << "  Veuillez selectionner une clés valide" << std::endl;
             }
         }
-        while ( k < 0 ) {
-            clear_bitmap( buffer );
-            blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-            if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
-                k = 2;
-            }
-            if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>25 & mouse_y < 130 ) {
-                k = 4;
-            }
-            /*if(mouse_b)
-            {
-                std::cout << "mouse_x" << mouse_x << std::endl;
-                std::cout << "mouse_y" << mouse_y << std::endl;
-            }       */
-            textprintf_ex( buffer, font, 465, 47, makecol( 0, 0, 0 ), -1, " %d", num_sommet_a_enlever );
-            blit( buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-        }
         // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
-        if( k == 2 ) {
+        //if( k == 2 ) {
             remove_vertex( num_sommet_a_enlever );
+
         }
+
         matrice_adjacent();
         set_ordre(m_vertices.size());
     }
@@ -782,6 +766,7 @@ void Graph::bouton_ajouter_edge() {
         } while( it != m_edges.end() && indice < m_edges.size()+1);
         it = m_edges.find( indice );
         std::cout << " Arete partant de : " << std::endl;
+
         //std::cin >> depart;
         BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
          blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
@@ -806,6 +791,7 @@ void Graph::bouton_ajouter_edge() {
       grman::init_EditText(buf,the_text2);
         poid=atoi (the_string);
         //strcpy ( poid, the_string ); //on recup la str
+
         // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
             add_interfaced_edge( indice, depart, arriver, poid );
             matrice_adjacent();
@@ -815,6 +801,7 @@ void Graph::bouton_ajouter_edge() {
 
 void Graph::boutondynamiquedechainealimentaire() {
     if( m_interface->m_bt_dynamique.clicked() ) {
+        m_Timer.set_jour_1();
         dynamique_population();
         // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
     }
@@ -853,6 +840,24 @@ void Graph::bouton_supprimer_edge() {
 }
 
 /// m�thode de la dynamique de population
+
+void Graph::dynamique_reinitialiser()
+{
+    if(m_interface->m_bt_reinitialiser.clicked())
+    {
+        std::cout << " reinitialisation " << std::endl;
+        m_vertices.clear();
+        m_edges.clear();
+        m_ordre = 0;
+        m_nb_arete = 0;
+        m_Timer.set_jour(0);
+
+        graphe_chargement();
+        std::cout << " ok " << std::endl;
+    }
+}
+
+
 void Graph::dynamique_population() {
     // ajouter un bouton pour passer au tour de jeu suivant
     int k = 0;
@@ -861,7 +866,8 @@ void Graph::dynamique_population() {
         fctreproduction( elem.first );
         k = calcul_K( elem.first );
         elem.second.m_K = k;
-        elem.second.m_N_t = elem.second.m_N_t_1;
+        std::cout << "pop : " << elem.second.m_K << std::endl;
+        //elem.second.m_N_t = elem.second.m_N_t_1;
         if( k == 0 ) {
             k = 1;
         }
@@ -879,7 +885,7 @@ void Graph::dynamique_population() {
         //if(at - elem.second.m_N_t <elem.second.m_N_t/1.5)
         //{
         //  at = elem.second.m_N_t/1.3;
-        std::cout << "at = " << at << std::endl;
+        std::cout << "at = " << elem.second.m_N_t << " + " << elem.second.m_r << " * " << elem.second.m_N_t << " * " << w << " + " << preda << " = " << at << std::endl;
         //}
         int somme = 0;
         for ( int i = 0; i < elem.second.m_in.size(); i++ ) {
@@ -889,9 +895,9 @@ void Graph::dynamique_population() {
             std::cout << "sommet : " << elem.first << " somme = " << somme << std::endl;
         }
         elem.second.m_N_t_1 = at;
-        if( somme == 0 ) {
+        /*if( somme == 0 ) {
             elem.second.m_N_t_1 = 0;
-        }
+        }*/
         if( elem.second.m_N_t_1 < 0 ) {
             elem.second.m_N_t_1 = 0;
         }
@@ -975,8 +981,8 @@ void Graph::miseajoutarete() {
         std::cout << "arete : " << elem.first << " + poid : " << elem.second.m_weight << std::endl;
         elem.second.m_weight = a / 4;
         std::cout << "arete : " << elem.first << " + poid : " << elem.second.m_weight << std::endl << std::endl;
-        if ( elem.second.m_weight < 0 ) {
-            elem.second.m_weight = 1;
+        if ( elem.second.m_weight <= 0 ) {
+            elem.second.m_weight = 0.01;
         }
     }
 }

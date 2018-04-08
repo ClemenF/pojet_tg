@@ -278,16 +278,18 @@ class WidgetTimer : public Widget
 {
     protected:
         bool m_value = false;
-        int m_temps,m_seconde,m_minute;
+        int m_jour;
 
     public:
 
-        WidgetTimer(): m_temps(0), m_seconde(0), m_minute(0) {}
+        WidgetTimer(): m_jour(0) {}
         virtual void draw();
         virtual void interact_focus();
 
         bool get_value() { return m_value; }
         void set_value(bool value) { m_value = value; }
+        void set_jour_1() { m_jour += 1; }
+        void set_jour(int jour) { m_jour = jour; }
 };
 
 /***************************************************

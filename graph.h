@@ -244,7 +244,7 @@ class Edge {
         int m_to;
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
-        double m_weight;
+        float m_weight;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
@@ -256,7 +256,7 @@ class Edge {
     public:
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Edge( double weight = 0, EdgeInterface *interface = nullptr )
+        Edge( float weight = 0, EdgeInterface *interface = nullptr )
             : m_weight( weight ), m_interface( interface ) {}
 
         /// Edge étant géré par Graph ce sera la méthode update de graph qui appellera
@@ -362,7 +362,7 @@ class Graph {
 
 
         void add_interfaced_vertex( int idx, double value, int x, int y, std::string pic_name = "", float r = 0, int Nt = 0, std::string name = "", int pic_idx = 0 );
-        void add_interfaced_edge( int idx, int vert1, int vert2, double weight = 0 );
+        void add_interfaced_edge( int idx, int vert1, int vert2, float weight = 0 );
 
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)

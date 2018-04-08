@@ -286,21 +286,8 @@ void WidgetTimer::interact_focus()
 
 void WidgetTimer::draw()
 {
-    if(clock()-m_temps>=1000)
-    {
-        m_seconde++;
-        if(m_seconde>=60)
-        {
-            m_minute++;
-            m_seconde=0;
-        }
-        m_temps=clock();
-    }
-
-
-
     rect(page,page->w/2-25,5,page->w/2+25,25,makecol(200,0,0));
-    textprintf_centre_ex(page,font,page->w/2,15,ROUGESOMBRE,-1,"%d : %d",m_minute,m_seconde);
+    textprintf_centre_ex(page,font,page->w/2,15,ROUGESOMBRE,-1," jour %d",m_jour);
 }
 
 
