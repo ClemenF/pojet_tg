@@ -605,24 +605,35 @@ void Graph::bouton_k_connexite_k_plet() {
     int compte = 0;
     if( m_interface->m_k_connexe.clicked() ) {
         std::cout << "K_Connexité " << std::endl;
-        std::vector<std::vector<int>> a = kplet( compte );
-        while ( toto == true ) {
-            std::cout << "Quel couple de solution voulez vous afficher : " << std::endl;
-            std::cin >> i;
-            if( i < compte - 1 ) {
-                for( auto &elem : m_vertices ) {
-                    elem.second.m_interface->m_top_box.set_bg_color( BLANCBLEU );
+        if(m_vertices.size()<13)
+        {
+            std::vector<std::vector<int>> a = kplet( compte );
+            std::cout <<  "compte : "<<compte << std::endl;
+            if(compte>0)
+            {
+                while ( toto == true ) {
+                    std::cout << "Quel couple de solution voulez vous afficher : " << std::endl;
+                    std::cin >> i;
+                    if( i <= compte - 1 & i>=0) {
+                        for( auto &elem : m_vertices ) {
+                            elem.second.m_interface->m_top_box.set_bg_color( BLANCBLEU );
+                        }
+                        toto = false;
+                        for( auto &elem : a[i] ) {
+                            std::map<int, Vertex>::iterator it;
+                            it = m_vertices.find( elem );
+                            it->second.m_interface->m_top_box.set_bg_color( ROSE );
+                        }
+                    } else {
+                        std::cout << "Veuillez selectionner une clés valide" << std::endl;
+                    }
                 }
-                toto = false;
-                for( auto &elem : a[i] ) {
-                    std::map<int, Vertex>::iterator it;
-                    it = m_vertices.find( elem );
-                    it->second.m_interface->m_top_box.set_bg_color( ROSE );
-                }
-            } else {
-                std::cout << "Veuillez selectionner une clés valide" << std::endl;
             }
         }
+        else {
+            std::cout << "A partir du nombre de sommet strictement superieur a 13. Depassement de memoire, perte de precision, ceci est du au calcul du factoriel " << std::endl;
+        }
+
     }
 }
 
@@ -748,7 +759,7 @@ void Graph::bouton_supprimer_vertex() {
         matrice_adjacent();
         set_ordre(m_vertices.size());
     }
-}
+//}
 void Graph::bouton_ajouter_edge() {
     if( m_interface->m_bt_ajouter_edge.clicked() ) {
         int depart = 0;
@@ -1400,6 +1411,7 @@ void Graph::go( int offset, int k, std::vector<int> mes_sommets, std::vector<int
 std::vector<std::vector<int>> Graph::kplet( int &compte ) {
     int kmin = -1;
     std::map<int, bool> marquage;
+    std::string ahah;
     std::vector<std::vector<int>> resultat_numsommet;
     std::vector<std::vector<int>> vectordepossibiliteksommet;
     std::vector <int> cles_int_sommet;
@@ -1408,13 +1420,23 @@ std::vector<std::vector<int>> Graph::kplet( int &compte ) {
     for ( auto &elem : m_vertices ) { // Remplissage cles_int_sommet
         cles_int_sommet.push_back( elem.first );
     }
-    for ( int k = 2; k < m_vertices.size(); k++ ) {
+    for ( int k = 1; k < m_vertices.size(); k++ ) {
         vectordepossibiliteksommet.clear(); //On vide les possibilité
         combination.clear();
         // Creation des possibilité avec k sommet
+        //std::cout << "Max_double : " << std::numeric_limits<double>::max() << std::endl;
         int bin = 0;
-        bin = fact( m_vertices.size() ) / ( fact( k ) * fact( m_vertices.size() - k ) ); // On calcule le nombre de possibilité
-        std::cout << "Nombre de possibilité de sommet : " << bin << std::endl;
+        //std::cout << "m_vertices.size() : " <<m_vertices.size();
+        int facile = m_vertices.size() - k;
+        //std::cout << "facile : " << facile << std::endl;
+        int part_dem = fact(  facile);
+        //std::cout << "part_dem : " << part_dem <<std::endl;
+        int alt =  fact( k ) * part_dem;
+        //std::cout << "alt = " << alt << std::endl;
+        int galere = fact( m_vertices.size() );
+        //std::cout << "galere : " << galere <<std::endl;
+        bin = galere / alt ; // On calcule le nombre de possibilité
+        //std::cout << "Nombre de possibilité de sommet : " << bin << std::endl;
         vectordepossibiliteksommet.resize( bin );
         int a = 0;
         go( 0, k, cles_int_sommet, combination, vectordepossibiliteksommet, a ); // Remplissage vectorpossibilite sommet de taille bin * k
@@ -1429,13 +1451,16 @@ std::vector<std::vector<int>> Graph::kplet( int &compte ) {
             for ( auto &elem : m_vertices ) { // Mettre a false tous les sommets
                 marquage[elem.first] = false;
             }
-            for ( auto &elem : vectordepossibiliteksommet[x] ) {
+            for ( auto &elem : vectordepossibiliteksommet[x] ) { // On met a true les couple tester
                 std::map<int, bool>::iterator it;
                 it = marquage.find( elem );
-                if ( it != marquage.end() ) { // On met a "true" chaque couple
+                if ( it != marquage.end() ) {
                     it->second = true;
-                    //std::cout << it->first << ". on passe ici" << std::endl;
                 }
+                /*for (auto &elem : marquage)
+                {
+                    std::cout << "elem.first : " << elem.first << std::endl;
+                }*/
             }
             //std::cout << "FIN" << std::endl;
             if( k > 0 ) {
@@ -1453,6 +1478,7 @@ std::vector<std::vector<int>> Graph::kplet( int &compte ) {
                 }
             }
             std::cout << std::endl;
+           // std::cin >> ahah;
         }
         if ( kmin != -1 ) { // Si on a trouver un kmin alors on sort de la boucle
             k = m_vertices.size() + 1;
@@ -1460,7 +1486,14 @@ std::vector<std::vector<int>> Graph::kplet( int &compte ) {
             std::cout << std::endl;
         }
     }
-    std::cout << "------ SOLUTION ------" << std::endl << std::endl;
+    if(compte==0)
+    {
+        std::cout << "Pas de solution " << std::endl;
+    }
+    else {
+        std::cout << "------ SOLUTION ------" << std::endl << std::endl;
+        std::cout << "Le graphe est donc k-connexe avec k = " << kmin << " ,Il existe " << compte << " couple(s) solution(s)" << std::endl;
+    }
     for ( int i = 0; i < compte; i++ ) {
         std::cout << "Couple " << i << " de sommet a enlever afin de deconnecter le graphe : " << std::endl;
         for ( int j = 0; j < resultat_numsommet[i].size(); j++ ) {
@@ -1480,33 +1513,52 @@ bool Graph::connexite( std::map<int, bool> marquage, int compte ) {
     std::vector<int> couple;
     for ( auto &elem : marquage ) { // On met la cles de tous les sommets ne faisant pas parti du couple dans un tableau
         if ( elem.second == false ) {
-            numero_newgraphe.push_back( elem.first );
+            numero_newgraphe.push_back( elem.first ); // on rempli un vect avec tous les sommets presents NON MARQUé
         } else if ( elem.second == true ) {
-            couple.push_back( elem.first );
+            couple.push_back( elem.first ); //  On rempli un vecteur avec le couple en question
             std::cout << "on enleve : " << elem.first << std::endl;
         }
     }   // On a maintenant deux tableaux remplis "numero_newgraphe" -> Avec les sommets toujours present
     // et "couple" -> le couple qu'on enleve
     quelsommetestrelier.clear();
     quelsommetestrelier.resize( couple.size() );
+
+
     for( auto &elem : m_edges ) {
         for( int i = 0; i < couple.size(); i++ ) {
+            bool col=false;
             if ( elem.second.m_to == couple[i] || elem.second.m_from == couple[i] ) {
-            } else {
-                quelsommetestrelier[i].push_back( elem.second.m_from );
-                quelsommetestrelier[i].push_back( elem.second.m_to );
+
+            }
+            else
+            {
+                for( int j = 0; j < couple.size(); j++ ) {
+                    if ( elem.second.m_to == couple[j] || elem.second.m_from == couple[j] ) {
+
+                        col=true;
+                        j=couple.size()+1;
+                    }
+                }
+                if(col == false)
+                {
+                    quelsommetestrelier[i].push_back( elem.second.m_from );
+                    quelsommetestrelier[i].push_back( elem.second.m_to );
+                }
+
             }
         }
     }
     // std::cout << "quelsommetestrelier" << std::endl;
     for ( int i = 0; i < couple.size(); i++ ) {
         for ( auto &elem : quelsommetestrelier[i] ) {
-            //   std::cout << " "<< elem << " ";
+               std::cout << " "<< elem << " ";
         }
         std::cout << std::endl;
     }
     //Tableau a fusionner et prendre que les nombres presents dans tous les tabeaux
 //std::cout << " Nombre de tableau : "<< quelsommetestrelier.size() << std::endl;
+    std::cout << std::endl;
+
     for ( auto &elem : m_vertices ) {
         int compteur = 0;
         for ( int a = 0; a < quelsommetestrelier.size(); a++ ) {
@@ -1519,10 +1571,12 @@ bool Graph::connexite( std::map<int, bool> marquage, int compte ) {
         }
         if( compteur == couple.size() ) {
             sommetrestant.push_back( elem.first );
+            //std::cout << " "<< elem.first << " ";
+
         }
     }
     std::cout << std::endl;
-    if ( couple.size() != sommetrestant.size() ) {
+    if ( couple.size() != sommetrestant.size()) {
         if( m_vertices.size() - couple.size() > sommetrestant.size() ) {
             connexe = false;
             std::cout << "Ceci sont les composantes connexe quaud on prend le couple de sommet en question" << std::endl;
