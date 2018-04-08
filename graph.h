@@ -424,7 +424,7 @@ class Graph {
         int fact( int );
         void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
-
+void set_ordre(int other){m_ordre=other;}
         void update();
 };
 
