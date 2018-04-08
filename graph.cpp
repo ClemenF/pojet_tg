@@ -569,6 +569,7 @@ void Graph::remove_edge( int eidx ) {
 
 void Graph::bouton_reorganisation() {
     if( m_interface->m_bt_reorganisation.clicked() ) {
+      matrice_adjacent();
         spring_model( adjacence, false ); //on envoie la matrice du Graphe et false pour dire de ne pas dessiner
     }
 }
@@ -601,6 +602,7 @@ void Graph::bouton_k_connexite_k_plet() {
 
 void Graph::bouton_forte_connexite() {
     if( m_interface->m_bt_connexe.clicked() ) {
+matrice_adjacent();
         graphe_reduit();//on lance l'algo du graphe réduit
     }
 }
@@ -628,9 +630,9 @@ void Graph::bouton_ajouter_vertex() {
         }
         std::map<int, Vertex>::iterator it;
         do {
-           indice++;
+            indice++;
             it = m_vertices.find( indice );
-        } while( it != m_vertices.end());
+        } while( it != m_vertices.end() );
         if ( it == m_vertices.end() ) {
             std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
             std::cin >> nomdusommet;
@@ -661,6 +663,7 @@ void Graph::bouton_ajouter_vertex() {
                 add_interfaced_vertex( indice, 10, 30, 30, fichier, 0.01, 20, nomdusommet );
             }
         }
+        matrice_adjacent();
     }
 }
 
@@ -709,43 +712,38 @@ void Graph::bouton_supprimer_vertex() {
         if( k == 2 ) {
             remove_vertex( num_sommet_a_enlever );
         }
+        matrice_adjacent();
     }
 }
 void Graph::bouton_ajouter_edge() {
     if( m_interface->m_bt_ajouter_edge.clicked() ) {
-        int indice_arete_a_enlever = 0;
         int depart = 0;
         int arriver = 0;
         int poid = 0;
-        bool toto = true;
+        int indice = -1;
         for( auto &elem : m_vertices ) {
-            std::cout << "Cles : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
+
+            std::cout << "Nom du sommet : " << elem.second.m_name << std::endl;
         }
-        for( auto &elem : m_edges ) {
-            std::cout << "Cles : " << elem.first << " " << elem.second.m_from << " -> " << elem.second.m_to << std::endl;
-        }
-        while ( toto == true ) {
-            std::cout << " Nouvelle arete : Entrer votre indice : " << std::endl;
-            std::cin >> indice_arete_a_enlever;
-            std::map<int, Edge>::iterator it;
-            it = m_edges.find( indice_arete_a_enlever );
-            if( it != m_edges.end() ) {
-                std::cout << "  Veuillez selectionner une clés non utilisé " << std::endl;
-            } else {
-                std::cout << " Arete partant de : " << std::endl;
-                std::cin >> depart;
-                std::cout << " et arrivant en sommet d'indice : " << std::endl;
-                std::cin >> arriver;
-                std::cout << " Entrez le poid de l'arete en question " << std::endl;
-                std::cin >> poid;
-                toto = false;
-            }
-        }
-        // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
+        std::map<int, Edge>::iterator it;
+        do {
+            indice++;
+            it = m_edges.find( indice );
+        } while( it != m_edges.end() && indice < m_edges.size()+1);
+        it = m_edges.find( indice );
+        std::cout << " Arete partant de : " << std::endl;
+        std::cin >> depart;
+        std::cout << " et arrivant en sommet d'indice : " << std::endl;
+        std::cin >> arriver;
+        std::cout << " Entrez le poid de l'arete en question " << std::endl;
+        std::cin >> poid;
         // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
-        add_interfaced_edge( indice_arete_a_enlever, depart, arriver, poid );
+            add_interfaced_edge( indice, depart, arriver, poid );
+            matrice_adjacent();
     }
+
 }
+
 void Graph::boutondynamiquedechainealimentaire() {
     if( m_interface->m_bt_dynamique.clicked() ) {
         dynamique_population();
@@ -753,11 +751,12 @@ void Graph::boutondynamiquedechainealimentaire() {
     }
 }
 void Graph::bouton_supprimer_edge() {
-    int num_arete_a_enlever = 0;
-    bool toto = true;
+
     if( m_interface->m_bt_supprimer_edge.clicked() ) {
+      int num_arete_a_enlever = 0;
+     bool toto = true;
         for( auto &elem : m_edges ) {
-            std::cout << "Clés : " << elem.first << "arete de " << elem.second.m_from << " a "  <<  elem.second.m_to << std::endl;
+            std::cout << "n° : " << elem.first << " || arete de " << elem.second.m_from << " vers "  <<  elem.second.m_to << std::endl;
         }
         while ( toto == true ) {
             std::cout << " Quelle arete voulez-vous enlever " << std::endl;
@@ -772,6 +771,7 @@ void Graph::bouton_supprimer_edge() {
         }
         // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
         remove_edge( num_arete_a_enlever );
+        matrice_adjacent();
     }
 }
 
