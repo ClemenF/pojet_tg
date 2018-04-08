@@ -298,6 +298,8 @@ class GraphInterface {
 
         grman::WidgetButton m_bt_dynamique;
         grman::WidgetText m_text_m_bt_dynamique;
+        grman::WidgetButton m_bt_reinitialiser;
+        grman::WidgetText m_text_bt_reinitialiser;
 
         ///pour les arcs
         grman::WidgetText m_text_bt_ajouter_edge;
@@ -408,6 +410,7 @@ class Graph {
         void bouton_k_connexite_k_plet();
         /// m�thode de la dynamique de population
         void dynamique_population();
+        void dynamique_reinitialiser();
         int calcul_K( int );
         int predation( int );
         void fctreproduction( int num_vertex_donne );
@@ -422,8 +425,6 @@ class Graph {
         void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
 
-
-      void set_ordre(int other){m_ordre=other;}
         void update();
 };
 
