@@ -454,14 +454,6 @@ void Graph::update() {
     bouton_forte_connexite();
     bouton_k_connexite_k_plet();
     m_Timer.draw();
-    if ( keypressed() ) {
-        std::cout << readkey() << std::endl;
-        graphe_reduit();
-    }
-    if ( grman::key_press[KEY_RIGHT] )
-        std::cout << " touche appuye " << std::endl;
-    if ( grman::key_unpress[KEY_RIGHT] )
-        std::cout << " touche relache " << std::endl;
     for ( auto &elt : m_vertices )
         elt.second.post_update();
     for ( auto &elt : m_edges )
