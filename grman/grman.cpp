@@ -204,7 +204,7 @@ void init_popup(BITMAP* bmp_popup)//popup qui reçoit en param une bitmap a affi
     do_dialog( the_dialog, -1 );
 }
 
-void init_EditText(BITMAP* bmp_popup)//dialog edit text
+void init_EditText(BITMAP* bmp_popup,char the_text[])//dialog edit text
 {
     DIALOG the_dialog[] =
     {
@@ -212,6 +212,7 @@ void init_EditText(BITMAP* bmp_popup)//dialog edit text
         { d_clear_proc,      0,    0,    0,    0,    255,  0,    0,    0,       0,   0,    NULL,          NULL, NULL  },
         { d_bitmap_proc,     0,    0,  1024,  720,      0,  0,    0,    0,       0,   0,    NULL,                   NULL, NULL  },
         // { d_check_proc,      12,   12,   161,  49,   255,  0,    't',  0,       0,   0,   (void*)  "&Toggle Me",  NULL, NULL  },
+        { d_textbox_proc,   30,   550,  100,   50,     255,    0,    0,      0,       0,   0,    (void *)the_text,       NULL, NULL  },
        { d_edit_proc,       30,  600,  100,   30,   0,  255,    0,      0,     LEN,   0,    the_string,            NULL, NULL  },
 
 

@@ -667,7 +667,11 @@ void Graph::bouton_ajouter_vertex() {
             //std::cin >> nomdusommet;
             BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
              blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-            grman::init_EditText(buf);
+             char the_text[] =
+                "Veuillez entrer\n"
+                "un nom de sommet\n"
+                " au choix :";
+            grman::init_EditText(buf,the_text);
             //m_interface->m_edtx.edit_message();
             //str = m_interface->m_edtx.get_message();
             //nomdusommet = m_interface->m_edtx.get_message().c_str();
@@ -722,7 +726,10 @@ void Graph::bouton_supprimer_vertex() {
             std::cout << " Quelle sommet voulez-vous enlever " << std::endl;
             BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
              blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-            grman::init_EditText(buf);
+             char the_text[] =
+               "Quelle sommet\n"
+               "voulez-vous enlever";
+           grman::init_EditText(buf,the_text);
             //strcpy ( num_sommet_a_enlever, the_string ); //on recup la str
             num_sommet_a_enlever=atoi (the_string);
             //std::cin >> num_sommet_a_enlever;
@@ -778,17 +785,25 @@ void Graph::bouton_ajouter_edge() {
         //std::cin >> depart;
         BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
          blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-        grman::init_EditText(buf);
-
+         char the_text[] =
+            "Arete partant\n"
+            "de :";
+        grman::init_EditText(buf,the_text);
        // strcpy ( depart, the_string ); //on recup la str
        depart=atoi (the_string);
         std::cout << " et arrivant en sommet d'indice : " << std::endl;
-        grman::init_EditText(buf);
+        char the_text1[] =
+           "et arrivant au\n"
+           "sommet d'indice :";
+      grman::init_EditText(buf,the_text1);
          arriver=atoi (the_string);
        // strcpy ( arriver, the_string ); //on recup la str
         std::cout << " Entrez le poid de l'arete en question " << std::endl;
         //std::cin >> poid;
-        grman::init_EditText(buf);
+        char the_text2[] =
+           "Entrez le poid de\n"
+           "l'arete en question";
+      grman::init_EditText(buf,the_text2);
         poid=atoi (the_string);
         //strcpy ( poid, the_string ); //on recup la str
         // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
@@ -817,7 +832,10 @@ void Graph::bouton_supprimer_edge() {
             //std::cin >> num_arete_a_enlever;
            BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
              blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-            grman::init_EditText(buf);
+             char the_text[] =
+           "Quelle arete voulez\n"
+           "-vous enlever";
+      grman::init_EditText(buf,the_text);
             //strcpy ( num_arete_a_enlever, the_string ); //on recup la str
             num_arete_a_enlever=atoi (the_string);
             std::map<int, Edge>::iterator it;
