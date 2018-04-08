@@ -228,6 +228,19 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_bt_dynamique.set_posy( y_bt );
     m_bt_dynamique.set_bg_color( CYANSOMBRE );
     y_bt = y_bt + m_bt_dynamique.get_dimy() + 10;
+    m_tool_box.add_child( m_text_bt_reinitialiser );
+    m_text_bt_reinitialiser.set_dim(110,22);
+    m_text_bt_reinitialiser.set_gravity_x(grman::GravityX::Left);
+    m_text_bt_reinitialiser.set_posy(y_bt);
+    m_text_bt_reinitialiser.set_bg_color(BLANC);
+    m_text_bt_reinitialiser.set_message(" Reinitialiser! ");
+    y_bt = y_bt + m_text_bt_reinitialiser.get_dimy();
+    m_tool_box.add_child( m_bt_reinitialiser);
+    m_bt_reinitialiser.set_dim(110,22);
+    m_bt_reinitialiser.set_gravity_x(grman::GravityX::Left);
+    m_bt_reinitialiser.set_posy(y_bt);
+    m_bt_reinitialiser.set_bg_color(CYANSOMBRE);
+    y_bt = y_bt + m_bt_reinitialiser.get_dimy() + 10;
     ///BOUTON POUR REORGANISER LES SOMMETS
     //txt
     m_tool_box.add_child( m_text_bt_reorganisation );
@@ -436,6 +449,7 @@ void Graph::update() {
     bouton_ajouter_edge();
     bouton_supprimer_edge();
     boutondynamiquedechainealimentaire();
+    dynamique_reinitialiser();
     bouton_reorganisation();
     bouton_forte_connexite();
     bouton_k_connexite_k_plet();
@@ -569,7 +583,6 @@ void Graph::remove_edge( int eidx ) {
 
 void Graph::bouton_reorganisation() {
     if( m_interface->m_bt_reorganisation.clicked() ) {
-      matrice_adjacent();
         spring_model( adjacence, false ); //on envoie la matrice du Graphe et false pour dire de ne pas dessiner
     }
 }
@@ -602,72 +615,79 @@ void Graph::bouton_k_connexite_k_plet() {
 
 void Graph::bouton_forte_connexite() {
     if( m_interface->m_bt_connexe.clicked() ) {
-matrice_adjacent();
         graphe_reduit();//on lance l'algo du graphe réduit
     }
 }
 
 ///Les m�thodes pour la gestion du Graph
 void Graph::bouton_ajouter_vertex() {
+    std::string fichier;
+    char nomdusommet[15];
+    bool onpasse = false;
     if( m_interface->m_bt_ajouter_vertex.clicked() ) {
-        char fichier[100];
-        char nomdusommet[100];
-        bool onpasse = false;
+        int a = 0;
         int k = -1;
         BITMAP *iceberg;
         BITMAP *image;
-        int indice = -1;
-        int a = 0;
         iceberg = grman::get_picture( "chutes.jpg" ); //http://wallpaperswide.com/seagulls_on_an_iceberg-wallpapers.html
         if ( !iceberg ) {
             allegro_message( "pas pu trouver/charger chutes.jpg" );
             allegro_exit();
-            //exit( EXIT_FAILURE );
+            exit( EXIT_FAILURE );
         }
+        int indice_sommet_a_ajouter = 0;
+        bool toto = true;
         for( auto &elem : m_vertices ) {
-            //std::cout << "Cles : " << elem.first << "||Nom du sommet : " << elem.second.m_name << std::endl;
-            std::cout << "Nom du sommet : " << elem.second.m_name << std::endl;
+            std::cout << "Cles : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
         }
-        std::map<int, Vertex>::iterator it;
-        do {
-            indice++;
-            it = m_vertices.find( indice );
-        } while( it != m_vertices.end() );
-        if ( it == m_vertices.end() ) {
-            std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
-            std::cin >> nomdusommet;
-            strcpy ( fichier, nomdusommet ); //on donne le nom du sommet
-            strcat( fichier, ".jpg" ); //on ajoute l'extension jpg
+        while ( toto == true ) {
+            std::cout << " Selectionner un numero d'indice de sommet que vous voulez ajouter " << std::endl;
+            std::cin >> indice_sommet_a_ajouter;
+            std::map<int, Vertex>::iterator it;
+            it = m_vertices.find( indice_sommet_a_ajouter );
+            if( it != m_vertices.end() ) {
+                std::cout << "  Veuillez selectionner une clés valide" << std::endl;
+            } else {
+                toto = false;
+                std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
+                std::cin >> nomdusommet;
+            }
+        }
+        while ( onpasse == false ) {
+            onpasse = true;
+            std::cout << "Veuillez entrer dans le nom de l'image choisi : " << std::endl;
+            std::cin >> fichier;
             image = grman::get_picture( fichier );
             if ( !image ) {
                 allegro_message( "pas pu trouver/charger l'image" );
-            }
-            BITMAP *buffer;
-            buffer = create_bitmap( SCREEN_W, SCREEN_H );
-            while ( k < 0 ) {
-                clear_bitmap( buffer );
-                blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-                blit( image, buffer, 0, 0, 325, 117, image->w, image->h );
-                if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
-                    k = 2;
-                }
-                if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>143 & mouse_y < 260 ) {
-                    k = 4;
-                }
-                textout_ex( buffer, font, nomdusommet, 330, 33, makecol( 0, 0, 0 ), -1 );
-                textprintf_ex( buffer, font, 335, 75, makecol( 0, 0, 0 ), -1, " %d", indice );
-                blit( buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-            }
-            // appel de la fonction add_interface_vertex pour ajouter un sommet au graph
-            if( k == 2 ) {
-                add_interfaced_vertex( indice, 10, 30, 30, fichier, 0.01, 20, nomdusommet );
+                //allegro_exit();
+                //exit(EXIT_FAILURE);
+                onpasse = false;
+                std::cout << "Veuillez entrer le nom d'une image existante " << std::endl;
             }
         }
-        matrice_adjacent();
-        set_ordre(m_vertices.size());
+        BITMAP *buffer;
+        buffer = create_bitmap( SCREEN_W, SCREEN_H );
+        while ( k < 0 ) {
+            clear_bitmap( buffer );
+            blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
+            blit( image, buffer, 0, 0, 325, 117, image->w, image->h );
+            if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
+                k = 2;
+            }
+            if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>143 & mouse_y < 260 ) {
+                k = 4;
+            }
+            textout_ex( buffer, font, nomdusommet, 330, 33, makecol( 0, 0, 0 ), -1 );
+            textprintf_ex( buffer, font, 335, 75, makecol( 0, 0, 0 ), -1, " %d", indice_sommet_a_ajouter );
+            blit( buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
+        }
+        // appel de la fonction add_interface_vertex pour ajouter un sommet au graph
+        if( k == 2 ) {
+            add_interfaced_vertex( indice_sommet_a_ajouter, 10, 30, 30, fichier, 0.01, 20, nomdusommet );
+        }
     }
 }
-
 
 void Graph::bouton_supprimer_vertex() {
     if( m_interface->m_bt_supprimer_vertex.clicked() ) {
@@ -713,39 +733,43 @@ void Graph::bouton_supprimer_vertex() {
         if( k == 2 ) {
             remove_vertex( num_sommet_a_enlever );
         }
-        matrice_adjacent();
-        set_ordre(m_vertices.size());
     }
 }
 void Graph::bouton_ajouter_edge() {
     if( m_interface->m_bt_ajouter_edge.clicked() ) {
+        int indice_arete_a_enlever = 0;
         int depart = 0;
         int arriver = 0;
         int poid = 0;
-        int indice = -1;
+        bool toto = true;
         for( auto &elem : m_vertices ) {
-
-            std::cout << "Nom du sommet : " << elem.second.m_name << std::endl;
+            std::cout << "Cles : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
         }
-        std::map<int, Edge>::iterator it;
-        do {
-            indice++;
-            it = m_edges.find( indice );
-        } while( it != m_edges.end() && indice < m_edges.size()+1);
-        it = m_edges.find( indice );
-        std::cout << " Arete partant de : " << std::endl;
-        std::cin >> depart;
-        std::cout << " et arrivant en sommet d'indice : " << std::endl;
-        std::cin >> arriver;
-        std::cout << " Entrez le poid de l'arete en question " << std::endl;
-        std::cin >> poid;
+        for( auto &elem : m_edges ) {
+            std::cout << "Cles : " << elem.first << " " << elem.second.m_from << " -> " << elem.second.m_to << std::endl;
+        }
+        while ( toto == true ) {
+            std::cout << " Nouvelle arete : Entrer votre indice : " << std::endl;
+            std::cin >> indice_arete_a_enlever;
+            std::map<int, Edge>::iterator it;
+            it = m_edges.find( indice_arete_a_enlever );
+            if( it != m_edges.end() ) {
+                std::cout << "  Veuillez selectionner une clés non utilisé " << std::endl;
+            } else {
+                std::cout << " Arete partant de : " << std::endl;
+                std::cin >> depart;
+                std::cout << " et arrivant en sommet d'indice : " << std::endl;
+                std::cin >> arriver;
+                std::cout << " Entrez le poid de l'arete en question " << std::endl;
+                std::cin >> poid;
+                toto = false;
+            }
+        }
+        // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
         // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
-            add_interfaced_edge( indice, depart, arriver, poid );
-            matrice_adjacent();
+        add_interfaced_edge( indice_arete_a_enlever, depart, arriver, poid );
     }
-
 }
-
 void Graph::boutondynamiquedechainealimentaire() {
     if( m_interface->m_bt_dynamique.clicked() ) {
         dynamique_population();
@@ -753,12 +777,11 @@ void Graph::boutondynamiquedechainealimentaire() {
     }
 }
 void Graph::bouton_supprimer_edge() {
-
+    int num_arete_a_enlever = 0;
+    bool toto = true;
     if( m_interface->m_bt_supprimer_edge.clicked() ) {
-      int num_arete_a_enlever = 0;
-     bool toto = true;
         for( auto &elem : m_edges ) {
-            std::cout << "n° : " << elem.first << " || arete de " << elem.second.m_from << " vers "  <<  elem.second.m_to << std::endl;
+            std::cout << "Clés : " << elem.first << "arete de " << elem.second.m_from << " a "  <<  elem.second.m_to << std::endl;
         }
         while ( toto == true ) {
             std::cout << " Quelle arete voulez-vous enlever " << std::endl;
@@ -773,13 +796,26 @@ void Graph::bouton_supprimer_edge() {
         }
         // appel de la fonction remove avec en paramètre l'indice de l'arc à supprimer
         remove_edge( num_arete_a_enlever );
-        matrice_adjacent();
     }
 }
 
 /// m�thode de la dynamique de population
+void Graph::dynamique_reinitialiser()
+{
+    if(m_interface->m_bt_reinitialiser.clicked())
+    {
+        std::cout << " reinitialisation " << std::endl;
+        m_vertices.clear();
+        m_edges.clear();
+        m_ordre = 0;
+        m_nb_arete = 0;
+
+        graphe_chargement();
+        std::cout << " ok " << std::endl;
+    }
+}
+
 void Graph::dynamique_population() {
-    // ajouter un bouton pour passer au tour de jeu suivant
     int k = 0;
     int preda = 0;
     for( auto &elem : m_vertices ) {
@@ -886,10 +922,10 @@ int Graph::predation( int num_vertex_donne ) {
 void Graph::fctreproduction( int num_vertex_donne ) {
     std::map<int, Vertex>::iterator it;
     it = m_vertices.find( num_vertex_donne );
-    //int pop_avant = it->second.m_value;
+    int pop_avant = it->second.m_N_t;
     it->second.m_N_t = ceil( it->second.m_N_t_1 + ( it->second.m_N_t_1 ) * 0.55 / 2 ) ;
     //std::cout << "on reprodui le sommet " << num_vertex_donne <<std::endl;
-    //std::cout << "Pop_avant : " << pop_avant << " Pop_apres " <<it->second.m_value <<std::endl;
+    std::cout << "Pop_avant : " << pop_avant << " Pop_apres " <<it->second.m_N_t <<std::endl;
 }
 
 void Graph::miseajoutarete() {
