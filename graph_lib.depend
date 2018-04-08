@@ -55,18 +55,30 @@
 	<iostream>
 	"graph.h"
 
-1523038904 D
+1523119593 D
 
-1523119398 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523177479 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>
 	<cmath>
+	<math.h>
 
-<<<<<<< HEAD
 1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
-=======
-1523119398 c:\users\guill\documents\github\pojet_tg\graph.h
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1523177479 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
 	<memory>
@@ -75,6 +87,11 @@
 	"grman/grman.h"
 
 1523119398 c:\users\guill\documents\github\pojet_tg\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
@@ -88,7 +105,8 @@
 	"coords.h"
 
 1523102805 a2edd16de5fcb4dac89c7aeb5902f903476e8
->>>>>>> master
+
+1523102805 ter
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -104,22 +122,14 @@
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
 
-<<<<<<< HEAD
-1523119398 c:\users\guill\documents\github\pojet_tg\grman\grman.h
-	<allegro.h>
-	<string>
-	"grman_couleurs.h"
-	"coords.h"
-	"widget.h"
-
-1522836822 c:\users\guill\documents\github\pojet_tg\grman\grman_couleurs.h
-=======
 1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
 	<cmath>
->>>>>>> master
 
-1523119398 c:\users\guill\documents\github\pojet_tg\grman\widget.h
+1523178144 c:\users\guill\documents\github\pojet_tg\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -127,49 +137,14 @@
 	<algorithm>
 	<allegro.h>
 
-<<<<<<< HEAD
 1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
 	"widget.h"
-
-1523120258 source:c:\users\guill\documents\github\pojet_tg\main.cpp
-=======
-1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
-	<cmath>
-	<unordered_map>
-	<unordered_set>
-	<utility>
-	<string>
-	<iostream>
-	<regex>
-	"grman.h"
-	<allegro.h>
-	<png.h>
-	<loadpng.h>
-	<jpgalleg.h>
-
-1523119398 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
 	"widget.h"
 
-1523119593 source:c:\users\guill\documents\github\pojet_tg\main.cpp
->>>>>>> master
+1523121390 source:c:\users\guill\documents\github\pojet_tg\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 
-<<<<<<< HEAD
-1523121010 c:\users\guill\documents\github\pojet_tg\graph.h
-	<fstream>
-	<map>
-	<memory>
-	<string>
-	<vector>
-	"grman/grman.h"
+1523102805 
 
-1523102805 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
-	"graph.h"
-	<sstream>
-	<string>
-	<cmath>
-
-=======
->>>>>>> master

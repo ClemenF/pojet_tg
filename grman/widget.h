@@ -427,7 +427,7 @@ struct ArrowItem
 
 class WidgetEdge : public Widget
 {
-    protected :
+    protected:
 
         // Les Widgets de r�f�rence de d�part [0] et d'arriv�e [1] de l'ar�te
         /// Si un de 2 pointeur est � nul, l'ar�te n'est pas trait�e
@@ -448,7 +448,7 @@ class WidgetEdge : public Widget
         // Position laterale absolue des �ventuels Widgets enfants � l'�cart de l'arc, >0 � gauche en suivant l'arc, <0 � droite en suivant l'arc
         double m_children_lateral = 16;
 
-    public :
+    public:
 
         virtual void draw();
 
@@ -468,6 +468,7 @@ class WidgetEdge : public Widget
 
         void set_children_position(double rel_pos) { m_children_position = rel_pos; }
         void set_children_lateral(double abs_lat) { m_children_lateral = abs_lat; }
+        void set_color(int other) {m_color =other;}
 };
 
 
