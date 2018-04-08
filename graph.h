@@ -164,18 +164,17 @@ class Vertex {
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
         double m_value;
-        std::string m_name;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
 
 
         /// variable pour algo dynamique de population :
+        float m_r; // rythme de croissance (valeur fixe)
         int m_N_t; // population � l'instant actuel
         int m_N_t_1; // population � l'instant actuel
-
-        float m_r; // rythme de croissance (valeur fixe)
         int m_K; // capacit� de portage ( = population maximum )
+        std::string m_name;
 
         // Docu shared_ptr : https://msdn.microsoft.com/fr-fr/library/hh279669.aspx
         // La ligne précédente est en gros équivalent à la ligne suivante :
@@ -316,8 +315,8 @@ class GraphInterface {
 
         grman::WidgetText m_text_k_connexe;
         grman::WidgetButton m_k_connexe;
-    
-    
+
+
         ///bouton onglet des graphs
         grman::WidgetText m_text_bt_onglet_graphe0;
         grman::WidgetButton m_bt_onglet_graphe0;
@@ -326,6 +325,7 @@ class GraphInterface {
         grman::WidgetText m_text_bt_onglet_graphe2;
         grman::WidgetButton m_bt_onglet_graphe2;
 
+        grman::WidgetEditText m_edtx;
 
 
     public:
@@ -395,7 +395,7 @@ class Graph {
         void graphe_sauvegarde();
 
         /// Méthode de chargement de graph d'un fichier texte
-        void graphe_chargement();
+        void graphe_chargement(int type=0);
 
 
         /// M�thode pour effacer un sommet
@@ -421,7 +421,7 @@ class Graph {
         int predation( int );
         void fctreproduction( int num_vertex_donne );
         void miseajoutarete();
-    
+
         ///boutons changement onglet
         void bouton_onglet();
 
@@ -433,7 +433,7 @@ class Graph {
         int fact( int );
         void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
-
+        void set_ordre(int other){m_ordre=other;}
         void update();
 };
 

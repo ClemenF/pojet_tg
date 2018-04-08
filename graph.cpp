@@ -284,7 +284,7 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_k_connexe.set_bg_color( CYANSOMBRE );
     y_bt = y_bt + m_k_connexe.get_dimy() + 10;
 
-//EditText
+    //EditText
     m_tool_box.add_child( m_edtx );
     m_edtx.set_dim( 110, 22 );
     m_edtx.set_gravity_xy( grman::GravityX::Left,grman::GravityY::Down );
@@ -292,7 +292,7 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_edtx.set_bg_color( NOIR );
     m_edtx.set_message( "" );
     y_bt = y_bt + m_edtx.get_dimy();
-           
+
     ///BOUTON POUR ONGLET
     y_bt = 500;
     //txt
@@ -498,7 +498,7 @@ void Graph::add_interfaced_vertex( int idx, double value, int x, int y, std::str
 }
 
 /// Aide � l'ajout d'arcs interfac�s
-void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, float weight ) {
+void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, double weight ) {
     m_nb_arete++;
     if ( m_edges.find( idx ) != m_edges.end() ) {
         std::cerr << "Error adding edge at idx=" << idx << " already used..." << std::endl;
@@ -640,7 +640,7 @@ void Graph::bouton_k_connexite_k_plet() {
                 while ( toto == true ) {
                     std::cout << "Quel couple de solution voulez vous afficher : " << std::endl;
                     std::cin >> i;
-                    if( i <= compte - 1 & i>=0) {
+                    if(( i <= compte - 1) & (i>=0)) {
                         for( auto &elem : m_vertices ) {
                             elem.second.m_interface->m_top_box.set_bg_color( BLANCBLEU );
                         }
@@ -675,12 +675,10 @@ void Graph::bouton_ajouter_vertex() {
     if( m_interface->m_bt_ajouter_vertex.clicked() ) {
         char fichier[100];
         char nomdusommet[100];
-        bool onpasse = false;
         int k = -1;
         BITMAP *iceberg;
         BITMAP *image;
         int indice = -1;
-        int a = 0;
         iceberg = grman::get_picture( "chutes.jpg" ); //http://wallpaperswide.com/seagulls_on_an_iceberg-wallpapers.html
         if ( !iceberg ) {
             allegro_message( "pas pu trouver/charger chutes.jpg" );
@@ -724,10 +722,10 @@ void Graph::bouton_ajouter_vertex() {
                 clear_bitmap( buffer );
                 blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
                 blit( image, buffer, 0, 0, 325, 117, image->w, image->h );
-                if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
+                if( mouse_b & (mouse_x > 250) & (mouse_x<770) & (mouse_y>290) & (mouse_y < 420) ) {
                     k = 2;
                 }
-                if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>143 & mouse_y < 260 ) {
+                if( mouse_b & (mouse_x > 790) & (mouse_x<1000) & (mouse_y>143) & (mouse_y < 260) ) {
                     k = 4;
                 }
                 textout_ex( buffer, font, nomdusommet, 330, 33, makecol( 0, 0, 0 ), -1 );
@@ -747,13 +745,13 @@ void Graph::bouton_ajouter_vertex() {
 
 void Graph::bouton_supprimer_vertex() {
     if( m_interface->m_bt_supprimer_vertex.clicked() ) {
-        BITMAP *iceberg;
+        /*BITMAP *iceberg;
         iceberg = grman::get_picture( "chutes2.jpg" );
         BITMAP *buffer;
+        buffer = create_bitmap( SCREEN_W, SCREEN_H );*/
         std::map<int, Vertex>::iterator it;
-        buffer = create_bitmap( SCREEN_W, SCREEN_H );
         int num_sommet_a_enlever = 0;
-        int k = -2;
+        //int k = -2;
         bool toto = true;
         for( auto &elem : m_vertices ) {
             std::cout << "N : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
@@ -800,7 +798,7 @@ void Graph::bouton_ajouter_edge() {
         do {
             indice++;
             it = m_edges.find( indice );
-        } while( it != m_edges.end() && indice < m_edges.size()+1);
+        } while( it != m_edges.end() && indice < (signed)m_edges.size()+1);
         it = m_edges.find( indice );
         std::cout << " Arete partant de : " << std::endl;
 
@@ -924,7 +922,7 @@ void Graph::dynamique_population() {
         std::cout << "at = " << elem.second.m_N_t << " + " << elem.second.m_r << " * " << elem.second.m_N_t << " * " << w << " + " << preda << " = " << at << std::endl;
         //}
         int somme = 0;
-        for ( int i = 0; i < elem.second.m_in.size(); i++ ) {
+        for ( unsigned int i = 0; i < elem.second.m_in.size(); i++ ) {
             std::map<int, Edge>::iterator it;
             it = m_edges.find( elem.second.m_in[i] );
             somme = somme + it->second.m_weight;
@@ -1031,22 +1029,22 @@ std::vector<std::vector<int>> Graph::toutesLesComposanteFortementConnexe() {
     matrice_adjacent();//reactualise la matrice d'adjacence
     std::vector<std::vector<int>> tabc; // tab des composantes fortements connexes
     std::vector<int> marques;           // tab de marquages
-    int x, y;                           // sommets intermediaires
+    int x;                              // sommets intermediaires
     /**allocation memoire de tabc et marques**/
     tabc.resize( m_vertices.size() );
-    for ( int i = 0; i < m_vertices.size(); i++ ) {
+    for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
         tabc.at( i ).resize( m_vertices.size() );
     }
     marques.resize( m_vertices.size() );
     // init a 0 des deux tabs
-    for ( int i = 0; i < m_vertices.size(); i++ ) {
+    for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
         marques.at( i ) = 0;
-        for ( int j = 0; j < m_vertices.size(); j++ ) {
+        for ( unsigned int j = 0; j < m_vertices.size(); j++ ) {
             tabc.at( i ).at( j ) = 0;
         }
     }
     int cpt = 0;
-    for ( x = 0; x < m_vertices.size(); x++ ) {
+    for ( unsigned x = 0; x < m_vertices.size(); x++ ) {
         if ( !marques[x] ) {
             cpt += 1;
             tabc[x] = uneComposantesFortementConnexes( x );
@@ -1064,8 +1062,8 @@ std::vector<std::vector<int>> Graph::toutesLesComposanteFortementConnexe() {
     // avec effacement du
     // fichier ouvert
     if ( fichier ) {
-        for ( int i = 0; i < m_vertices.size(); i++ ) {
-            for ( int j = 0; j < m_vertices.size(); j++ ) {
+        for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
+            for ( unsigned int j = 0; j < m_vertices.size(); j++ ) {
                 fichier << tabc.at( i ).at( j ) << " ";
             }
             fichier << std::endl;
@@ -1086,7 +1084,7 @@ std::vector<int> Graph::uneComposantesFortementConnexes( int s ) {
     c.resize( m_vertices.size() );
     marques.resize( m_vertices.size() );
     // init valeur a 0
-    for ( int i = 0; i < m_vertices.size(); i++ ) {
+    for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
         c1.at( i ) = 0;
         c2.at( i ) = 0;
         c.at( i ) = 0;
@@ -1098,10 +1096,10 @@ std::vector<int> Graph::uneComposantesFortementConnexes( int s ) {
     // recherche des composantes connexes partant de s a ajouter a c1
     while ( ajoute ) {
         ajoute = 0;
-        for ( x = 0; x < m_vertices.size(); x++ ) {
+        for ( unsigned x = 0; x < m_vertices.size(); x++ ) {
             if ( !marques[x] && c1[x] ) {
                 marques[x] = 1;
-                for ( y = 0; y < m_vertices.size(); y++ ) {
+                for ( unsigned y = 0; y < m_vertices.size(); y++ ) {
                     // std::cout <<" val :"<<adjacence.at(x).at(y);
                     if ( adjacence[x][y] && !marques[y] ) { // ERROR HERE
                         c1[y] = 1;
@@ -1111,7 +1109,7 @@ std::vector<int> Graph::uneComposantesFortementConnexes( int s ) {
             }
         }
     }
-    for ( int i = 0; i < m_vertices.size(); i++ ) {
+    for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
         marques.at( i ) = 0;
     }
     ajoute = 1;
@@ -1119,10 +1117,10 @@ std::vector<int> Graph::uneComposantesFortementConnexes( int s ) {
     // recherche des composantes connexes arrivant a s a ajouter dans c2
     while ( ajoute ) {
         ajoute = 0;
-        for ( x = 0; x < m_vertices.size(); x++ ) {
+        for ( unsigned x = 0; x < m_vertices.size(); x++ ) {
             if ( !marques[x] && c2[x] ) {
                 marques[x] = 1;
-                for ( y = 0; y < m_vertices.size(); y++ ) {
+                for ( unsigned y = 0; y < m_vertices.size(); y++ ) {
                     // std::cout <<" val :"<<adjacence.at(x).at(y);
                     if ( adjacence[y][x] && !marques[y] ) { // ERROR HERE
                         c2[y] = 1;
@@ -1133,7 +1131,7 @@ std::vector<int> Graph::uneComposantesFortementConnexes( int s ) {
         }
     }
     // composante fortement connexe c =intersection de c1 et c2
-    for ( x = 0; x < m_vertices.size(); x++ ) {
+    for ( unsigned x = 0; x < m_vertices.size(); x++ ) {
         c[x] = c1[x] & c2[x];
         //        std::cout << c1[x] << " " ;
     }
@@ -1145,8 +1143,8 @@ Graph::transpose() { // Get transpose of matrice and return it
     std::vector<std::vector<int>> T;
     T.resize( m_vertices.size(),
               std::vector<int>( m_vertices.size(), 0 ) ); // resize double vector
-    for ( int i = 0; i < m_vertices.size(); i++ ) {
-        for ( int j = 0; j < m_vertices.size(); j++ ) {
+    for ( unsigned int i = 0; i < m_vertices.size(); i++ ) {
+        for ( unsigned int j = 0; j < m_vertices.size(); j++ ) {
             T[i][j] = adjacence[j][i]; // on inverse
             // std::cout << T[i][j] << " ";
         }
