@@ -1,14 +1,16 @@
 ----- Fichier de sauvegarde du graphe 0 -----
 "indice","nom du sommet","valeure du sommet","posx","posy","image","rythme de croissance","population"
-8
+10
 0 hibou 30 192 50 hibou.png 0.01 3 
 1 serpent 60 449 122 serpent.png 0.01 3 
 2 lapin 50 22 310 lapin.jpg 0.01 3 
 3 souris 0 348 617 souris.png 0.01 3 
-4 grenouille 100 572 307 grenouille.png 0.01 3 
+4 grenouille 100 430 299 grenouille.png 0.01 3 
 5 sauterelle 0 737 64 sauterelle.png 0.01 3 
 6 carottes 30 86 521 carottes.jpg 0.01 3 
-7 plantes 60 398 481 plantes.jpg 0.01 3 
+7 plantes 60 519 443 plantes.jpg 0.01 3 
+8 lapin 10 626 581 lapin.jpg 0.01 20 
+9 lapin 10 193 404 lapin.jpg 0.01 20 
 9
 1 1 0 50
 2 2 0 50
