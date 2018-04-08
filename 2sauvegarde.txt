@@ -1,7 +1,6 @@
 ----- Fichier de sauvegarde du graphe 2 -----
 "indice","nom du sommet","valeure du sommet","posx","posy","image","rythme de croissance","population"
 13 0
-<<<<<<< HEAD
 0 homme 30 37 36 homme.jpg 0.001 5
 1 lion 25 197 180 lion.png 0.001 10
 2 elephant 20 56 300 elephant.png 0.001 10
@@ -15,21 +14,6 @@
 10 criquet 80 568 404 criquet.png 0.0001 3040
 11 papillon 70 737 525 papillon.png 0.0001 3040
 12 plantes 90 485 599 plantes.jpg 0.0001 10000
-=======
-0 homme 30 40 4 homme.jpg 0.01 40 
-1 lion 25 197 195 lion.png 0.01 40 
-2 elephant 20 56 300 elephant.png 0.01 40 
-3 feuillage 10 70 487 feuillage.jpg 0.01 40 
-4 fruits 60 210 564 fruits.png 0.01 40 
-5 leopard 50 406 27 leopard.png 0.01 40 
-6 singe 60 326 391 singe.jpg 0.01 40 
-7 antilope 60 456 283 antilope.png 0.01 40 
-8 aigle 55 608 25 aigle.jpg 0.01 40 
-9 mante 55 647 192 mante.png 0.01 40 
-10 criquet 80 568 404 criquet.png 0.01 40 
-11 papillon 70 737 525 papillon.png 0.01 40 
-12 plantes 90 485 599 plantes.jpg 0.01 40 
->>>>>>> 40370edfb51cc25cf632bcf1cbde83f551921a3d
 15
 1 1 0 0.01
 2 0 2 0.01
