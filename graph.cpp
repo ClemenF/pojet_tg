@@ -292,51 +292,57 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_edtx.set_bg_color( NOIR );
     m_edtx.set_message( "" );
     y_bt = y_bt + m_edtx.get_dimy();
+           
+    ///BOUTON POUR ONGLET
+    y_bt = 500;
+    //txt
+    m_tool_box.add_child(m_text_bt_onglet_graphe0);
+    m_text_bt_onglet_graphe0.set_dim( 110, 22 );
+    m_text_bt_onglet_graphe0.set_gravity_x( grman::GravityX::Left );
+    m_text_bt_onglet_graphe0.set_posy( y_bt );
+    m_text_bt_onglet_graphe0.set_bg_color( BLANC );
+    m_text_bt_onglet_graphe0.set_message( " GRAPHE 0 " );
+    y_bt = y_bt + m_text_bt_onglet_graphe0.get_dimy();
+    //bouton
+    m_tool_box.add_child(m_bt_onglet_graphe0);
+    m_bt_onglet_graphe0.set_dim( 110, 22 );
+    m_bt_onglet_graphe0.set_gravity_x( grman::GravityX::Left );
+    m_bt_onglet_graphe0.set_posy( y_bt );
+    m_bt_onglet_graphe0.set_bg_color( MARRONCLAIR );
+    y_bt = y_bt + m_bt_onglet_graphe0.get_dimy() + 10;
+    //txt
+    m_tool_box.add_child(m_text_bt_onglet_graphe1);
+    m_text_bt_onglet_graphe1.set_dim( 110, 22 );
+    m_text_bt_onglet_graphe1.set_gravity_x( grman::GravityX::Left );
+    m_text_bt_onglet_graphe1.set_posy( y_bt );
+    m_text_bt_onglet_graphe1.set_bg_color( BLANC );
+    m_text_bt_onglet_graphe1.set_message( " GRAPHE 1 " );
+    y_bt = y_bt + m_text_bt_onglet_graphe1.get_dimy();
+    //bouton
+    m_tool_box.add_child(m_bt_onglet_graphe1);
+    m_bt_onglet_graphe1.set_dim( 110, 22 );
+    m_bt_onglet_graphe1.set_gravity_x( grman::GravityX::Left );
+    m_bt_onglet_graphe1.set_posy( y_bt );
+    m_bt_onglet_graphe1.set_bg_color( MARRONCLAIR );
+    y_bt = y_bt + m_bt_onglet_graphe1.get_dimy() + 10;
+    //txt
+    m_tool_box.add_child(m_text_bt_onglet_graphe2);
+    m_text_bt_onglet_graphe2.set_dim( 110, 22 );
+    m_text_bt_onglet_graphe2.set_gravity_x( grman::GravityX::Left );
+    m_text_bt_onglet_graphe2.set_posy( y_bt );
+    m_text_bt_onglet_graphe2.set_bg_color( BLANC );
+    m_text_bt_onglet_graphe2.set_message( " GRAPHE 2 " );
+    y_bt = y_bt + m_text_bt_onglet_graphe2.get_dimy();
+    //bouton
+    m_tool_box.add_child(m_bt_onglet_graphe2);
+    m_bt_onglet_graphe2.set_dim( 110, 22 );
+    m_bt_onglet_graphe2.set_gravity_x( grman::GravityX::Left );
+    m_bt_onglet_graphe2.set_posy( y_bt );
+    m_bt_onglet_graphe2.set_bg_color( MARRONCLAIR );
+    y_bt = y_bt + m_bt_onglet_graphe2.get_dimy() + 10;
 }
 
-/// M�thode sp�ciale qui construit un graphe arbitraire (d�mo)
-/// Cette m�thode est � enlever et remplacer par un syst�me
-/// de chargement de fichiers par exemple.
 
-/// Bien s�r on ne veut pas que vos graphes soient construits
-/// "� la main" dans le code comme �a.
-/*void Graph::make_example()
-{
-    m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne pr�c�dente est en gros �quivalente � :
-
-/// Bien s�r on ne veut pas que vos graphes soient construits
-/// "� la main" dans le code comme �a.
-void Graph::make_example() {
-    m_interface = std::make_shared<GraphInterface>( 50, 0, 750, 600 );
-    // La ligne pr�c�dente est en gros �quivalente � :
-
-    // m_interface = new GraphInterface(50, 0, 750, 600);
-    /// Les sommets doivent �tre d�finis avant les arcs
-    // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image
-    // clown1.jpg etc...
-    add_interfaced_vertex( 0, 30.0, 200, 100, "clown1.jpg" );
-    add_interfaced_vertex( 1, 60.0, 400, 100, "clown2.jpg" );
-    add_interfaced_vertex( 2, 50.0, 200, 300, "clown3.jpg" );
-    add_interfaced_vertex( 3, 0.0, 400, 300, "clown4.jpg" );
-    add_interfaced_vertex( 4, 100.0, 600, 300, "clown5.jpg" );
-    add_interfaced_vertex( 5, 0.0, 100, 500, "bad_clowns_xx3xx.jpg", 0 );
-    add_interfaced_vertex( 6, 0.0, 300, 500, "bad_clowns_xx3xx.jpg", 1 );
-    add_interfaced_vertex( 7, 0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2 );
-    /// Les arcs doivent �tre d�finis entre des sommets qui existent !
-    // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-
-    add_interfaced_edge(0, 1, 2, 50.0);
-    add_interfaced_edge(1, 0, 1, 50.0);
-    add_interfaced_edge(2, 1, 3, 75.0);
-    add_interfaced_edge(3, 4, 1, 25.0);
-    add_interfaced_edge(4, 6, 3, 25.0);
-    add_interfaced_edge(5, 7, 3, 25.0);
-    add_interfaced_edge(6, 3, 4, 0.0);
-    add_interfaced_edge(7, 2, 0, 100.0);
-    add_interfaced_edge(8, 5, 2, 20.0);
-    add_interfaced_edge(9, 3, 7, 80.0);
-}*/
 
 /// La m�thode sauvegarde le graphe dans un fichier num�rot�
 void Graph::graphe_sauvegarde() {
@@ -346,10 +352,10 @@ void Graph::graphe_sauvegarde() {
     if( ofs ) {
         ofs << "----- Fichier de sauvegarde du graphe " << m_numero_graphe << " -----" << std::endl;
         ofs << "\"indice\",\"nom du sommet\",\"valeure du sommet\",\"posx\",\"posy\",\"image\",\"rythme de croissance\",\"population\"" << std::endl;
-        ofs << m_ordre << std::endl;
+        ofs << m_ordre <<" " << m_Timer.get_jour() << std::endl;
         for( auto &elem : m_vertices ) {
             //ofs << elem.second.m_interface->m_label_idx.get_message() <<" "<< elem.second.m_value <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.x <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.y <<" "<< elem.second.m_interface->m_img.get_pic_name();
-            ofs << elem.second.m_interface->m_label_idx.get_message().c_str() << " ";
+            ofs << elem.second.m_interface->m_label_idx.get_message() << " ";
             ofs << elem.second.m_name << " " ;
             ofs << elem.second.m_value << " " ;
             ofs << elem.second.m_interface->m_top_box.get_frame().pos.x << " ";
@@ -378,23 +384,32 @@ void Graph::graphe_sauvegarde() {
 //void Graph::graphe_sauvegarde() {}
 
 /// La m�thode charge un fichier pour remplir les donn�es d'un graphe
-void Graph::graphe_chargement() {
+void Graph::graphe_chargement(int type) {
     //std::cout << " ------ debut chargement graphe " << m_numero_graphe
     //        << " ------- " << std::endl;
-    std::string fichier = "_sauvegarde.txt";
+    std::string fichier;
+    if(type == 0)
+    {
+        fichier = "_sauvegarde.txt";
+    }
+    if(type == 1)
+    {
+        fichier = "sauvegarde.txt";
+    }
     fichier = std::to_string( m_numero_graphe ) + fichier;
     //std::cout << "fichier = "<< fichier << std::endl;
     m_interface = std::make_shared<GraphInterface>( 50, 0, 750, 600 );
     std::ifstream ifs( fichier.c_str() );
     if( ifs ) {
         m_ordre = m_nb_arete = 0;
-        int ordre = 0, num_arete = 0;
+        int ordre = 0, num_arete = 0, jour = 0;
         std::string line;
         for ( int i = 0; i < 2; i++ ) {
             std::getline( ifs, line );
             //std::cout << line << " ignore " << std::endl;
         }
-        ifs >> ordre;
+        ifs >> ordre >> jour ;
+        m_Timer.set_jour(jour);
         //std::cout << ordre << std::endl;
         for ( int i = 0; i < ordre; i++ ) {
             std::cout << "numero " << i << std::endl;
@@ -452,9 +467,11 @@ void Graph::update() {
     bouton_ajouter_edge();
     bouton_supprimer_edge();
     boutondynamiquedechainealimentaire();
+    dynamique_reinitialiser();
     bouton_reorganisation();
     bouton_forte_connexite();
     bouton_k_connexite_k_plet();
+    bouton_onglet();
     m_Timer.draw();
 
 
@@ -860,7 +877,6 @@ void Graph::bouton_supprimer_edge() {
 }
 
 /// m�thode de la dynamique de population
-
 void Graph::dynamique_reinitialiser()
 {
     if(m_interface->m_bt_reinitialiser.clicked())
@@ -872,7 +888,7 @@ void Graph::dynamique_reinitialiser()
         m_nb_arete = 0;
         m_Timer.set_jour(0);
 
-        graphe_chargement();
+        graphe_chargement(1);
         std::cout << " ok " << std::endl;
     }
 }
@@ -927,7 +943,7 @@ void Graph::dynamique_population() {
         //std::cout << " Num de sommet : " << elem.first << std::endl;
         //std::cout << " population apres : " << elem.second.m_N_t << std::endl;
     }
-    miseajoutarete();
+    //miseajoutarete();
     //std::cout << "----- FIN ----" << std::endl;
 }
 
@@ -987,10 +1003,10 @@ int Graph::predation( int num_vertex_donne ) {
 void Graph::fctreproduction( int num_vertex_donne ) {
     std::map<int, Vertex>::iterator it;
     it = m_vertices.find( num_vertex_donne );
-    //int pop_avant = it->second.m_value;
+    int pop_avant = it->second.m_N_t;
     it->second.m_N_t = ceil( it->second.m_N_t_1 + ( it->second.m_N_t_1 ) * 0.55 / 2 ) ;
     //std::cout << "on reprodui le sommet " << num_vertex_donne <<std::endl;
-    //std::cout << "Pop_avant : " << pop_avant << " Pop_apres " <<it->second.m_value <<std::endl;
+    std::cout << "Pop_avant : " << pop_avant << " Pop_apres " <<it->second.m_N_t <<std::endl;
 }
 
 void Graph::miseajoutarete() {
@@ -1597,3 +1613,39 @@ bool Graph::connexite( std::map<int, bool> marquage, int compte ) {
     }
     return connexe;
 }
+
+/// fonction changement d'onglet
+void Graph::bouton_onglet()
+{
+    bool bouton = true;
+    if(m_interface->m_bt_onglet_graphe0.clicked())
+    {
+        graphe_sauvegarde();
+        m_numero_graphe = 0;
+        bouton = false;
+    }
+    if(m_interface->m_bt_onglet_graphe1.clicked())
+    {
+        graphe_sauvegarde();
+        m_numero_graphe = 1;
+        bouton = false;
+    }
+    if(m_interface->m_bt_onglet_graphe2.clicked())
+    {
+        graphe_sauvegarde();
+        m_numero_graphe = 2;
+        bouton = false;
+    }
+    if(!bouton)
+    {
+        std::cout << " reinitialisation " << std::endl;
+        m_vertices.clear();
+        m_edges.clear();
+        m_ordre = 0;
+        m_nb_arete = 0;
+        m_Timer.set_jour(0);
+        graphe_chargement();
+        std::cout << " ok " << std::endl;
+    }
+}
+

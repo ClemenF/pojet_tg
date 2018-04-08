@@ -290,6 +290,7 @@ class WidgetTimer : public Widget
         void set_value(bool value) { m_value = value; }
         void set_jour_1() { m_jour += 1; }
         void set_jour(int jour) { m_jour = jour; }
+        int get_jour() { return m_jour; }
 };
 
 /***************************************************

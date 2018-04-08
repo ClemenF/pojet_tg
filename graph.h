@@ -244,7 +244,7 @@ class Edge {
         int m_to;
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
-        float m_weight;
+        double m_weight;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
@@ -256,7 +256,7 @@ class Edge {
     public:
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Edge( float weight = 0, EdgeInterface *interface = nullptr )
+        Edge( double weight = 0, EdgeInterface *interface = nullptr )
             : m_weight( weight ), m_interface( interface ) {}
 
         /// Edge étant géré par Graph ce sera la méthode update de graph qui appellera
@@ -316,8 +316,15 @@ class GraphInterface {
 
         grman::WidgetText m_text_k_connexe;
         grman::WidgetButton m_k_connexe;
-        //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
-       grman::WidgetEditText m_edtx;
+    
+    
+        ///bouton onglet des graphs
+        grman::WidgetText m_text_bt_onglet_graphe0;
+        grman::WidgetButton m_bt_onglet_graphe0;
+        grman::WidgetText m_text_bt_onglet_graphe1;
+        grman::WidgetButton m_bt_onglet_graphe1;
+        grman::WidgetText m_text_bt_onglet_graphe2;
+        grman::WidgetButton m_bt_onglet_graphe2;
 
 
 
@@ -340,8 +347,6 @@ class Graph {
 
         grman::WidgetTimer m_Timer;
 
-
-
         int m_ordre;
         int m_nb_arete;
 
@@ -362,7 +367,7 @@ class Graph {
 
 
         void add_interfaced_vertex( int idx, double value, int x, int y, std::string pic_name = "", float r = 0, int Nt = 0, std::string name = "", int pic_idx = 0 );
-        void add_interfaced_edge( int idx, int vert1, int vert2, float weight = 0 );
+        void add_interfaced_edge( int idx, int vert1, int vert2, double weight = 0 );
 
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
@@ -416,6 +421,9 @@ class Graph {
         int predation( int );
         void fctreproduction( int num_vertex_donne );
         void miseajoutarete();
+    
+        ///boutons changement onglet
+        void bouton_onglet();
 
 
         /// K_plet
@@ -425,7 +433,7 @@ class Graph {
         int fact( int );
         void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
-void set_ordre(int other){m_ordre=other;}
+
         void update();
 };
 
