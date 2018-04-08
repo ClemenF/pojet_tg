@@ -13,6 +13,11 @@
 #include <loadpng.h>
 #include <jpgalleg.h>
 
+/* maximum number of bytes a single (Unicode) character can have */
+#define MAX_BYTES_PER_CHAR 4
+/* for the d_edit_proc object */
+#define LEN 32
+char the_string[(LEN + 1) * MAX_BYTES_PER_CHAR] = "Edit Text";
 
 namespace grman
 {
@@ -199,7 +204,26 @@ void init_popup(BITMAP* bmp_popup)//popup qui reçoit en param une bitmap a affi
     do_dialog( the_dialog, -1 );
 }
 
+void init_EditText(BITMAP* bmp_popup)//dialog edit text
+{
+    DIALOG the_dialog[] =
+    {
+        /* (dialog proc)     (x)   (y)   (w)   (h)   (fg)  (bg)  (key) (flags)  (d1) (d2)  (dp)           (dp2) (dp3) */
+        { d_clear_proc,      0,    0,    0,    0,    255,  0,    0,    0,       0,   0,    NULL,          NULL, NULL  },
+        { d_bitmap_proc,     0,    0,  1024,  720,      0,  0,    0,    0,       0,   0,    NULL,                   NULL, NULL  },
+        // { d_check_proc,      12,   12,   161,  49,   255,  0,    't',  0,       0,   0,   (void*)  "&Toggle Me",  NULL, NULL  },
+       { d_edit_proc,       30,  600,  100,   30,   0,  255,    0,      0,     LEN,   0,    the_string,            NULL, NULL  },
 
+
+        { d_button_proc,     30,  640,  100,  40,   255,  0,    0,    D_EXIT,  0,   0,  ( void* )  "OK",        NULL, NULL  },
+        { NULL,              0,    0,    0,    0,    0,    0,    0,    0,       0,   0,    NULL,          NULL, NULL  }
+    };
+//dialog avec bouton exit et edit txt
+the_dialog[1].dp = bmp_popup;
+    do_dialog( the_dialog, -1 );
+}
+
+//{ d_edit_proc,       160, 130,  160,    8,   0,  0,    0,      0,     LEN,   0,    the_string,             NULL, NULL  },
 
 void buf_afficher_popup()
 {

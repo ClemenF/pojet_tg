@@ -3,6 +3,13 @@
 #include <string>
 #include <cmath>
 #include <math.h>
+
+/* maximum number of bytes a single (Unicode) character can have */
+#define MAX_BYTES_PER_CHAR 4
+/* for the d_edit_proc object */
+#define LEN 32
+extern char the_string[(LEN + 1) * MAX_BYTES_PER_CHAR];
+
 /***************************************************
             DEFINE FOR SPRING MODEL
 ****************************************************/
@@ -274,6 +281,15 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_k_connexe.set_posy( y_bt );
     m_k_connexe.set_bg_color( CYANSOMBRE );
     y_bt = y_bt + m_k_connexe.get_dimy() + 10;
+
+//EditText
+    m_tool_box.add_child( m_edtx );
+    m_edtx.set_dim( 110, 22 );
+    m_edtx.set_gravity_xy( grman::GravityX::Left,grman::GravityY::Down );
+    m_edtx.set_posy( y_bt );
+    m_edtx.set_bg_color( NOIR );
+    m_edtx.set_message( "" );
+    y_bt = y_bt + m_edtx.get_dimy();
 }
 
 /// M�thode sp�ciale qui construit un graphe arbitraire (d�mo)
@@ -331,7 +347,7 @@ void Graph::graphe_sauvegarde() {
         ofs << m_ordre << std::endl;
         for( auto &elem : m_vertices ) {
             //ofs << elem.second.m_interface->m_label_idx.get_message() <<" "<< elem.second.m_value <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.x <<" "<< elem.second.m_interface->m_top_box.get_frame().pos.y <<" "<< elem.second.m_interface->m_img.get_pic_name();
-            ofs << elem.second.m_interface->m_label_idx.get_message() << " ";
+            ofs << elem.second.m_interface->m_label_idx.get_message().c_str() << " ";
             ofs << elem.second.m_name << " " ;
             ofs << elem.second.m_value << " " ;
             ofs << elem.second.m_interface->m_top_box.get_frame().pos.x << " ";
@@ -438,14 +454,14 @@ void Graph::update() {
     bouton_forte_connexite();
     bouton_k_connexite_k_plet();
     m_Timer.draw();
-    if ( keypressed() ) {
+    /*if ( keypressed() ) {
         std::cout << readkey() << std::endl;
-        graphe_reduit();
+       // graphe_reduit();
     }
     if ( grman::key_press[KEY_RIGHT] )
         std::cout << " touche appuye " << std::endl;
     if ( grman::key_unpress[KEY_RIGHT] )
-        std::cout << " touche relache " << std::endl;
+        std::cout << " touche relache " << std::endl;*/
     for ( auto &elt : m_vertices )
         elt.second.post_update();
     for ( auto &elt : m_edges )
@@ -624,6 +640,7 @@ void Graph::bouton_ajouter_vertex() {
     if( m_interface->m_bt_ajouter_vertex.clicked() ) {
         char fichier[100];
         char nomdusommet[100];
+       // std::string str;
         bool onpasse = false;
         int k = -1;
         BITMAP *iceberg;
@@ -647,8 +664,15 @@ void Graph::bouton_ajouter_vertex() {
         } while( it != m_vertices.end() );
         if ( it == m_vertices.end() ) {
             std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
-            std::cin >> nomdusommet;
-            strcpy ( fichier, nomdusommet ); //on donne le nom du sommet
+            //std::cin >> nomdusommet;
+            BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
+             blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+            grman::init_EditText(buf);
+            //m_interface->m_edtx.edit_message();
+            //str = m_interface->m_edtx.get_message();
+            //nomdusommet = m_interface->m_edtx.get_message().c_str();
+            strcpy ( nomdusommet, the_string ); //on donne le nom du sommet
+            strcpy ( fichier, the_string ); //on donne le nom du sommet
             strcat( fichier, ".jpg" ); //on ajoute l'extension jpg
             image = grman::get_picture( fichier );
             if ( !image ) {
@@ -696,7 +720,12 @@ void Graph::bouton_supprimer_vertex() {
         }
         while ( toto == true ) {
             std::cout << " Quelle sommet voulez-vous enlever " << std::endl;
-            std::cin >> num_sommet_a_enlever;
+            BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
+             blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+            grman::init_EditText(buf);
+            //strcpy ( num_sommet_a_enlever, the_string ); //on recup la str
+            num_sommet_a_enlever=atoi (the_string);
+            //std::cin >> num_sommet_a_enlever;
             it = m_vertices.find( num_sommet_a_enlever );
             if( it != m_vertices.end() ) {
                 toto = false;
@@ -746,11 +775,22 @@ void Graph::bouton_ajouter_edge() {
         } while( it != m_edges.end() && indice < m_edges.size()+1);
         it = m_edges.find( indice );
         std::cout << " Arete partant de : " << std::endl;
-        std::cin >> depart;
+        //std::cin >> depart;
+        BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
+         blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        grman::init_EditText(buf);
+
+       // strcpy ( depart, the_string ); //on recup la str
+       depart=atoi (the_string);
         std::cout << " et arrivant en sommet d'indice : " << std::endl;
-        std::cin >> arriver;
+        grman::init_EditText(buf);
+         arriver=atoi (the_string);
+       // strcpy ( arriver, the_string ); //on recup la str
         std::cout << " Entrez le poid de l'arete en question " << std::endl;
-        std::cin >> poid;
+        //std::cin >> poid;
+        grman::init_EditText(buf);
+        poid=atoi (the_string);
+        //strcpy ( poid, the_string ); //on recup la str
         // appel de la fonction add_interfaced_edge pour ajouter un arc au graph
             add_interfaced_edge( indice, depart, arriver, poid );
             matrice_adjacent();
@@ -774,7 +814,12 @@ void Graph::bouton_supprimer_edge() {
         }
         while ( toto == true ) {
             std::cout << " Quelle arete voulez-vous enlever " << std::endl;
-            std::cin >> num_arete_a_enlever;
+            //std::cin >> num_arete_a_enlever;
+           BITMAP* buf =create_bitmap(SCREEN_W,SCREEN_H);
+             blit(screen, buf, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+            grman::init_EditText(buf);
+            //strcpy ( num_arete_a_enlever, the_string ); //on recup la str
+            num_arete_a_enlever=atoi (the_string);
             std::map<int, Edge>::iterator it;
             it = m_edges.find( num_arete_a_enlever );
             if( it != m_edges.end() ) {

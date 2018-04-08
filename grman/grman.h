@@ -96,6 +96,8 @@ void init();
 void  init_popup(BITMAP* bmp_popup);
 void buf_afficher_popup();
 void fermer_popup();
+
+void init_EditText(BITMAP* bmp_popup);
 // Pour lib�rer le buffer et fermer tous les services
 // pas indispensable : la fin du programme ferme et lib�re tout automatiquement
 void fermer_allegro();
