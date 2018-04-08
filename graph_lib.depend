@@ -1,28 +1,33 @@
 # depslib dependency file v1.0
-1522834415 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.cpp
+1523220012 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.cpp
 	"graph.h"
 	<sstream>
-
-1522776545 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.h
-	<vector>
-	<map>
 	<string>
+	<cmath>
+	<math.h>
+	<iomanip>
+
+1523220338 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\graph.h
+	<fstream>
+	<map>
 	<memory>
+	<string>
+	<vector>
 	"grman/grman.h"
 
-1522792430 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.h
+1523216890 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.h
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
 	"coords.h"
 	"widget.h"
 
-1522699350 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman_couleurs.h
+1523216826 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman_couleurs.h
 
-1522699350 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.h
+1523216826 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.h
 	<cmath>
 
-1522776157 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.h
+1523216890 d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -30,10 +35,10 @@
 	<algorithm>
 	<allegro.h>
 
-1522699350 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.cpp
+1523216826 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\coords.cpp
 	"coords.h"
 
-1522786576 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.cpp
+1523220589 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -47,17 +52,17 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522777561 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.cpp
+1523216890 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\grman\widget.cpp
 	"widget.h"
 
-1522700402 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\main.cpp
+1523217039 source:d:\ece\ing2\informatique\01_ projet tg\graph_lib_v1\graph_lib_exemple_graph\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 
 1523119593 D
 
-1523211038 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523218523 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>
@@ -79,7 +84,7 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1523210714 c:\users\guill\documents\github\pojet_tg\graph.h
+1523218469 c:\users\guill\documents\github\pojet_tg\graph.h
 	<fstream>
 	<map>
 	<memory>
@@ -125,7 +130,7 @@
 1522836822 c:\users\guill\documents\github\pojet_tg\grman\coords.h
 	<cmath>
 
-1523210715 c:\users\guill\documents\github\pojet_tg\grman\widget.h
+1523218160 c:\users\guill\documents\github\pojet_tg\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
