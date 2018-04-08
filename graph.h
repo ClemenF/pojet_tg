@@ -316,7 +316,15 @@ class GraphInterface {
 
         grman::WidgetText m_text_k_connexe;
         grman::WidgetButton m_k_connexe;
-        //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
+    
+    
+        ///bouton onglet des graphs
+        grman::WidgetText m_text_bt_onglet_graphe0;
+        grman::WidgetButton m_bt_onglet_graphe0;
+        grman::WidgetText m_text_bt_onglet_graphe1;
+        grman::WidgetButton m_bt_onglet_graphe1;
+        grman::WidgetText m_text_bt_onglet_graphe2;
+        grman::WidgetButton m_bt_onglet_graphe2;
 
 
 
@@ -338,16 +346,6 @@ class Graph {
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
         grman::WidgetTimer m_Timer;
-    
-        ///bouton onglet des graphs
-        grman::WidgetText m_text_bt_onglet_graphe0;
-        grman::WidgetButton m_bt_onglet_graphe0;
-        grman::WidgetText m_text_bt_onglet_graphe1;
-        grman::WidgetButton m_bt_onglet_graphe1;
-        grman::WidgetText m_text_bt_onglet_graphe2;
-        grman::WidgetButton m_bt_onglet_graphe2;
-
-
 
         int m_ordre;
         int m_nb_arete;
