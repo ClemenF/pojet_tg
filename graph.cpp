@@ -555,15 +555,15 @@ void Graph::remove_edge( int eidx ) {
    /// référence vers le Edge à enlever
     Edge &remed=m_edges.at(eidx);
 
-    std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
+//    std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
 
     /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
-    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    /*std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
     std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
-    std::cout << m_edges.size() << std::endl;
+    std::cout << m_edges.size() << std::endl;*/
 
     /// test : on a bien des éléments interfacés
-    if (m_interface && remed.m_interface)
+   if (m_interface && remed.m_interface)
     {
         /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
         /* EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]); */
@@ -572,25 +572,34 @@ void Graph::remove_edge( int eidx ) {
         /// Le new EdgeInterface ne nécessite pas de delete car on a un shared_ptr
         /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
         /// mais il faut bien enlever le conteneur d'interface m_top_edge de l'arc de la main_box du graphe
-        m_interface->m_main_box.remove_child( remed.m_interface->m_top_edge );
+     m_interface->m_main_box.remove_child( remed.m_interface->m_top_edge );
     }
 
         /// Il reste encore à virer l'arc supprimé de la liste des entrants et sortants des 2 sommets to et from !
     /// References sur les listes de edges des sommets from et to
     std::vector<int> &vefrom = m_vertices[remed.m_from].m_out;
     std::vector<int> &veto = m_vertices[remed.m_to].m_in;
+    veto.erase( std::remove( veto.begin(), veto.end(), eidx ), veto.end() );
+    vefrom.erase( std::remove( vefrom.begin(), vefrom.end(), eidx ), vefrom.end() );
+
 
     /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
     /// Il suffit donc de supprimer l'entrée de la map pour supprimer à la fois l'Edge et le EdgeInterface
     /// mais malheureusement ceci n'enlevait pas automatiquement l'interface top_edge en tant que child de main_box !
-    m_edges.erase( eidx );
+    std::map<int, Edge>::iterator it = m_edges.find(eidx);
+   m_edges.erase( it );
 
-    m_nb_arete--;
+
+
+
     matrice_adjacent();
     /// Tester la coh�rence : nombre d'arc entrants et sortants des sommets 1 et 2
 //    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
 //    std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
 //    std::cout << m_edges.size() << std::endl;
+
+
+
 }
 
 void Graph::bouton_reorganisation() {

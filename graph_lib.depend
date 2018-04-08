@@ -57,12 +57,13 @@
 
 1523119593 D
 
-1523209199 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
+1523211038 source:c:\users\guill\documents\github\pojet_tg\graph.cpp
 	"graph.h"
 	<sstream>
 	<string>
 	<cmath>
 	<math.h>
+	<iomanip>
 
 1523209199 source:c:\users\guill\documents\github\pojet_tg\grman\grman.cpp
 	<cmath>
@@ -132,7 +133,7 @@
 	<algorithm>
 	<allegro.h>
 
-1523209199 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
+1523210714 source:c:\users\guill\documents\github\pojet_tg\grman\widget.cpp
 	"widget.h"
 
 1523195571 source:c:\users\guill\documents\github\pojet_tg\main.cpp
