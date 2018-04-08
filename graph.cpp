@@ -607,73 +607,63 @@ void Graph::bouton_forte_connexite() {
 
 ///Les m�thodes pour la gestion du Graph
 void Graph::bouton_ajouter_vertex() {
-    std::string fichier;
-    char nomdusommet[15];
-    bool onpasse = false;
     if( m_interface->m_bt_ajouter_vertex.clicked() ) {
-        int a = 0;
+        char fichier[100];
+        char nomdusommet[100];
+        bool onpasse = false;
         int k = -1;
         BITMAP *iceberg;
         BITMAP *image;
+        int indice = -1;
+        int a = 0;
         iceberg = grman::get_picture( "chutes.jpg" ); //http://wallpaperswide.com/seagulls_on_an_iceberg-wallpapers.html
         if ( !iceberg ) {
             allegro_message( "pas pu trouver/charger chutes.jpg" );
             allegro_exit();
-            exit( EXIT_FAILURE );
+            //exit( EXIT_FAILURE );
         }
-        int indice_sommet_a_ajouter = 0;
-        bool toto = true;
         for( auto &elem : m_vertices ) {
-            std::cout << "Cles : " << elem.first << " Nom du sommet : " << elem.second.m_name << std::endl;
+            //std::cout << "Cles : " << elem.first << "||Nom du sommet : " << elem.second.m_name << std::endl;
+            std::cout << "Nom du sommet : " << elem.second.m_name << std::endl;
         }
-        while ( toto == true ) {
-            std::cout << " Selectionner un numero d'indice de sommet que vous voulez ajouter " << std::endl;
-            std::cin >> indice_sommet_a_ajouter;
-            std::map<int, Vertex>::iterator it;
-            it = m_vertices.find( indice_sommet_a_ajouter );
-            if( it != m_vertices.end() ) {
-                std::cout << "  Veuillez selectionner une clés valide" << std::endl;
-            } else {
-                toto = false;
-                std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
-                std::cin >> nomdusommet;
-            }
-        }
-        while ( onpasse == false ) {
-            onpasse = true;
-            std::cout << "Veuillez entrer dans le nom de l'image choisi : " << std::endl;
-            std::cin >> fichier;
+        std::map<int, Vertex>::iterator it;
+        do {
+           indice++;
+            it = m_vertices.find( indice );
+        } while( it != m_vertices.end());
+        if ( it == m_vertices.end() ) {
+            std::cout << "Veuillez entrer un nom de sommet au choix : " << std::endl;
+            std::cin >> nomdusommet;
+            strcpy ( fichier, nomdusommet ); //on donne le nom du sommet
+            strcat( fichier, ".jpg" ); //on ajoute l'extension jpg
             image = grman::get_picture( fichier );
             if ( !image ) {
                 allegro_message( "pas pu trouver/charger l'image" );
-                //allegro_exit();
-                //exit(EXIT_FAILURE);
-                onpasse = false;
-                std::cout << "Veuillez entrer le nom d'une image existante " << std::endl;
             }
-        }
-        BITMAP *buffer;
-        buffer = create_bitmap( SCREEN_W, SCREEN_H );
-        while ( k < 0 ) {
-            clear_bitmap( buffer );
-            blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-            blit( image, buffer, 0, 0, 325, 117, image->w, image->h );
-            if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
-                k = 2;
+            BITMAP *buffer;
+            buffer = create_bitmap( SCREEN_W, SCREEN_H );
+            while ( k < 0 ) {
+                clear_bitmap( buffer );
+                blit( iceberg, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
+                blit( image, buffer, 0, 0, 325, 117, image->w, image->h );
+                if( mouse_b & mouse_x > 250 & mouse_x<770 & mouse_y>290 & mouse_y < 420 ) {
+                    k = 2;
+                }
+                if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>143 & mouse_y < 260 ) {
+                    k = 4;
+                }
+                textout_ex( buffer, font, nomdusommet, 330, 33, makecol( 0, 0, 0 ), -1 );
+                textprintf_ex( buffer, font, 335, 75, makecol( 0, 0, 0 ), -1, " %d", indice );
+                blit( buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
             }
-            if( mouse_b & mouse_x > 790 & mouse_x<1000 & mouse_y>143 & mouse_y < 260 ) {
-                k = 4;
+            // appel de la fonction add_interface_vertex pour ajouter un sommet au graph
+            if( k == 2 ) {
+                add_interfaced_vertex( indice, 10, 30, 30, fichier, 0.01, 20, nomdusommet );
             }
-            textout_ex( buffer, font, nomdusommet, 330, 33, makecol( 0, 0, 0 ), -1 );
-            textprintf_ex( buffer, font, 335, 75, makecol( 0, 0, 0 ), -1, " %d", indice_sommet_a_ajouter );
-            blit( buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H );
-        }
-        // appel de la fonction add_interface_vertex pour ajouter un sommet au graph
-        if( k == 2 ) {
-            add_interfaced_vertex( indice_sommet_a_ajouter, 10, 30, 30, fichier, 0.01, 20, nomdusommet );
         }
     }
 }
+
 
 void Graph::bouton_supprimer_vertex() {
     if( m_interface->m_bt_supprimer_vertex.clicked() ) {
