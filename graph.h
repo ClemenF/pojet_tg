@@ -397,7 +397,6 @@ class Graph {
         /// Méthode de chargement de graph d'un fichier texte
 
         void graphe_chargement(int type=0);
->>>>>>> e53f20efc80f1bc378f1e26d2e194b19dd45df0a
 
 
         /// M�thode pour effacer un sommet
