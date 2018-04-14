@@ -9,6 +9,7 @@
 5 sauterelle 0 386 308 sauterelle.png 0.01 3
 6 carottes 30 86 521 carottes.jpg 0.01 3
 7 plantes 60 398 481 plantes.jpg 0.01 3 
+7 plantes 60 398 481 plantes.jpg 0.01 3
 9
 0 1 0 50
 1 2 0 50
@@ -19,3 +20,12 @@
 6 7 3 0
 7 6 2 0
 8 6 3 50
+1 1 0 50
+2 2 0 50
+3 3 0 75
+4 4 1 25
+5 5 4 25
+6 7 5 25
+7 7 3 0
+8 6 2 0
+9 6 3 50

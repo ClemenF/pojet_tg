@@ -235,6 +235,19 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     m_bt_dynamique.set_posy( y_bt );
     m_bt_dynamique.set_bg_color( CYANSOMBRE );
     y_bt = y_bt + m_bt_dynamique.get_dimy() + 10;
+    m_tool_box.add_child( m_text_bt_reinitialiser );
+    m_text_bt_reinitialiser.set_dim( 110, 22 );
+    m_text_bt_reinitialiser.set_gravity_x( grman::GravityX::Left );
+    m_text_bt_reinitialiser.set_posy( y_bt );
+    m_text_bt_reinitialiser.set_bg_color( BLANC );
+    m_text_bt_reinitialiser.set_message( "Reinitialiser!" );
+    y_bt = y_bt + m_text_bt_reinitialiser.get_dimy();
+    m_tool_box.add_child( m_bt_reinitialiser );
+    m_bt_reinitialiser.set_dim( 110, 22 );
+    m_bt_reinitialiser.set_gravity_x( grman::GravityX::Left );
+    m_bt_reinitialiser.set_posy( y_bt );
+    m_bt_reinitialiser.set_bg_color( CYANSOMBRE );
+    y_bt = y_bt + m_bt_reinitialiser.get_dimy() + 10;
     ///BOUTON POUR REORGANISER LES SOMMETS
     //txt
     m_tool_box.add_child( m_text_bt_reorganisation );
@@ -285,7 +298,7 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
     y_bt = y_bt + m_k_connexe.get_dimy() + 10;
 
 
-//EditText
+//    ///EditText
 //    m_tool_box.add_child( m_edtx );
 //    m_edtx.set_dim( 110, 22 );
 //    m_edtx.set_gravity_xy( grman::GravityX::Left,grman::GravityY::Down );
@@ -296,7 +309,6 @@ GraphInterface::GraphInterface( int x, int y, int w, int h ) {
 
 
     ///BOUTON POUR ONGLET
-    y_bt = 500;
     //txt
     m_tool_box.add_child(m_text_bt_onglet_graphe0);
     m_text_bt_onglet_graphe0.set_dim( 110, 22 );

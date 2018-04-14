@@ -367,7 +367,7 @@ class Graph {
 
 
         void add_interfaced_vertex( int idx, double value, int x, int y, std::string pic_name = "", float r = 0, int Nt = 0, std::string name = "", int pic_idx = 0 );
-        void add_interfaced_edge( int idx, int id_vert1, int id_vert2, float weight );
+        void add_interfaced_edge( int idx, int id_vert1, int id_vert2, double weight );
 
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
