@@ -500,7 +500,7 @@ void Graph::add_interfaced_vertex( int idx, double value, int x, int y, std::str
 }
 
 /// Aide � l'ajout d'arcs interfac�s
-void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, double weight ) {
+void Graph::add_interfaced_edge( int idx, int id_vert1, int id_vert2, float weight ) {
     m_nb_arete++;
     if ( m_edges.find( idx ) != m_edges.end() ) {
         std::cerr << "Error adding edge at idx=" << idx << " already used..." << std::endl;
