@@ -110,8 +110,7 @@ données/interface)
                     VERTEX
 ****************************************************/
 
-class VertexInterface
-{
+class VertexInterface {
         // Les (methodes des) classes amies pourront accéder
         // directement aux attributs (y compris privés)
         friend class Vertex;
@@ -145,11 +144,10 @@ class VertexInterface
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         VertexInterface( int idx, int x, int y, std::string pic_name = "",
-                         int pic_idx = 0);
+                         int pic_idx = 0 );
 };
 
-class Vertex
-{
+class Vertex {
         // Les (methodes des) classes amies pourront accéder
         // directement aux attributs (y compris privés)
         friend class Graph;
@@ -166,18 +164,17 @@ class Vertex
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
         double m_value;
-        std::string m_name;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
 
 
         /// variable pour algo dynamique de population :
+        float m_r; // rythme de croissance (valeur fixe)
         int m_N_t; // population � l'instant actuel
         int m_N_t_1; // population � l'instant actuel
-
-        float m_r; // rythme de croissance (valeur fixe)
         int m_K; // capacit� de portage ( = population maximum )
+        std::string m_name;
 
         // Docu shared_ptr : https://msdn.microsoft.com/fr-fr/library/hh279669.aspx
         // La ligne précédente est en gros équivalent à la ligne suivante :
@@ -187,8 +184,8 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
 
-        Vertex (double value=0, float r=0.01, int Nt=1,int Nt1=1, VertexInterface *interface=nullptr, std::string name="") :
-            m_value(value), m_interface(interface), m_r(r), m_N_t(Nt),m_N_t_1(Nt1), m_name(name) {  }
+        Vertex ( double value = 0, float r = 0.01, int Nt = 1, int Nt1 = 1, VertexInterface *interface = nullptr, std::string name = "" ) :
+            m_value( value ), m_interface( interface ), m_r( r ), m_N_t( Nt ), m_N_t_1( Nt1 ), m_name( name ) {  }
 
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui
@@ -203,8 +200,7 @@ class Vertex
                     EDGE
 ****************************************************/
 
-class EdgeInterface
-{
+class EdgeInterface {
         // Les (methodes des) classes amies pourront accéder
         // directement aux attributs (y compris privés)
         friend class Edge;
@@ -233,8 +229,7 @@ class EdgeInterface
         EdgeInterface( Vertex &from, Vertex &to );
 };
 
-class Edge
-{
+class Edge {
         // Les (methodes des) classes amies pourront accéder
         // directement aux attributs (y compris privés)
         friend class Graph;
@@ -274,8 +269,7 @@ class Edge
                     GRAPH
 ****************************************************/
 
-class GraphInterface
-{
+class GraphInterface {
         friend class Graph;
 
     private:
@@ -303,6 +297,8 @@ class GraphInterface
 
         grman::WidgetButton m_bt_dynamique;
         grman::WidgetText m_text_m_bt_dynamique;
+        grman::WidgetButton m_bt_reinitialiser;
+        grman::WidgetText m_text_bt_reinitialiser;
 
         ///pour les arcs
         grman::WidgetText m_text_bt_ajouter_edge;
@@ -311,13 +307,25 @@ class GraphInterface
         grman::WidgetButton m_bt_supprimer_edge;
 
         ///POUR le rearragement des sommets
-           grman::WidgetText m_text_bt_reorganisation;
-            grman::WidgetButton m_bt_reorganisation;
-           ///algo forte connexité
-           grman::WidgetText m_text_bt_connexe;
-            grman::WidgetButton m_bt_connexe;
-        //std::vector<grman::WidgetButton*> m_vec_bt_ajouter_vertex;
+        grman::WidgetText m_text_bt_reorganisation;
+        grman::WidgetButton m_bt_reorganisation;
+        ///algo forte connexité
+        grman::WidgetText m_text_bt_connexe;
+        grman::WidgetButton m_bt_connexe;
 
+        grman::WidgetText m_text_k_connexe;
+        grman::WidgetButton m_k_connexe;
+
+
+        ///bouton onglet des graphs
+        grman::WidgetText m_text_bt_onglet_graphe0;
+        grman::WidgetButton m_bt_onglet_graphe0;
+        grman::WidgetText m_text_bt_onglet_graphe1;
+        grman::WidgetButton m_bt_onglet_graphe1;
+        grman::WidgetText m_text_bt_onglet_graphe2;
+        grman::WidgetButton m_bt_onglet_graphe2;
+
+        grman::WidgetEditText m_edtx;
 
 
     public:
@@ -326,8 +334,7 @@ class GraphInterface
         GraphInterface( int x, int y, int w, int h );
 };
 
-class Graph
-{
+class Graph {
     private:
         /// La "liste" des arêtes
         std::map<int, Edge> m_edges;
@@ -339,8 +346,6 @@ class Graph
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
         grman::WidgetTimer m_Timer;
-
-
 
         int m_ordre;
         int m_nb_arete;
@@ -361,8 +366,8 @@ class Graph
             : m_interface( interface ), m_numero_graphe( num ) {}
 
 
-        void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="",float r=0,int Nt=0, std::string name="",int pic_idx=0);
-        void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
+        void add_interfaced_vertex( int idx, double value, int x, int y, std::string pic_name = "", float r = 0, int Nt = 0, std::string name = "", int pic_idx = 0 );
+        void add_interfaced_edge( int idx, int id_vert1, int id_vert2, double weight );
 
 
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
@@ -379,10 +384,10 @@ class Graph
 
         //algo du graphe reduit (lié au composantes fortement connexe)
         void graphe_reduit();
-        void spring_model(std::vector<std::vector<int>> tabadjacence, bool draw= true); //recup un tab d'adjacence
-        std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice(std::vector<std::vector<int>> groupes_fortements_connexes );
-      void draw_graph_reduit_on_bmp(std::vector<std::vector<int>> pos,std::vector<std::vector<int>> tabadjacence);
-void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
+        void spring_model( std::vector<std::vector<int>> tabadjacence, bool draw = true ); //recup un tab d'adjacence
+        std::vector<std::vector<int>> groupes_fortements_connexes_to_matrice( std::vector<std::vector<int>> groupes_fortements_connexes );
+        void draw_graph_reduit_on_bmp( std::vector<std::vector<int>> pos, std::vector<std::vector<int>> tabadjacence );
+        void actualisation_pos_sommet( std::vector<std::vector<int>> pos );
         /// Méthode pour creer la matrice d'adjacence
         void matrice_adjacent();
 
@@ -390,14 +395,15 @@ void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
         void graphe_sauvegarde();
 
         /// Méthode de chargement de graph d'un fichier texte
-        void graphe_chargement();
+
+        void graphe_chargement(int type=0);
 
 
         /// M�thode pour effacer un sommet
-        void remove_vertex(int index);
+        void remove_vertex( int index );
 
         /// M�thode pour effacer un arc (index de l'arc � supprimer)
-        void remove_edge(int eidx);
+        void remove_edge( int eidx );
 
         ///les m�thodes des boutons de gestion du graph :
         void bouton_ajouter_vertex();
@@ -407,17 +413,29 @@ void actualisation_pos_sommet(std::vector<std::vector<int>> pos);
         void boutondynamiquedechainealimentaire();
 
         void bouton_reorganisation();
-
-       void bouton_forte_connexite();
+        void bouton_forte_connexite();
+        void bouton_k_connexite_k_plet();
         /// m�thode de la dynamique de population
         void dynamique_population();
-        int calcul_K(int);
-        int predation(int);
-        void fctreproduction(int num_vertex_donne);
+        void dynamique_reinitialiser();
+        int calcul_K( int );
+        int predation( int );
+        void fctreproduction( int num_vertex_donne );
         void miseajoutarete();
 
+        ///boutons changement onglet
+        void bouton_onglet();
+
+
+        /// K_plet
+
+        bool connexite( std::map<int, bool> marquage, int compte );
+        std::vector<std::vector<int>> kplet( int &compte );
+        int fact( int );
+        void go( int offset, int k, std::vector<int> mes_sommets, std::vector<int> combination, std::vector<std::vector<int>> &vectordepossibiliteksommet, int &nombre );
         /// La m�thode update � appeler dans la boucle de jeu pour les graphes avec interface
 
+        void set_ordre(int other){m_ordre=other;}
         void update();
 };
 
